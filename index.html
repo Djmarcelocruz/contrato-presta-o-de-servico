@@ -3,83 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nossa Casa - Divisor de Compras</title>
+    <title>Divisor Nossa Casa - 7 Pessoas</title>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-    <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
-        :root { --primary: #1a73e8; --success: #25d366; --dark: #202124; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px; background: #f8f9fa; }
-        .setup-card, .summary-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .summary-card { background: var(--dark); color: white; position: sticky; top: 10px; z-index: 100; }
-        .names-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        input[type="text"] { padding: 8px; border: 1px solid #ddd; border-radius: 5px; }
-        .item-row { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 5px solid var(--primary); }
-        .person-btn { border: 1px solid #ddd; padding: 8px 12px; margin: 4px; cursor: pointer; border-radius: 20px; font-size: 12px; display: inline-block; transition: 0.2s; }
+        :root { --primary: #1a73e8; --success: #25d366; --danger: #d93025; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px; background: #f1f3f4; }
+        .summary-card { background: #202124; color: white; padding: 20px; border-radius: 15px; position: sticky; top: 10px; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .card { background: white; padding: 15px; border-radius: 12px; margin-top: 15px; }
+        .item-row { border-bottom: 1px solid #eee; padding: 15px 0; }
+        .person-btn { border: 1px solid #ddd; padding: 8px 12px; margin: 3px; cursor: pointer; border-radius: 20px; font-size: 12px; display: inline-block; background: #fff; }
         .person-btn.active { background: var(--success); color: white; border-color: var(--success); }
-        .btn-main { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; margin-bottom: 10px; cursor: pointer; }
-        #reader { width: 100%; border-radius: 10px; margin-top: 10px; }
+        .btn-fast { font-size: 10px; padding: 4px 8px; margin-left: 5px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc; background: #eee; }
+        .whatsapp-btn { background: var(--success); color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; }
     </style>
 </head>
 <body>
 
     <div class="summary-card">
         <h3 style="margin:0 0 10px 0">💰 Total por Morador</h3>
-        <div id="final-costs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 14px;"></div>
-        <button onclick="shareWhatsApp()" style="background:var(--success); color:white; border:none; width:100%; padding:10px; border-radius:5px; margin-top:15px; font-weight:bold;">📲 Enviar no Grupo</button>
+        <div id="final-costs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; font-size: 14px;"></div>
+        <button class="whatsapp-btn" onclick="shareWhatsApp()">📲 Enviar Resumo no WhatsApp</button>
     </div>
 
-    <div id="setup-section" class="setup-card">
-        <h3>🏠 Configurar Moradores</h3>
-        <div class="names-grid" id="names-inputs">
-            </div>
-        <button class="btn-main" onclick="saveNames()">Salvar Nomes e Começar</button>
+    <div class="card">
+        <h3>1. Foto da Nota Fiscal</h3>
+        <input type="file" accept="image/*" id="file-input" style="width:100%">
+        <div id="status" style="margin-top:10px; color: var(--primary); font-weight:bold;"></div>
     </div>
 
-    <div id="main-section" style="display:none">
-        <div class="setup-card">
-            <h3>📷 Escanear Nota</h3>
-            <button class="btn-main" style="background:#555" onclick="startQR()">Usar Scanner de QR Code</button>
-            <div id="reader"></div>
-            <p style="text-align:center">OU</p>
-            <input type="file" accept="image/*" id="file-input" style="width:100%">
-            <div id="status" style="color:var(--primary); font-weight:bold; margin-top:10px"></div>
-        </div>
-
-        <div id="items-container"></div>
+    <div id="items-container" class="card">
+        <p style="color:#666">Os itens aparecerão aqui após a leitura...</p>
     </div>
 
     <script>
-        let moradores = JSON.parse(localStorage.getItem('moradores')) || ["Pessoa 1", "Pessoa 2", "Pessoa 3", "Pessoa 4", "Pessoa 5", "Pessoa 6", "Pessoa 7"];
+        // Você pode trocar os nomes aqui uma única vez
+        const moradores = ["Morador 1", "Morador 2", "Morador 3", "Morador 4", "Morador 5", "Morador 6", "Morador 7"];
         let items = [];
 
-        // Inicializa inputs de nomes
-        const inputsDiv = document.getElementById('names-inputs');
-        moradores.forEach((n, i) => {
-            inputsDiv.innerHTML += `<input type="text" id="name-${i}" value="${n}" placeholder="Nome ${i+1}">`;
-        });
-
-        function saveNames() {
-            for(let i=0; i<7; i++) moradores[i] = document.getElementById(`name-${i}`).value || `Pessoa ${i+1}`;
-            localStorage.setItem('moradores', JSON.stringify(moradores));
-            document.getElementById('setup-section').style.display = 'none';
-            document.getElementById('main-section').style.display = 'block';
-            calculate();
-        }
-
-        // Se já tiver nomes salvos, pula o setup
-        if(localStorage.getItem('moradores')) saveNames();
-
-        // Lógica de Leitura de Imagem (OCR)
         document.getElementById('file-input').addEventListener('change', async (e) => {
             const file = e.target.files[0];
+            if (!file) return;
+
             const status = document.getElementById('status');
-            status.innerText = "🔍 Lendo produtos da foto...";
-            
+            status.innerText = "⏳ Lendo nota... Aguarde.";
+
             const worker = await Tesseract.createWorker('por');
             const { data: { text } } = await worker.recognize(file);
             await worker.terminate();
-            
-            status.innerText = "✅ Nota lida!";
+
+            status.innerText = "✅ Leitura concluída!";
             processText(text);
         });
 
@@ -90,12 +62,9 @@
                 const priceMatch = line.match(/(\d+[.,]\d{2})/);
                 if (priceMatch) {
                     const preco = parseFloat(priceMatch[1].replace(',', '.'));
-                    if (preco > 0.50 && preco < 1000) {
-                        items.push({ 
-                            nome: line.replace(priceMatch[0], '').replace(/[0-9]/g, '').trim().substring(0,20) || "PRODUTO",
-                            preco: preco, 
-                            pagadores: [0,1,2,3,4,5,6] 
-                        });
+                    if (preco > 0.30 && preco < 1000) {
+                        let nome = line.replace(priceMatch[0], '').replace(/[0-9]/g, '').trim().substring(0,20);
+                        items.push({ nome: nome || "PRODUTO", preco, pagadores: [0,1,2,3,4,5,6] });
                     }
                 }
             });
@@ -103,19 +72,17 @@
             calculate();
         }
 
-        function startQR() {
-            const html5QrCode = new Html5Qrcode("reader");
-            html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
-                window.open(text, '_blank'); // Abre o site da SEFAZ
-                html5QrCode.stop();
-            });
-        }
-
         function togglePerson(itemIdx, pIdx) {
             const item = items[itemIdx];
-            const idx = item.pagadores.indexOf(pIdx);
-            if (idx > -1) item.pagadores.splice(idx, 1);
+            const index = item.pagadores.indexOf(pIdx);
+            if (index > -1) item.pagadores.splice(index, 1);
             else item.pagadores.push(pIdx);
+            renderItems();
+            calculate();
+        }
+
+        function setAll(itemIdx, active) {
+            items[itemIdx].pagadores = active ? [0,1,2,3,4,5,6] : [];
             renderItems();
             calculate();
         }
@@ -124,11 +91,17 @@
             const container = document.getElementById('items-container');
             container.innerHTML = items.map((item, i) => `
                 <div class="item-row">
-                    <strong>${item.nome} - R$ ${item.preco.toFixed(2)}</strong><br>
-                    ${moradores.map((name, pIdx) => `
-                        <div class="person-btn ${item.pagadores.includes(pIdx) ? 'active' : ''}" 
-                             onclick="togglePerson(${i}, ${pIdx})">${name}</div>
-                    `).join('')}
+                    <div>
+                        <strong>${item.nome}</strong> - R$ ${item.preco.toFixed(2)}
+                        <button class="btn-fast" onclick="setAll(${i}, true)">Todos</button>
+                        <button class="btn-fast" onclick="setAll(${i}, false)">Ninguém</button>
+                    </div>
+                    <div style="margin-top:8px">
+                        ${moradores.map((n, pIdx) => `
+                            <div class="person-btn ${item.pagadores.includes(pIdx) ? 'active' : ''}" 
+                                 onclick="togglePerson(${i}, ${pIdx})">${n}</div>
+                        `).join('')}
+                    </div>
                 </div>
             `).join('');
         }
@@ -141,17 +114,22 @@
                     item.pagadores.forEach(pIdx => totals[pIdx] += share);
                 }
             });
-            document.getElementById('final-costs').innerHTML = moradores.map((n, i) => `
-                <div>${n}: <strong>R$ ${totals[i].toFixed(2)}</strong></div>
-            `).join('');
+            document.getElementById('final-costs').innerHTML = moradores.map((n, i) => 
+                `<div>${n}: <strong>R$ ${totals[i].toFixed(2)}</strong></div>`
+            ).join('');
         }
 
         function shareWhatsApp() {
-            let msg = "*📝 DIVISÃO DA COMPRA*\n\n";
+            let msg = "*📊 RESUMO DA COMPRA COLETIVA*\n\n";
+            let totalGeral = 0;
             moradores.forEach((n, i) => {
-                const val = document.getElementById('final-costs').children[i].innerText;
-                msg += `✅ *${val}*\n`;
+                const val = parseFloat(document.getElementById('final-costs').children[i].querySelector('strong').innerText.replace('R$ ', ''));
+                if (val > 0) {
+                    msg += `👤 *${n}:* R$ ${val.toFixed(2)}\n`;
+                    totalGeral += val;
+                }
             });
+            msg += `\n💰 *Total da Nota:* R$ ${totalGeral.toFixed(2)}`;
             window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(msg));
         }
     </script>
