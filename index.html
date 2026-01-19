@@ -3,55 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Divisor Nossa Casa - 7 Pessoas</title>
+    <title>Divisor de Compras Coletivo</title>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <style>
-        :root { --primary: #1a73e8; --success: #25d366; --danger: #d93025; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px; background: #f1f3f4; }
-        .summary-card { background: #202124; color: white; padding: 20px; border-radius: 15px; position: sticky; top: 10px; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .card { background: white; padding: 15px; border-radius: 12px; margin-top: 15px; }
-        .item-row { border-bottom: 1px solid #eee; padding: 15px 0; }
-        .person-btn { border: 1px solid #ddd; padding: 8px 12px; margin: 3px; cursor: pointer; border-radius: 20px; font-size: 12px; display: inline-block; background: #fff; }
+        :root { --primary: #1a73e8; --success: #25d366; --bg: #f1f3f4; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 10px; background: var(--bg); color: #333; }
+        
+        .sticky-header { position: sticky; top: 0; z-index: 100; background: #202124; color: white; padding: 15px; border-radius: 0 0 15px 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .card { background: white; padding: 15px; border-radius: 12px; margin-top: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        
+        .names-filter { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-top: 10px; }
+        .filter-item { background: #eee; padding: 8px; border-radius: 8px; font-size: 13px; display: flex; align-items: center; gap: 5px; }
+
+        .item-row { border-bottom: 1px solid #eee; padding: 12px 0; }
+        .item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        
+        .person-btn { border: 1px solid #ddd; padding: 6px 12px; margin: 3px; cursor: pointer; border-radius: 15px; font-size: 12px; display: inline-block; background: #fff; }
         .person-btn.active { background: var(--success); color: white; border-color: var(--success); }
-        .btn-fast { font-size: 10px; padding: 4px 8px; margin-left: 5px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc; background: #eee; }
-        .whatsapp-btn { background: var(--success); color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+        
+        .btn-action { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; }
+        .whatsapp-btn { background: var(--success); color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        
+        #status { font-size: 12px; color: var(--primary); margin-top: 5px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="summary-card">
-        <h3 style="margin:0 0 10px 0">💰 Total por Morador</h3>
-        <div id="final-costs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; font-size: 14px;"></div>
-        <button class="whatsapp-btn" onclick="shareWhatsApp()">📲 Enviar Resumo no WhatsApp</button>
+    <div class="sticky-header">
+        <h3 style="margin:0 0 10px 0">💰 Total Individual</h3>
+        <div id="final-costs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; font-size: 14px;">
+            </div>
+        <button class="whatsapp-btn" onclick="shareWhatsApp()">📲 Enviar no WhatsApp</button>
     </div>
 
     <div class="card">
-        <h3>1. Foto da Nota Fiscal</h3>
-        <input type="file" accept="image/*" id="file-input" style="width:100%">
-        <div id="status" style="margin-top:10px; color: var(--primary); font-weight:bold;"></div>
+        <h3>1. Quem participa desta compra?</h3>
+        <div class="names-filter" id="presence-list"></div>
     </div>
 
-    <div id="items-container" class="card">
-        <p style="color:#666">Os itens aparecerão aqui após a leitura...</p>
+    <div class="card">
+        <h3>2. Escanear Nota</h3>
+        <input type="file" accept="image/*" id="file-input" class="btn-action" style="background: #5f6368">
+        <div id="status"></div>
+    </div>
+
+    <div class="card">
+        <h3>3. Itens e Divisão</h3>
+        <div id="items-container">Aguardando leitura da nota...</div>
     </div>
 
     <script>
-        // Você pode trocar os nomes aqui uma única vez
-        const moradores = ["Morador 1", "Morador 2", "Morador 3", "Morador 4", "Morador 5", "Morador 6", "Morador 7"];
+        // LISTA DE MORADORES - Você pode mudar os nomes aqui
+        const moradoresFixo = ["Morador 1", "Morador 2", "Morador 3", "Morador 4", "Morador 5", "Morador 6", "Morador 7"];
+        let ativosIdx = [0, 1, 2, 3, 4, 5, 6]; 
         let items = [];
 
+        // Inicializa a lista de presença
+        function initPresence() {
+            const list = document.getElementById('presence-list');
+            list.innerHTML = moradoresFixo.map((nome, i) => `
+                <div class="filter-item">
+                    <input type="checkbox" checked onchange="updateAtivos(${i})" id="chk-${i}">
+                    <label for="chk-${i}">${nome}</label>
+                </div>
+            `).join('');
+        }
+
+        function updateAtivos(idx) {
+            const isChecked = document.getElementById(`chk-${idx}`).checked;
+            if (isChecked) {
+                if (!ativosIdx.includes(idx)) ativosIdx.push(idx);
+            } else {
+                ativosIdx = ativosIdx.filter(id => id !== idx);
+            }
+            // Se mudar os ativos, reseta a divisão dos itens para os novos ativos
+            items.forEach(item => item.pagadores = [...ativosIdx]);
+            renderItems();
+            calculate();
+        }
+
+        // Leitura da Imagem
         document.getElementById('file-input').addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
-
-            const status = document.getElementById('status');
-            status.innerText = "⏳ Lendo nota... Aguarde.";
+            document.getElementById('status').innerText = "⏳ Processando imagem... Aguarde.";
 
             const worker = await Tesseract.createWorker('por');
             const { data: { text } } = await worker.recognize(file);
             await worker.terminate();
 
-            status.innerText = "✅ Leitura concluída!";
+            document.getElementById('status').innerText = "✅ Nota carregada!";
             processText(text);
         });
 
@@ -62,9 +103,9 @@
                 const priceMatch = line.match(/(\d+[.,]\d{2})/);
                 if (priceMatch) {
                     const preco = parseFloat(priceMatch[1].replace(',', '.'));
-                    if (preco > 0.30 && preco < 1000) {
+                    if (preco > 0.40 && preco < 1000) {
                         let nome = line.replace(priceMatch[0], '').replace(/[0-9]/g, '').trim().substring(0,20);
-                        items.push({ nome: nome || "PRODUTO", preco, pagadores: [0,1,2,3,4,5,6] });
+                        items.push({ nome: nome || "PRODUTO", preco, pagadores: [...ativosIdx] });
                     }
                 }
             });
@@ -74,32 +115,27 @@
 
         function togglePerson(itemIdx, pIdx) {
             const item = items[itemIdx];
-            const index = item.pagadores.indexOf(pIdx);
-            if (index > -1) item.pagadores.splice(index, 1);
+            const pos = item.pagadores.indexOf(pIdx);
+            if (pos > -1) item.pagadores.splice(pos, 1);
             else item.pagadores.push(pIdx);
-            renderItems();
-            calculate();
-        }
-
-        function setAll(itemIdx, active) {
-            items[itemIdx].pagadores = active ? [0,1,2,3,4,5,6] : [];
             renderItems();
             calculate();
         }
 
         function renderItems() {
             const container = document.getElementById('items-container');
+            if (items.length === 0) { container.innerHTML = "Nenhum item detectado."; return; }
+            
             container.innerHTML = items.map((item, i) => `
                 <div class="item-row">
-                    <div>
-                        <strong>${item.nome}</strong> - R$ ${item.preco.toFixed(2)}
-                        <button class="btn-fast" onclick="setAll(${i}, true)">Todos</button>
-                        <button class="btn-fast" onclick="setAll(${i}, false)">Ninguém</button>
+                    <div class="item-header">
+                        <strong>${item.nome}</strong>
+                        <span>R$ ${item.preco.toFixed(2)}</span>
                     </div>
-                    <div style="margin-top:8px">
-                        ${moradores.map((n, pIdx) => `
+                    <div>
+                        ${ativosIdx.map(pIdx => `
                             <div class="person-btn ${item.pagadores.includes(pIdx) ? 'active' : ''}" 
-                                 onclick="togglePerson(${i}, ${pIdx})">${n}</div>
+                                 onclick="togglePerson(${i}, ${pIdx})">${moradoresFixo[pIdx]}</div>
                         `).join('')}
                     </div>
                 </div>
@@ -114,24 +150,24 @@
                     item.pagadores.forEach(pIdx => totals[pIdx] += share);
                 }
             });
-            document.getElementById('final-costs').innerHTML = moradores.map((n, i) => 
-                `<div>${n}: <strong>R$ ${totals[i].toFixed(2)}</strong></div>`
-            ).join('');
+
+            document.getElementById('final-costs').innerHTML = moradoresFixo.map((nome, i) => {
+                if (!ativosIdx.includes(i)) return '';
+                return `<div>${nome}: <strong>R$ ${totals[i].toFixed(2)}</strong></div>`;
+            }).join('');
         }
 
         function shareWhatsApp() {
-            let msg = "*📊 RESUMO DA COMPRA COLETIVA*\n\n";
-            let totalGeral = 0;
-            moradores.forEach((n, i) => {
-                const val = parseFloat(document.getElementById('final-costs').children[i].querySelector('strong').innerText.replace('R$ ', ''));
-                if (val > 0) {
-                    msg += `👤 *${n}:* R$ ${val.toFixed(2)}\n`;
-                    totalGeral += val;
-                }
+            let msg = "*📊 DIVISÃO DE COMPRA*\n\n";
+            ativosIdx.forEach(idx => {
+                const valStr = document.getElementById('final-costs').innerText;
+                const match = valStr.match(new RegExp(moradoresFixo[idx] + ": R\\$ (\\d+\\.\\d{2})"));
+                if (match) msg += `👤 *${moradoresFixo[idx]}:* R$ ${match[1]}\n`;
             });
-            msg += `\n💰 *Total da Nota:* R$ ${totalGeral.toFixed(2)}`;
             window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(msg));
         }
+
+        initPresence();
     </script>
 </body>
 </html>
