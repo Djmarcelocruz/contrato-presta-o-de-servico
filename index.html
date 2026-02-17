@@ -4,11 +4,21 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <meta name="theme-color" content="#0b76d1"/>
-<title>DJ Pro - Assinatura Digital Completa</title>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="DJ Pro"/>
+<meta name="description" content="Sistema profissional de gestão para DJs"/>
+<title>DJ Pro - Sistema de Gestão</title>
+
+<!-- Ícones para PWA -->
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%230b76d1' width='100' height='100' rx='20'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle'%3E🎧%3C/text%3E%3C/svg%3E"/>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%230b76d1' width='100' height='100' rx='20'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle'%3E🎧%3C/text%3E%3C/svg%3E"/>
+
 <style>
   :root {
     --primary: #0b76d1;
     --primary-dark: #0056b3;
+    --secondary: #6c757d;
     --success: #28a745;
     --danger: #dc3545;
     --warning: #ffc107;
@@ -33,7 +43,17 @@
     --shadow: 0 4px 20px rgba(0,0,0,0.4);
   }
 
+  /* Cores personalizáveis */
+  [data-color="purple"] { --primary: #6f42c1; --primary-dark: #5a32a3; }
+  [data-color="green"] { --primary: #28a745; --primary-dark: #1e7e34; }
+  [data-color="red"] { --primary: #dc3545; --primary-dark: #bd2130; }
+  [data-color="orange"] { --primary: #fd7e14; --primary-dark: #e56b0a; }
+  [data-color="pink"] { --primary: #e83e8c; --primary-dark: #d91a72; }
+  [data-color="black"] { --primary: #343a40; --primary-dark: #1d2124; }
+
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  
+  html { scroll-behavior: smooth; }
   
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -44,6 +64,7 @@
     min-height: 100vh;
   }
 
+  /* Header Fixo */
   .app-header {
     position: fixed;
     top: 0;
@@ -60,9 +81,18 @@
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
   }
   
-  .app-header h1 { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  .app-header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
   
-  .header-actions { display: flex; gap: 10px; }
+  .header-actions {
+    display: flex;
+    gap: 10px;
+  }
   
   .header-btn {
     width: 44px;
@@ -82,6 +112,7 @@
   
   .header-btn:hover { background: rgba(255,255,255,0.3); transform: scale(1.05); }
 
+  /* Conteúdo Principal */
   .main-content {
     margin-top: var(--header-height);
     padding: 20px;
@@ -90,6 +121,7 @@
     margin-right: auto;
   }
 
+  /* Cards */
   .card {
     background: var(--card);
     border-radius: var(--radius);
@@ -115,7 +147,10 @@
     gap: 10px;
   }
 
-  .form-group { margin-bottom: 20px; }
+  /* Formulários */
+  .form-group {
+    margin-bottom: 20px;
+  }
   
   .form-label {
     display: block;
@@ -143,6 +178,11 @@
     box-shadow: 0 0 0 4px rgba(11, 118, 209, 0.1);
     outline: none;
   }
+  
+  .form-control:disabled {
+    background: var(--bg);
+    opacity: 0.7;
+  }
 
   .form-row {
     display: grid;
@@ -150,6 +190,7 @@
     gap: 15px;
   }
 
+  /* Botões */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -171,12 +212,16 @@
     box-shadow: 0 8px 20px rgba(11, 118, 209, 0.3);
   }
   
+  .btn:active { transform: translateY(0); }
+  
   .btn-success { background: var(--success); }
   .btn-success:hover { box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3); }
   
   .btn-danger { background: var(--danger); }
+  .btn-danger:hover { box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3); }
+  
   .btn-warning { background: var(--warning); color: #000; }
-  .btn-info { background: var(--info); }
+  
   .btn-secondary { background: var(--secondary); }
   
   .btn-outline {
@@ -187,9 +232,18 @@
   
   .btn-outline:hover { background: var(--primary); color: white; }
   
-  .btn-lg { padding: 18px 32px; font-size: 17px; width: 100%; }
-  .btn-sm { padding: 10px 16px; font-size: 13px; }
+  .btn-lg {
+    padding: 18px 32px;
+    font-size: 17px;
+    width: 100%;
+  }
+  
+  .btn-sm {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
 
+  /* Navegação Inferior (App Style) */
   .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -221,95 +275,136 @@
     cursor: pointer;
   }
   
-  .nav-item .icon { font-size: 24px; transition: transform 0.2s; }
-  .nav-item.active { color: var(--primary); }
-  .nav-item.active .icon { transform: translateY(-4px); }
+  .nav-item .icon {
+    font-size: 24px;
+    transition: transform 0.2s;
+  }
+  
+  .nav-item.active {
+    color: var(--primary);
+  }
+  
+  .nav-item.active .icon {
+    transform: translateY(-4px);
+  }
+  
+  .nav-item:hover { color: var(--primary); }
 
-  .section { display: none; animation: fadeIn 0.3s ease; }
+  /* Seções */
+  .section {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  
   .section.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 
-  /* NOVO: Opções de Assinatura */
-  .assinatura-opcoes {
+  /* Stats Grid */
+  .stats-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
-    margin: 20px 0;
+    margin-bottom: 20px;
   }
   
-  .opcao-card {
-    background: var(--bg);
-    border: 2px solid var(--border);
-    border-radius: 16px;
-    padding: 25px 15px;
+  .stat-card {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 20px;
+    border-radius: var(--radius);
     text-align: center;
-    cursor: pointer;
-    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
   }
   
-  .opcao-card:hover {
-    border-color: var(--primary);
-    transform: translateY(-5px);
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  }
+  
+  .stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 5px;
+    position: relative;
+  }
+  
+  .stat-label {
+    font-size: 12px;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+  }
+
+  /* Lista de Itens */
+  .list-item {
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 12px;
+    border-left: 4px solid var(--primary);
+    transition: all 0.2s;
+    position: relative;
+  }
+  
+  .list-item:hover {
+    transform: translateX(5px);
     box-shadow: var(--shadow);
   }
   
-  .opcao-card.active {
-    border-color: var(--primary);
-    background: rgba(11, 118, 209, 0.05);
+  .list-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 10px;
   }
   
-  .opcao-icon {
-    font-size: 40px;
-    margin-bottom: 15px;
-  }
-  
-  .opcao-titulo {
-    font-size: 16px;
+  .list-item-title {
+    font-size: 17px;
     font-weight: 700;
-    margin-bottom: 8px;
     color: var(--text);
   }
   
-  .opcao-desc {
-    font-size: 13px;
+  .list-item-meta {
+    font-size: 14px;
     color: var(--text-muted);
-    line-height: 1.4;
-  }
-
-  /* Área de assinatura do cliente */
-  .cliente-assinatura-area {
-    background: #f0f9ff;
-    border: 2px dashed var(--primary);
-    border-radius: 16px;
-    padding: 30px;
-    text-align: center;
-    margin: 20px 0;
+    margin-top: 5px;
   }
   
-  [data-theme="dark"] .cliente-assinatura-area {
-    background: rgba(11, 118, 209, 0.1);
-  }
-  
-  .cliente-assinatura-area h3 {
-    color: var(--primary);
-    margin-bottom: 15px;
-    font-size: 18px;
-  }
-  
-  .qr-code-placeholder {
-    width: 200px;
-    height: 200px;
-    background: white;
-    border-radius: 12px;
-    margin: 20px auto;
+  .list-item-actions {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 80px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    gap: 8px;
+    margin-top: 15px;
+    flex-wrap: wrap;
   }
 
-  /* Preview de documento */
+  /* Badges */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  .badge-success { background: #d4edda; color: #155724; }
+  .badge-warning { background: #fff3cd; color: #856404; }
+  .badge-danger { background: #f8d7da; color: #721c24; }
+  .badge-info { background: #d1ecf1; color: #0c5460; }
+
+  /* Preview de Documentos */
   .document-preview {
     background: white;
     border: 1px solid #ddd;
@@ -323,7 +418,7 @@
     line-height: 1.6;
   }
 
-  /* Canvas de assinatura */
+  /* Assinatura */
   .signature-pad {
     background: white;
     border: 2px solid var(--border);
@@ -332,78 +427,9 @@
     height: 200px;
     margin: 15px 0;
     touch-action: none;
-    cursor: crosshair;
   }
 
-  /* Upload de foto */
-  .upload-area {
-    border: 3px dashed var(--border);
-    border-radius: 16px;
-    padding: 40px 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s;
-    background: var(--bg);
-  }
-  
-  .upload-area:hover {
-    border-color: var(--primary);
-    background: rgba(11, 118, 209, 0.05);
-  }
-  
-  .upload-area.has-file {
-    border-color: var(--success);
-    background: rgba(40, 167, 69, 0.05);
-  }
-  
-  .upload-icon { font-size: 48px; margin-bottom: 15px; }
-  .upload-text { font-size: 16px; color: var(--text); margin-bottom: 8px; }
-  .upload-hint { font-size: 13px; color: var(--text-muted); }
-
-  .preview-assinatura-foto {
-    max-width: 100%;
-    max-height: 300px;
-    border-radius: 12px;
-    margin-top: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  }
-
-  /* Link compartilhável */
-  .link-box {
-    background: var(--bg);
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-    margin: 15px 0;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-  
-  .link-text {
-    flex: 1;
-    font-family: monospace;
-    font-size: 14px;
-    color: var(--text);
-    word-break: break-all;
-  }
-
-  /* Status de assinatura */
-  .status-assinatura {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    border-radius: 25px;
-    font-size: 14px;
-    font-weight: 600;
-    margin: 10px 0;
-  }
-  
-  .status-pendente { background: #fff3cd; color: #856404; }
-  .status-assinado { background: #d4edda; color: #155724; }
-
-  /* Modal */
+  /* Modais */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -429,6 +455,7 @@
     max-height: 90vh;
     overflow-y: auto;
     animation: modalSlide 0.3s ease;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
   }
   
   @keyframes modalSlide {
@@ -473,6 +500,142 @@
     justify-content: flex-end;
   }
 
+  /* Tela de Login/PIN */
+  .login-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  
+  .login-logo {
+    font-size: 80px;
+    margin-bottom: 20px;
+  }
+  
+  .login-title {
+    color: white;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  
+  .login-subtitle {
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  
+  .pin-display {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+  
+  .pin-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transition: all 0.2s;
+  }
+  
+  .pin-dot.filled { background: white; transform: scale(1.2); }
+  
+  .pin-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .pin-btn {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.3);
+    background: transparent;
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .pin-btn:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: white;
+  }
+
+  /* Configurações de Perfil */
+  .profile-header {
+    text-align: center;
+    padding: 30px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+  }
+  
+  .profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    margin: 0 auto 15px;
+    border: 4px solid rgba(255,255,255,0.3);
+  }
+  
+  .profile-name {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  
+  .profile-role {
+    opacity: 0.9;
+    font-size: 14px;
+  }
+
+  /* Cores para seleção */
+  .color-picker {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .color-option {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+  }
+  
+  .color-option:hover { transform: scale(1.1); }
+  .color-option.selected { border-color: var(--text); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
   /* Toast */
   .toast {
     position: fixed;
@@ -498,59 +661,35 @@
   .toast.error { background: var(--danger); }
   .toast.warning { background: var(--warning); color: #000; }
 
+  /* Empty State */
   .empty-state {
     text-align: center;
     padding: 60px 20px;
     color: var(--text-muted);
   }
   
-  .empty-state-icon { font-size: 64px; margin-bottom: 20px; opacity: 0.5; }
-
-  /* Instruções passo a passo */
-  .passos-assinatura {
-    background: var(--bg);
-    border-radius: 12px;
-    padding: 20px;
-    margin: 20px 0;
-  }
-  
-  .passo {
-    display: flex;
-    gap: 15px;
+  .empty-state-icon {
+    font-size: 64px;
     margin-bottom: 20px;
-    align-items: flex-start;
-  }
-  
-  .passo:last-child { margin-bottom: 0; }
-  
-  .passo-numero {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: var(--primary);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 14px;
-    flex-shrink: 0;
-  }
-  
-  .passo-conteudo h4 {
-    font-size: 16px;
-    margin-bottom: 5px;
-    color: var(--text);
-  }
-  
-  .passo-conteudo p {
-    font-size: 14px;
-    color: var(--text-muted);
-    line-height: 1.5;
+    opacity: 0.5;
   }
 
+  /* Animações de loading */
+  .skeleton {
+    background: linear-gradient(90deg, var(--bg) 25%, var(--border) 50%, var(--bg) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+  }
+  
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Print styles */
   @media print {
-    .app-header, .bottom-nav, .no-print, .btn { display: none !important; }
+    .app-header, .bottom-nav, .no-print { display: none !important; }
     .main-content { margin-top: 0; }
     .document-preview {
       border: none;
@@ -559,36 +698,115 @@
     }
   }
 
+  /* Desktop optimizations */
+  @media (min-width: 1024px) {
+    .main-content {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 30px;
+      max-width: 1400px;
+    }
+    
+    .sidebar {
+      position: sticky;
+      top: calc(var(--header-height) + 20px);
+      height: fit-content;
+    }
+    
+    .bottom-nav { display: none; }
+    body { padding-bottom: 20px; }
+  }
+
+  /* Mobile optimizations */
   @media (max-width: 480px) {
-    .assinatura-opcoes { grid-template-columns: 1fr; }
+    :root { --radius: 12px; }
     .card { padding: 20px; }
+    .stat-value { font-size: 24px; }
+    .btn { padding: 12px 20px; }
+  }
+
+  /* Safe area for notched phones */
+  @supports (padding-top: env(safe-area-inset-top)) {
+    .app-header {
+      padding-top: env(safe-area-inset-top);
+      height: calc(var(--header-height) + env(safe-area-inset-top));
+    }
+    .main-content {
+      margin-top: calc(var(--header-height) + env(safe-area-inset-top));
+    }
   }
 </style>
 </head>
 <body>
 
+<!-- TELA DE LOGIN/PIN -->
+<div id="loginScreen" class="login-screen" style="display: none;">
+  <div class="login-logo">🎧</div>
+  <div class="login-title" id="loginTitle">DJ Pro</div>
+  <div class="login-subtitle" id="loginSubtitle">Digite seu PIN para acessar</div>
+  
+  <div class="pin-display" id="pinDisplay">
+    <div class="pin-dot"></div>
+    <div class="pin-dot"></div>
+    <div class="pin-dot"></div>
+    <div class="pin-dot"></div>
+  </div>
+  
+  <div class="pin-pad">
+    <button class="pin-btn" onclick="enterPin(1)">1</button>
+    <button class="pin-btn" onclick="enterPin(2)">2</button>
+    <button class="pin-btn" onclick="enterPin(3)">3</button>
+    <button class="pin-btn" onclick="enterPin(4)">4</button>
+    <button class="pin-btn" onclick="enterPin(5)">5</button>
+    <button class="pin-btn" onclick="enterPin(6)">6</button>
+    <button class="pin-btn" onclick="enterPin(7)">7</button>
+    <button class="pin-btn" onclick="enterPin(8)">8</button>
+    <button class="pin-btn" onclick="enterPin(9)">9</button>
+    <button class="pin-btn" onclick="clearPin()">⌫</button>
+    <button class="pin-btn" onclick="enterPin(0)">0</button>
+    <button class="pin-btn" onclick="skipLogin()">✓</button>
+  </div>
+</div>
+
+<!-- HEADER -->
 <header class="app-header">
-  <h1>🎧 DJ Pro</h1>
+  <h1>🎧 <span id="appTitle">DJ Pro</span></h1>
   <div class="header-actions">
-    <button class="header-btn" onclick="toggleTheme()">🌓</button>
-    <button class="header-btn" onclick="mostrarAjuda()">❓</button>
+    <button class="header-btn" onclick="showModal('config')" title="Configurações">⚙️</button>
+    <button class="header-btn" onclick="toggleTheme()" title="Tema">🌓</button>
   </div>
 </header>
 
+<!-- CONTEÚDO PRINCIPAL -->
 <main class="main-content">
 
 <!-- DASHBOARD -->
 <section id="dashboard" class="section active">
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value" id="dashTotal">R$ 0</div>
+      <div class="stat-label">Faturamento</div>
+    </div>
+    <div class="stat-card" style="background: linear-gradient(135deg, var(--info) 0%, #0dcaf0 100%);">
+      <div class="stat-value" id="dashEventos">0</div>
+      <div class="stat-label">Eventos</div>
+    </div>
+    <div class="stat-card" style="background: linear-gradient(135deg, var(--success) 0%, #20c997 100%);">
+      <div class="stat-value" id="dashRecibos">0</div>
+      <div class="stat-label">Recibos</div>
+    </div>
+    <div class="stat-card" style="background: linear-gradient(135deg, var(--warning) 0%, #ff6b6b 100%);">
+      <div class="stat-value" id="dashPendentes">0</div>
+      <div class="stat-label">Pendentes</div>
+    </div>
+  </div>
+
   <div class="card">
-    <div class="card-title">📊 Resumo</div>
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-      <div class="card" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; text-align: center;">
-        <div style="font-size: 28px; font-weight: 800;" id="totalEventos">0</div>
-        <div style="font-size: 12px; opacity: 0.9;">Eventos</div>
-      </div>
-      <div class="card" style="background: linear-gradient(135deg, var(--success) 0%, #20c997 100%); color: white; text-align: center;">
-        <div style="font-size: 28px; font-weight: 800;" id="totalAssinados">0</div>
-        <div style="font-size: 12px; opacity: 0.9;">Assinados</div>
+    <div class="card-title">📅 Próximos Eventos</div>
+    <div id="listaProximos">
+      <div class="empty-state">
+        <div class="empty-state-icon">📭</div>
+        <p>Nenhum evento próximo</p>
       </div>
     </div>
   </div>
@@ -596,22 +814,12 @@
   <div class="card">
     <div class="card-title">⚡ Ações Rápidas</div>
     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
-      <button class="btn btn-success btn-lg" onclick="showTab('cadastro')">
+      <button class="btn btn-success" onclick="showTab('cadastro')">
         ➕ Novo Evento
       </button>
-      <button class="btn btn-primary btn-lg" onclick="showTab('assinatura')">
-        ✍️ Assinar Contrato
+      <button class="btn btn-primary" onclick="showTab('recibo')">
+        🧾 Emitir Recibo
       </button>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">📅 Eventos Pendentes de Assinatura</div>
-    <div id="listaPendentes">
-      <div class="empty-state">
-        <div class="empty-state-icon">✅</div>
-        <p>Todos os contratos assinados!</p>
-      </div>
     </div>
   </div>
 </section>
@@ -625,7 +833,7 @@
     
     <div class="form-group">
       <label class="form-label">Nome do Cliente *</label>
-      <input type="text" id="cli_nome" class="form-control" placeholder="Nome completo">
+      <input type="text" id="cli_nome" class="form-control" placeholder="Nome completo" required>
     </div>
 
     <div class="form-row">
@@ -640,293 +848,487 @@
     </div>
 
     <div class="form-group">
+      <label class="form-label">E-mail</label>
+      <input type="email" id="cli_email" class="form-control" placeholder="email@exemplo.com">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group" style="flex: 0 0 120px;">
+        <label class="form-label">CEP</label>
+        <input type="text" id="cli_cep" class="form-control" placeholder="00000-000" maxlength="9" oninput="mascaraCEP(this)" onblur="buscarCep()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Endereço</label>
+        <input type="text" id="cli_end" class="form-control" placeholder="Rua, Avenida...">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Número</label>
+        <input type="text" id="cli_numero" class="form-control" placeholder="123">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Bairro</label>
+        <input type="text" id="cli_bairro" class="form-control" placeholder="Bairro">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Cidade</label>
+        <input type="text" id="cli_cidade" class="form-control" placeholder="Cidade">
+      </div>
+      <div class="form-group" style="flex: 0 0 80px;">
+        <label class="form-label">UF</label>
+        <input type="text" id="cli_uf" class="form-control" placeholder="SP" maxlength="2">
+      </div>
+    </div>
+
+    <div style="height: 1px; background: var(--border); margin: 30px 0;"></div>
+
+    <div class="form-group">
       <label class="form-label">Tipo de Evento *</label>
-      <select id="evt_tipo" class="form-control">
+      <select id="evt_tipo" class="form-control" required>
         <option value="">Selecione...</option>
         <option value="Casamento">💒 Casamento</option>
         <option value="Aniversário">🎂 Aniversário</option>
         <option value="Formatura">🎓 Formatura</option>
         <option value="Corporativo">🏢 Corporativo</option>
         <option value="Festa">🎉 Festa</option>
+        <option value="Religioso">⛪ Evento Religioso</option>
         <option value="Outro">📌 Outro</option>
       </select>
     </div>
 
     <div class="form-group">
       <label class="form-label">Local do Evento *</label>
-      <input type="text" id="evt_local" class="form-control" placeholder="Nome do local">
+      <input type="text" id="evt_local" class="form-control" placeholder="Nome do local" required>
     </div>
 
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">Data *</label>
-        <input type="date" id="evt_data" class="form-control">
+        <input type="date" id="evt_data" class="form-control" required>
       </div>
       <div class="form-group">
-        <label class="form-label">Valor (R$) *</label>
-        <input type="text" id="evt_valor" class="form-control" placeholder="0,00" oninput="mascaraMoeda(this)">
+        <label class="form-label">Início</label>
+        <input type="time" id="evt_inicio" class="form-control" onchange="calcularHoras()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Término</label>
+        <input type="time" id="evt_termino" class="form-control" onchange="calcularHoras()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Horas</label>
+        <input type="text" id="evt_horas" class="form-control" readonly placeholder="Auto">
       </div>
     </div>
 
     <div class="form-group">
-      <label class="form-label">Serviços Inclusos</label>
-      <textarea id="evt_servicos" class="form-control" rows="3" placeholder="Descreva os serviços..."></textarea>
+      <label class="form-label">Valor Total (R$) *</label>
+      <input type="text" id="evt_valor" class="form-control" placeholder="0,00" required oninput="mascaraMoeda(this)">
     </div>
 
-    <button class="btn btn-success btn-lg" onclick="salvarEvento()">
-      💾 Salvar Evento
-    </button>
-  </div>
-</section>
-
-<!-- ASSINATURA - NOVA ABA CENTRAL -->
-<section id="assinatura" class="section">
-  <div class="card">
-    <div class="card-title">✍️ Assinar Contrato</div>
-    
     <div class="form-group">
-      <label class="form-label">Selecionar Evento</label>
-      <select id="assinatura_evento" class="form-control" onchange="carregarParaAssinatura()">
-        <option value="">Escolha um evento...</option>
+      <label class="form-label">Forma de Pagamento</label>
+      <select id="evt_pagamento" class="form-control">
+        <option value="50% na reserva, 50% no dia">50% na reserva, 50% no dia</option>
+        <option value="Pagamento único">Pagamento único</option>
+        <option value="Parcelado em 3x">Parcelado em 3x</option>
+        <option value="Parcelado em 6x">Parcelado em 6x</option>
+        <option value="A combinar">A combinar</option>
       </select>
     </div>
 
-    <div id="areaAssinaturaOpcoes" style="display: none;">
-      <!-- Status atual -->
-      <div id="statusAtual" class="status-assinatura status-pendente" style="margin-bottom: 20px;">
-        ⏳ Aguardando assinatura do cliente
-      </div>
+    <div class="form-group">
+      <label class="form-label">Serviços Inclusos *</label>
+      <textarea id="evt_servicos" class="form-control" rows="4" placeholder="Descreva os equipamentos e serviços..." required></textarea>
+    </div>
 
-      <div class="card-title" style="font-size: 16px; margin-top: 30px;">Escolha como o cliente vai assinar:</div>
+    <div class="form-group">
+      <label class="form-label">Observações</label>
+      <textarea id="evt_obs" class="form-control" rows="2" placeholder="Informações adicionais..."></textarea>
+    </div>
 
-      <div class="assinatura-opcoes">
-        <!-- Opção 1: Presencial -->
-        <div class="opcao-card" onclick="selecionarOpcaoAssinatura('presencial')">
-          <div class="opcao-icon">📱</div>
-          <div class="opcao-titulo">Presencial</div>
-          <div class="opcao-desc">Cliente assina no seu celular/tablet</div>
-        </div>
-
-        <!-- Opção 2: Link -->
-        <div class="opcao-card" onclick="selecionarOpcaoAssinatura('link')">
-          <div class="opcao-icon">🔗</div>
-          <div class="opcao-titulo">Link Online</div>
-          <div class="opcao-desc">Envie um link para assinar no celular dele</div>
-        </div>
-
-        <!-- Opção 3: Foto -->
-        <div class="opcao-card" onclick="selecionarOpcaoAssinatura('foto')">
-          <div class="opcao-icon">📸</div>
-          <div class="opcao-titulo">Foto da Assinatura</div>
-          <div class="opcao-desc">Cliente assina no papel e você tira foto</div>
-        </div>
-
-        <!-- Opção 4: WhatsApp -->
-        <div class="opcao-card" onclick="selecionarOpcaoAssinatura('whatsapp')">
-          <div class="opcao-icon">💬</div>
-          <div class="opcao-titulo">WhatsApp</div>
-          <div class="opcao-desc">Envie PDF e peça para assinar e enviar foto</div>
-        </div>
-      </div>
-
-      <!-- ÁREA: ASSINATURA PRESENCIAL -->
-      <div id="areaPresencial" style="display: none; margin-top: 30px;">
-        <div class="cliente-assinatura-area">
-          <h3>📱 Entregue o aparelho para o cliente</h3>
-          <p style="color: var(--text-muted); margin-bottom: 20px;">Peça para ele assinar com o dedo na área abaixo:</p>
-          
-          <canvas id="canvasAssinaturaCliente" class="signature-pad"></canvas>
-          
-          <div style="display: flex; gap: 10px; margin-top: 15px;">
-            <button class="btn btn-secondary" onclick="limparAssinaturaCliente()">
-              🧹 Limpar
-            </button>
-            <button class="btn btn-success" onclick="salvarAssinaturaCliente()">
-              ✅ Confirmar Assinatura
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ÁREA: LINK ONLINE -->
-      <div id="areaLink" style="display: none; margin-top: 30px;">
-        <div class="cliente-assinatura-area">
-          <h3>🔗 Link para Assinatura Online</h3>
-          <p style="color: var(--text-muted); margin-bottom: 20px;">Envie este link para o cliente:</p>
-          
-          <div class="link-box">
-            <span class="link-text" id="linkAssinatura">https://djpro.app/assinar/ABC123</span>
-            <button class="btn btn-sm btn-secondary" onclick="copiarLink()">
-              📋 Copiar
-            </button>
-          </div>
-          
-          <button class="btn btn-primary btn-lg" onclick="enviarLinkWhatsApp()" style="margin-top: 15px;">
-            📱 Enviar por WhatsApp
-          </button>
-          
-          <div class="passos-assinatura" style="margin-top: 20px;">
-            <div class="passo">
-              <div class="passo-numero">1</div>
-              <div class="passo-conteudo">
-                <h4>Cliente recebe o link</h4>
-                <p>Envie pelo WhatsApp ou e-mail</p>
-              </div>
-            </div>
-            <div class="passo">
-              <div class="passo-numero">2</div>
-              <div class="passo-conteudo">
-                <h4>Abre no celular</h4>
-                <p>O cliente abre o link e vê o contrato</p>
-              </div>
-            </div>
-            <div class="passo">
-              <div class="passo-numero">3</div>
-              <div class="passo-conteudo">
-                <h4>Assina digitalmente</h4>
-                <p>Usa o dedo na tela do próprio celular</p>
-              </div>
-            </div>
-            <div class="passo">
-              <div class="passo-numero">4</div>
-              <div class="passo-conteudo">
-                <h4>Você recebe a confirmação</h4>
-                <p>A assinatura aparece automaticamente aqui</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ÁREA: FOTO DA ASSINATURA -->
-      <div id="areaFoto" style="display: none; margin-top: 30px;">
-        <div class="cliente-assinatura-area">
-          <h3>📸 Anexar Foto da Assinatura</h3>
-          <p style="color: var(--text-muted); margin-bottom: 20px;">Cliente assina no papel, você tira foto e anexa aqui:</p>
-          
-          <div class="upload-area" onclick="document.getElementById('inputFotoAssinatura').click()" id="uploadArea">
-            <div class="upload-icon">📷</div>
-            <div class="upload-text">Clique para tirar foto ou escolher da galeria</div>
-            <div class="upload-hint">Aceita JPG, PNG ou PDF</div>
-          </div>
-          
-          <input type="file" id="inputFotoAssinatura" style="display: none;" accept="image/*" onchange="processarFotoAssinatura(this)">
-          
-          <div id="previewFotoAssinatura" style="display: none; margin-top: 20px;">
-            <img id="imgPreviewAssinatura" class="preview-assinatura-foto" alt="Preview da assinatura">
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
-              <button class="btn btn-secondary" onclick="tirarOutraFoto()">
-                🔄 Tirar Outra
-              </button>
-              <button class="btn btn-success" onclick="salvarAssinaturaFoto()">
-                ✅ Salvar Assinatura
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ÁREA: WHATSAPP -->
-      <div id="areaWhatsApp" style="display: none; margin-top: 30px;">
-        <div class="cliente-assinatura-area">
-          <h3>💬 Enviar pelo WhatsApp</h3>
-          <p style="color: var(--text-muted); margin-bottom: 20px;">O cliente imprime, assina, escaneia e envia de volta:</p>
-          
-          <div class="passos-assinatura">
-            <div class="passo">
-              <div class="passo-numero">1</div>
-              <div class="passo-conteudo">
-                <h4>Gere o PDF do contrato</h4>
-                <p>Clique no botão abaixo para criar o PDF</p>
-              </div>
-            </div>
-            <div class="passo">
-              <div class="passo-numero">2</div>
-              <div class="passo-conteudo">
-                <h4>Envie pelo WhatsApp</h4>
-                <p>Cliente recebe e imprime</p>
-              </div>
-            </div>
-            <div class="passo">
-              <div class="passo-numero">3</div>
-              <div class="passo-conteudo">
-                <h4>Cliente assina e fotografa</h4>
-                <p>Assina no papel e tira foto com o celular</p>
-              </div>
-            </div>
-            <div class="passo">
-              <div class="passo-numero">4</div>
-              <div class="passo-conteudo">
-                <h4>Você anexa a foto aqui</h4>
-                <p>Quando receber, use a opção "Foto da Assinatura"</p>
-              </div>
-            </div>
-          </div>
-          
-          <button class="btn btn-success btn-lg" onclick="gerarPDFContrato()" style="margin-top: 20px;">
-            📄 Gerar PDF do Contrato
-          </button>
-        </div>
-      </div>
-
-      <!-- Preview do contrato -->
-      <div class="card-title" style="margin-top: 30px;">📄 Preview do Contrato</div>
-      <div class="document-preview" id="previewContratoAssinatura">
-        <p style="text-align: center; color: #999;">Selecione um evento para ver o contrato</p>
-      </div>
+    <div style="display: flex; gap: 10px; margin-top: 30px;">
+      <button class="btn btn-success btn-lg" onclick="salvarEvento()">
+        💾 Salvar
+      </button>
+      <button class="btn btn-secondary" onclick="limparFormulario()">
+        🔄 Limpar
+      </button>
+      <button class="btn btn-outline" onclick="previewContrato()">
+        👁️ Preview
+      </button>
     </div>
   </div>
 </section>
 
-<!-- LISTA -->
+<!-- LISTA DE EVENTOS -->
 <section id="lista" class="section">
   <div class="card">
     <div class="card-title">📋 Todos os Eventos</div>
+    
+    <div class="form-row" style="margin-bottom: 20px;">
+      <div class="form-group">
+        <input type="text" id="filtroBusca" class="form-control" placeholder="🔍 Buscar evento..." oninput="filtrarEventos()">
+      </div>
+      <div class="form-group" style="flex: 0 0 150px;">
+        <select id="filtroStatus" class="form-control" onchange="filtrarEventos()">
+          <option value="">Todos</option>
+          <option value="pendente">Pendente</option>
+          <option value="confirmado">Confirmado</option>
+          <option value="realizado">Realizado</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+      </div>
+    </div>
+
     <div id="listaEventos">
       <div class="empty-state">
         <div class="empty-state-icon">📭</div>
         <p>Nenhum evento cadastrado</p>
+        <button class="btn btn-primary" onclick="showTab('cadastro')" style="margin-top: 20px;">
+          Criar Primeiro Evento
+        </button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PERFIL -->
-<section id="perfil" class="section">
+<!-- FINANCEIRO -->
+<section id="financeiro" class="section">
+  <div class="stats-grid">
+    <div class="stat-card success">
+      <div class="stat-value" id="finEntradas">R$ 0</div>
+      <div class="stat-label">Entradas</div>
+    </div>
+    <div class="stat-card danger">
+      <div class="stat-value" id="finSaidas">R$ 0</div>
+      <div class="stat-label">Saídas</div>
+    </div>
+  </div>
+
+  <div class="card" style="text-align: center; padding: 30px;">
+    <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 10px;">SALDO TOTAL</div>
+    <div id="finSaldo" style="font-size: 42px; font-weight: 800; color: var(--success);">R$ 0,00</div>
+  </div>
+
   <div class="card">
-    <div class="card-title">⚙️ Meus Dados</div>
-    
-    <div class="form-group">
-      <label class="form-label">Nome Artístico</label>
-      <input type="text" id="config_nome_artistico" class="form-control" value="DJ Brow">
-    </div>
-    
-    <div class="form-group">
-      <label class="form-label">Nome Completo</label>
-      <input type="text" id="config_nome_civil" class="form-control" value="Marcelo da Cruz">
-    </div>
+    <div class="card-title">➕ Nova Movimentação</div>
     
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">CPF</label>
-        <input type="text" id="config_cpf" class="form-control" value="200.050.638-09">
+        <label class="form-label">Tipo</label>
+        <select id="fin_tipo" class="form-control">
+          <option value="entrada">💰 Entrada</option>
+          <option value="saida">💸 Saída</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Valor</label>
+        <input type="text" id="fin_valor" class="form-control" placeholder="0,00" oninput="mascaraMoeda(this)">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Descrição</label>
+      <input type="text" id="fin_desc" class="form-control" placeholder="Ex: Pagamento de equipamento">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Vincular a Evento</label>
+      <select id="fin_evento" class="form-control">
+        <option value="">Nenhum</option>
+      </select>
+    </div>
+
+    <button class="btn btn-success" onclick="addFinanceiro()">
+      Adicionar Movimentação
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Histórico</div>
+    <div id="listaFinanceiro">
+      <div class="empty-state">
+        <div class="empty-state-icon">💳</div>
+        <p>Sem movimentações</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTRATOS -->
+<section id="contrato" class="section">
+  <div class="card">
+    <div class="card-title">📄 Gerar Contrato</div>
+    
+    <div class="form-group">
+      <label class="form-label">Selecionar Evento</label>
+      <select id="contrato_evento" class="form-control" onchange="carregarContrato()">
+        <option value="">Escolha um evento...</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Modelo</label>
+      <select id="contrato_modelo" class="form-control" onchange="gerarPreviewContrato()">
+        <option value="completo">Completo (11 cláusulas)</option>
+        <option value="simplificado">Simplificado (5 cláusulas)</option>
+        <option value="minimo">Mínimo (3 cláusulas)</option>
+      </select>
+    </div>
+
+    <div id="areaContrato" style="display: none;">
+      <div class="document-preview" id="previewContrato"></div>
+
+      <div class="form-group">
+        <label class="form-label">Assinatura Digital do Cliente</label>
+        <canvas id="assinaturaCanvas" class="signature-pad"></canvas>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-sm btn-secondary" onclick="limparAssinatura()">🧹 Limpar</button>
+          <button class="btn btn-sm btn-success" onclick="salvarAssinatura()">💾 Salvar Assinatura</button>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px;">
+        <button class="btn btn-success" onclick="imprimirContrato()">🖨️ Imprimir / PDF</button>
+        <button class="btn btn-primary" onclick="enviarContratoWhatsApp()">📱 WhatsApp</button>
+        <button class="btn btn-info" onclick="criarReciboDoContrato()">🧾 Criar Recibo</button>
+        <button class="btn btn-warning" onclick="compartilharContrato()">🔗 Compartilhar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECIBOS -->
+<section id="recibo" class="section">
+  <div class="card">
+    <div class="card-title">🧾 Emitir Recibo</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Número</label>
+        <input type="text" id="rec_numero" class="form-control" readonly style="background: var(--bg);">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Data</label>
+        <input type="date" id="rec_data" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Recebi de (Nome) *</label>
+      <input type="text" id="rec_pagador" class="form-control" placeholder="Nome do pagador" required>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">CPF/CNPJ</label>
+        <input type="text" id="rec_doc" class="form-control" placeholder="000.000.000-00" oninput="mascaraDoc(this)">
       </div>
       <div class="form-group">
         <label class="form-label">Telefone</label>
-        <input type="text" id="config_telefone" class="form-control" value="(14) 99765-4321">
+        <input type="tel" id="rec_tel" class="form-control" placeholder="(00) 00000-0000" oninput="mascaraTel(this)">
       </div>
     </div>
-    
-    <button class="btn btn-success btn-lg" onclick="salvarConfiguracoes()">
-      💾 Salvar Dados
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Valor (R$) *</label>
+        <input type="text" id="rec_valor" class="form-control" placeholder="0,00" required oninput="mascaraMoeda(this); atualizarValorExtenso()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Forma de Pagamento *</label>
+        <select id="rec_forma" class="form-control" required>
+          <option value="">Selecione...</option>
+          <option value="Dinheiro">💵 Dinheiro</option>
+          <option value="Pix">⚡ Pix</option>
+          <option value="Transferência">🏦 Transferência</option>
+          <option value="Cartão de Crédito">💳 Crédito</option>
+          <option value="Cartão de Débito">💳 Débito</option>
+          <option value="Boleto">📄 Boleto</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="valorExtensoDisplay" style="display: none; padding: 15px; background: var(--bg); border-radius: 8px; margin-bottom: 20px; font-style: italic; color: var(--text-muted);"></div>
+
+    <div class="form-group">
+      <label class="form-label">Referente a *</label>
+      <input type="text" id="rec_referente" class="form-control" placeholder="Ex: Prestação de serviços de DJ" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Observações</label>
+      <textarea id="rec_obs" class="form-control" rows="2" placeholder="Informações adicionais..."></textarea>
+    </div>
+
+    <button class="btn btn-primary btn-lg" onclick="gerarRecibo()">
+      👁️ Visualizar Recibo
     </button>
+
+    <div id="areaRecibo" style="display: none; margin-top: 30px;">
+      <div class="document-preview" id="previewRecibo" style="background: #fffef0;"></div>
+
+      <div class="form-group">
+        <label class="form-label">Assinatura Digital</label>
+        <canvas id="reciboAssinaturaCanvas" class="signature-pad"></canvas>
+        <button class="btn btn-sm btn-secondary" onclick="limparAssinaturaRecibo()">🧹 Limpar</button>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+        <button class="btn btn-success" onclick="imprimirRecibo()">🖨️ Imprimir / PDF</button>
+        <button class="btn btn-primary" onclick="enviarReciboWhatsApp()">📱 WhatsApp</button>
+        <button class="btn btn-info" onclick="salvarRecibo()">💾 Salvar no Sistema</button>
+        <button class="btn btn-outline" onclick="novoRecibo()">🔄 Novo Recibo</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Recibos Salvos</div>
+    <div id="listaRecibos">
+      <div class="empty-state">
+        <div class="empty-state-icon">📭</div>
+        <p>Nenhum recibo emitido</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PERFIL/CONFIGURAÇÕES -->
+<section id="perfil" class="section">
+  <div class="profile-header">
+    <div class="profile-avatar" id="profileAvatar">🎧</div>
+    <div class="profile-name" id="profileName">DJ Pro</div>
+    <div class="profile-role">Sistema de Gestão</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✏️ Meus Dados</div>
+    <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 14px;">
+      Personalize suas informações para os contratos e recibos. Seu amigo pode alterar estes dados facilmente.
+    </p>
+
+    <div class="form-group">
+      <label class="form-label">Nome Artístico *</label>
+      <input type="text" id="config_nome_artistico" class="form-control" value="DJ Brow">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Nome Completo (Civil) *</label>
+      <input type="text" id="config_nome_civil" class="form-control" value="Marcelo da Cruz">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">CPF *</label>
+        <input type="text" id="config_cpf" class="form-control" value="200.050.638-09" maxlength="14" oninput="mascaraCPF(this)">
+      </div>
+      <div class="form-group">
+        <label class="form-label">RG</label>
+        <input type="text" id="config_rg" class="form-control" value="27.325.130-2">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Telefone *</label>
+      <input type="tel" id="config_telefone" class="form-control" value="(14) 99765-4321" maxlength="15" oninput="mascaraTel(this)">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Endereço Completo *</label>
+      <input type="text" id="config_endereco" class="form-control" value="Avenida São João, 195">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Cidade *</label>
+        <input type="text" id="config_cidade" class="form-control" value="Quintana">
+      </div>
+      <div class="form-group" style="flex: 0 0 100px;">
+        <label class="form-label">UF *</label>
+        <input type="text" id="config_uf" class="form-control" value="SP" maxlength="2">
+      </div>
+      <div class="form-group">
+        <label class="form-label">CEP</label>
+        <input type="text" id="config_cep" class="form-control" value="17670-007" maxlength="9" oninput="mascaraCEP(this)">
+      </div>
+    </div>
+
+    <div style="height: 2px; background: var(--border); margin: 30px 0;"></div>
+
+    <div class="form-group">
+      <label class="form-label">Chave Pix</label>
+      <input type="text" id="config_pix" class="form-control" value="200.050.638-09" placeholder="CPF, CNPJ, e-mail ou telefone">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Dados Bancários (opcional)</label>
+      <input type="text" id="config_banco" class="form-control" placeholder="Banco, Agência, Conta">
+    </div>
+
+    <button class="btn btn-success btn-lg" onclick="salvarConfiguracoes()">
+      💾 Salvar Meus Dados
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎨 Personalização</div>
+    
+    <div class="form-group">
+      <label class="form-label">Cor do Tema</label>
+      <div class="color-picker">
+        <div class="color-option selected" style="background: #0b76d1;" onclick="setTemaCor('blue')" data-cor="blue">✓</div>
+        <div class="color-option" style="background: #6f42c1;" onclick="setTemaCor('purple')" data-cor="purple"></div>
+        <div class="color-option" style="background: #28a745;" onclick="setTemaCor('green')" data-cor="green"></div>
+        <div class="color-option" style="background: #dc3545;" onclick="setTemaCor('red')" data-cor="red"></div>
+        <div class="color-option" style="background: #fd7e14;" onclick="setTemaCor('orange')" data-cor="orange"></div>
+        <div class="color-option" style="background: #e83e8c;" onclick="setTemaCor('pink')" data-cor="pink"></div>
+        <div class="color-option" style="background: #343a40;" onclick="setTemaCor('black')" data-cor="black"></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Nome do App</label>
+      <input type="text" id="config_app_nome" class="form-control" value="DJ Pro" maxlength="20">
+      <small style="color: var(--text-muted);">Este nome aparecerá no cabeçalho do app</small>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">PIN de Acesso (opcional)</label>
+      <input type="password" id="config_pin" class="form-control" placeholder="4 dígitos" maxlength="4">
+      <small style="color: var(--text-muted);">Deixe em branco para desativar o PIN</small>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💾 Backup e Dados</div>
+    
+    <button class="btn btn-success" onclick="exportarDados()" style="width: 100%; margin-bottom: 10px;">
+      📥 Exportar Todos os Dados
+    </button>
+    
+    <button class="btn btn-primary" onclick="document.getElementById('importFile').click()" style="width: 100%; margin-bottom: 10px;">
+      📤 Importar Dados
+    </button>
+    <input type="file" id="importFile" style="display: none;" accept=".json" onchange="importarDados(this)">
+    
+    <button class="btn btn-danger" onclick="limparTodosDados()" style="width: 100%;">
+      🗑️ Apagar Todos os Dados
+    </button>
+  </div>
+
+  <div style="text-align: center; padding: 40px; color: var(--text-muted); font-size: 14px;">
+    <p>DJ Pro v3.0</p>
+    <p>Desenvolvido para DJs profissionais</p>
   </div>
 </section>
 
 </main>
 
 <!-- NAVEGAÇÃO INFERIOR -->
-<nav class="bottom-nav">
+<nav class="bottom-nav no-print">
   <div class="nav-item active" onclick="showTab('dashboard')">
     <span class="icon">📊</span>
     <span>Início</span>
@@ -935,13 +1337,13 @@
     <span class="icon">➕</span>
     <span>Novo</span>
   </div>
-  <div class="nav-item" onclick="showTab('assinatura')">
-    <span class="icon">✍️</span>
-    <span>Assinar</span>
-  </div>
   <div class="nav-item" onclick="showTab('lista')">
     <span class="icon">📋</span>
     <span>Eventos</span>
+  </div>
+  <div class="nav-item" onclick="showTab('financeiro')">
+    <span class="icon">💰</span>
+    <span>Caixa</span>
   </div>
   <div class="nav-item" onclick="showTab('perfil')">
     <span class="icon">⚙️</span>
@@ -949,14 +1351,16 @@
   </div>
 </nav>
 
-<!-- MODAL -->
+<!-- MODAL GENÉRICO -->
 <div id="modal" class="modal-overlay" onclick="if(event.target === this) closeModal()">
   <div class="modal-content">
     <div class="modal-header">
       <h3 id="modalTitle">Título</h3>
       <button class="modal-close" onclick="closeModal()">×</button>
     </div>
-    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-body" id="modalBody">
+      <!-- Conteúdo dinâmico -->
+    </div>
     <div class="modal-footer" id="modalFooter">
       <button class="btn btn-secondary" onclick="closeModal()">Fechar</button>
     </div>
@@ -968,54 +1372,181 @@
 
 <script>
 // ==========================================
-// CONFIGURAÇÕES E DADOS
+// CONFIGURAÇÕES GLOBAIS
 // ==========================================
 let CONFIG = JSON.parse(localStorage.getItem('djpro_config')) || {
   nome_artistico: 'DJ Brow',
   nome_civil: 'Marcelo da Cruz',
   cpf: '200.050.638-09',
+  rg: '27.325.130-2',
   telefone: '(14) 99765-4321',
   endereco: 'Avenida São João, 195',
   cidade: 'Quintana',
-  uf: 'SP'
+  uf: 'SP',
+  cep: '17670-007',
+  pix: '200.050.638-09',
+  banco: '',
+  app_nome: 'DJ Pro',
+  tema: 'light',
+  cor: 'blue',
+  pin: ''
 };
 
 let EVENTOS = JSON.parse(localStorage.getItem('djpro_eventos')) || [];
+let FINANCEIRO = JSON.parse(localStorage.getItem('djpro_financeiro')) || [];
+let RECIBOS = JSON.parse(localStorage.getItem('djpro_recibos')) || [];
 let eventoAtual = null;
-let assinaturaClienteCtx = null;
-let fotoAssinaturaAtual = null;
+let reciboAtual = null;
+let assinaturaCtx = null;
+let reciboAssinaturaCtx = null;
+let pinAtual = '';
 
 // ==========================================
 // INICIALIZAÇÃO
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
+  // Aplicar configurações
+  aplicarConfiguracoes();
+  
+  // Verificar PIN
+  if (CONFIG.pin && CONFIG.pin.length === 4) {
+    mostrarLogin();
+  }
+  
+  // Inicializar dados
   atualizarDashboard();
   atualizarListas();
+  initAssinaturas();
+  
+  // Datas padrão
+  document.getElementById('evt_data').valueAsDate = new Date();
+  document.getElementById('rec_data').valueAsDate = new Date();
+  atualizarNumeroRecibo();
+  
+  // Preencher configurações
   preencherConfiguracoes();
   
-  // Inicializar canvas quando necessário
-  setTimeout(initCanvasAssinaturaCliente, 1000);
+  // Verificar notificações
+  setTimeout(verificarNotificacoes, 1000);
+  
+  // Auto-backup a cada 60 segundos
+  setInterval(salvarBackupSilencioso, 60000);
 });
+
+function aplicarConfiguracoes() {
+  // Tema
+  if (CONFIG.tema === 'dark') {
+    document.body.setAttribute('data-theme', 'dark');
+  }
+  
+  // Cor
+  if (CONFIG.cor && CONFIG.cor !== 'blue') {
+    document.body.setAttribute('data-color', CONFIG.cor);
+  }
+  
+  // Nome do app
+  document.getElementById('appTitle').textContent = CONFIG.app_nome || 'DJ Pro';
+  document.getElementById('profileName').textContent = CONFIG.nome_artistico || 'DJ Pro';
+  document.getElementById('loginTitle').textContent = CONFIG.app_nome || 'DJ Pro';
+  
+  // Atualizar cor selecionada
+  document.querySelectorAll('.color-option').forEach(el => {
+    el.classList.toggle('selected', el.dataset.cor === CONFIG.cor);
+    el.textContent = el.dataset.cor === CONFIG.cor ? '✓' : '';
+  });
+}
+
+function preencherConfiguracoes() {
+  document.getElementById('config_nome_artistico').value = CONFIG.nome_artistico;
+  document.getElementById('config_nome_civil').value = CONFIG.nome_civil;
+  document.getElementById('config_cpf').value = CONFIG.cpf;
+  document.getElementById('config_rg').value = CONFIG.rg;
+  document.getElementById('config_telefone').value = CONFIG.telefone;
+  document.getElementById('config_endereco').value = CONFIG.endereco;
+  document.getElementById('config_cidade').value = CONFIG.cidade;
+  document.getElementById('config_uf').value = CONFIG.uf;
+  document.getElementById('config_cep').value = CONFIG.cep;
+  document.getElementById('config_pix').value = CONFIG.pix || CONFIG.cpf;
+  document.getElementById('config_banco').value = CONFIG.banco || '';
+  document.getElementById('config_app_nome').value = CONFIG.app_nome || 'DJ Pro';
+  document.getElementById('config_pin').value = CONFIG.pin || '';
+}
+
+// ==========================================
+// LOGIN/PIN
+// ==========================================
+function mostrarLogin() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  pinAtual = '';
+  atualizarPinDisplay();
+}
+
+function enterPin(num) {
+  if (pinAtual.length < 4) {
+    pinAtual += num;
+    atualizarPinDisplay();
+    
+    if (pinAtual.length === 4) {
+      setTimeout(() => {
+        if (pinAtual === CONFIG.pin) {
+          document.getElementById('loginScreen').style.display = 'none';
+          showToast('✅ Bem-vindo!');
+        } else {
+          showToast('❌ PIN incorreto!', 'error');
+          pinAtual = '';
+          atualizarPinDisplay();
+        }
+      }, 200);
+    }
+  }
+}
+
+function clearPin() {
+  pinAtual = pinAtual.slice(0, -1);
+  atualizarPinDisplay();
+}
+
+function atualizarPinDisplay() {
+  const dots = document.querySelectorAll('.pin-dot');
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('filled', i < pinAtual.length);
+  });
+}
+
+function skipLogin() {
+  document.getElementById('loginScreen').style.display = 'none';
+}
 
 // ==========================================
 // NAVEGAÇÃO
 // ==========================================
 function showTab(tab) {
+  // Esconder todas as seções
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   
+  // Mostrar seção atual
   document.getElementById(tab).classList.add('active');
   
-  const tabs = ['dashboard', 'cadastro', 'assinatura', 'lista', 'perfil'];
+  // Atualizar navegação
+  const tabs = ['dashboard', 'cadastro', 'lista', 'financeiro', 'contrato', 'recibo', 'perfil'];
   const index = tabs.indexOf(tab);
-  if (index >= 0) {
+  if (index >= 0 && index < 5) {
     document.querySelectorAll('.nav-item')[index]?.classList.add('active');
   }
   
+  // Atualizar dados específicos
   if (tab === 'dashboard') atualizarDashboard();
-  if (tab === 'assinatura') atualizarSelectAssinatura();
   if (tab === 'lista') atualizarListaEventos();
+  if (tab === 'financeiro') atualizarFinanceiro();
+  if (tab === 'contrato') atualizarSelectContrato();
+  if (tab === 'recibo') {
+    atualizarNumeroRecibo();
+    atualizarListaRecibos();
+  }
+  if (tab === 'perfil') preencherConfiguracoes();
   
+  // Scroll para topo
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1023,9 +1554,60 @@ function toggleTheme() {
   const isDark = document.body.hasAttribute('data-theme');
   if (isDark) {
     document.body.removeAttribute('data-theme');
+    CONFIG.tema = 'light';
   } else {
     document.body.setAttribute('data-theme', 'dark');
+    CONFIG.tema = 'dark';
   }
+  salvarConfig();
+}
+
+function setTemaCor(cor) {
+  CONFIG.cor = cor;
+  document.body.setAttribute('data-color', cor);
+  
+  // Atualizar seleção visual
+  document.querySelectorAll('.color-option').forEach(el => {
+    el.classList.toggle('selected', el.dataset.cor === cor);
+    el.textContent = el.dataset.cor === cor ? '✓' : '';
+  });
+  
+  salvarConfig();
+  showToast(`🎨 Tema ${cor} aplicado!`);
+}
+
+// ==========================================
+// CONFIGURAÇÕES DO PERFIL
+// ==========================================
+function salvarConfiguracoes() {
+  CONFIG.nome_artistico = document.getElementById('config_nome_artistico').value || 'DJ Brow';
+  CONFIG.nome_civil = document.getElementById('config_nome_civil').value || '';
+  CONFIG.cpf = document.getElementById('config_cpf').value || '';
+  CONFIG.rg = document.getElementById('config_rg').value || '';
+  CONFIG.telefone = document.getElementById('config_telefone').value || '';
+  CONFIG.endereco = document.getElementById('config_endereco').value || '';
+  CONFIG.cidade = document.getElementById('config_cidade').value || '';
+  CONFIG.uf = document.getElementById('config_uf').value || '';
+  CONFIG.cep = document.getElementById('config_cep').value || '';
+  CONFIG.pix = document.getElementById('config_pix').value || CONFIG.cpf;
+  CONFIG.banco = document.getElementById('config_banco').value || '';
+  CONFIG.app_nome = document.getElementById('config_app_nome').value || 'DJ Pro';
+  
+  const novoPin = document.getElementById('config_pin').value;
+  if (novoPin === '' || (novoPin.length === 4 && /^\d{4}$/.test(novoPin))) {
+    CONFIG.pin = novoPin;
+  } else {
+    showToast('⚠️ PIN deve ter 4 dígitos numéricos', 'warning');
+    return;
+  }
+  
+  salvarConfig();
+  aplicarConfiguracoes();
+  showToast('✅ Configurações salvas!');
+}
+
+function salvarConfig() {
+  localStorage.setItem('djpro_config', JSON.stringify(CONFIG));
 }
 
 // ==========================================
@@ -1039,9 +1621,33 @@ function mascaraCPF(input) {
   input.value = v;
 }
 
+function mascaraCNPJ(input) {
+  let v = input.value.replace(/\D/g, '');
+  v = v.replace(/^(\d{2})(\d)/, '$1.$2');
+  v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+  v = v.replace(/\.(\d{3})(\d)/, '.$1/$2');
+  v = v.replace(/(\d{4})(\d)/, '$1-$2');
+  input.value = v;
+}
+
+function mascaraDoc(input) {
+  const nums = input.value.replace(/\D/g, '');
+  if (nums.length <= 11) {
+    mascaraCPF(input);
+  } else {
+    mascaraCNPJ(input);
+  }
+}
+
 function mascaraTel(input) {
   let v = input.value.replace(/\D/g, '');
   v = v.replace(/(\d{2})(\d)/, '($1) $2');
+  v = v.replace(/(\d{5})(\d)/, '$1-$2');
+  input.value = v;
+}
+
+function mascaraCEP(input) {
+  let v = input.value.replace(/\D/g, '');
   v = v.replace(/(\d{5})(\d)/, '$1-$2');
   input.value = v;
 }
@@ -1055,36 +1661,93 @@ function mascaraMoeda(input) {
   input.value = v;
 }
 
+async function buscarCep() {
+  const cep = document.getElementById('cli_cep').value.replace(/\D/g, '');
+  if (cep.length !== 8) return;
+  
+  showToast('🔍 Buscando CEP...');
+  
+  try {
+    const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    const data = await res.json();
+    
+    if (!data.erro) {
+      document.getElementById('cli_end').value = data.logradouro;
+      document.getElementById('cli_bairro').value = data.bairro;
+      document.getElementById('cli_cidade').value = data.localidade;
+      document.getElementById('cli_uf').value = data.uf;
+      document.getElementById('cli_numero').focus();
+      showToast('✅ Endereço encontrado!');
+    } else {
+      showToast('❌ CEP não encontrado', 'error');
+    }
+  } catch(e) {
+    showToast('❌ Erro na busca', 'error');
+  }
+}
+
+function calcularHoras() {
+  const inicio = document.getElementById('evt_inicio').value;
+  const termino = document.getElementById('evt_termino').value;
+  if (!inicio || !termino) return;
+  
+  const [h1, m1] = inicio.split(':').map(Number);
+  const [h2, m2] = termino.split(':').map(Number);
+  
+  let min1 = h1 * 60 + m1;
+  let min2 = h2 * 60 + m2;
+  
+  if (min2 <= min1) min2 += 24 * 60;
+  
+  const horas = ((min2 - min1) / 60).toFixed(1);
+  document.getElementById('evt_horas').value = horas.replace('.', ',') + 'h';
+}
+
 // ==========================================
 // EVENTOS - CRUD
 // ==========================================
 function salvarEvento() {
   const id = document.getElementById('editId').value;
   
+  // Validação
+  const obrigatorios = ['cli_nome', 'cli_cpf', 'cli_tel', 'evt_tipo', 'evt_local', 'evt_data', 'evt_valor'];
+  for (let campo of obrigatorios) {
+    if (!document.getElementById(campo).value.trim()) {
+      showToast(`⚠️ Preencha todos os campos obrigatórios`, 'error');
+      document.getElementById(campo).focus();
+      return;
+    }
+  }
+  
   const evento = {
     id: id ? parseInt(id) : Date.now(),
-    status: 'pendente',
-    assinatura: null,
-    dataCriacao: new Date().toISOString(),
+    status: id ? (EVENTOS.find(e => e.id === parseInt(id))?.status || 'pendente') : 'pendente',
     cliente: {
       nome: document.getElementById('cli_nome').value,
       cpf: document.getElementById('cli_cpf').value,
-      telefone: document.getElementById('cli_tel').value
+      telefone: document.getElementById('cli_tel').value,
+      email: document.getElementById('cli_email').value,
+      cep: document.getElementById('cli_cep').value,
+      endereco: document.getElementById('cli_end').value,
+      numero: document.getElementById('cli_numero').value,
+      bairro: document.getElementById('cli_bairro').value,
+      cidade: document.getElementById('cli_cidade').value,
+      uf: document.getElementById('cli_uf').value
     },
     evento: {
       tipo: document.getElementById('evt_tipo').value,
       local: document.getElementById('evt_local').value,
       data: document.getElementById('evt_data').value,
+      inicio: document.getElementById('evt_inicio').value,
+      termino: document.getElementById('evt_termino').value,
+      horas: document.getElementById('evt_horas').value,
       valor: document.getElementById('evt_valor').value,
-      servicos: document.getElementById('evt_servicos').value
-    }
+      pagamento: document.getElementById('evt_pagamento').value,
+      servicos: document.getElementById('evt_servicos').value,
+      observacoes: document.getElementById('evt_obs').value
+    },
+    dataCriacao: id ? (EVENTOS.find(e => e.id === parseInt(id))?.dataCriacao || new Date().toISOString()) : new Date().toISOString()
   };
-  
-  // Validação básica
-  if (!evento.cliente.nome || !evento.evento.tipo || !evento.evento.data) {
-    showToast('⚠️ Preencha os campos obrigatórios!', 'error');
-    return;
-  }
   
   if (id) {
     const idx = EVENTOS.findIndex(e => e.id === parseInt(id));
@@ -1097,384 +1760,16 @@ function salvarEvento() {
   
   salvarDados();
   limparFormulario();
-  showTab('dashboard');
+  showTab('lista');
 }
 
 function limparFormulario() {
   document.getElementById('editId').value = '';
-  document.querySelectorAll('#cadastro input, #cadastro select, #cadastro textarea').forEach(el => {
+  document.querySelectorAll('#cadastro input, #cadastro textarea, #cadastro select').forEach(el => {
     if (el.type !== 'button') el.value = '';
   });
   document.getElementById('evt_data').valueAsDate = new Date();
-}
-
-function salvarDados() {
-  localStorage.setItem('djpro_eventos', JSON.stringify(EVENTOS));
-  localStorage.setItem('djpro_config', JSON.stringify(CONFIG));
-}
-
-// ==========================================
-// ASSINATURA - FLUXO COMPLETO
-// ==========================================
-function atualizarSelectAssinatura() {
-  const select = document.getElementById('assinatura_evento');
-  const pendentes = EVENTOS.filter(e => !e.assinatura);
-  
-  select.innerHTML = '<option value="">Escolha um evento...</option>' +
-    pendentes.map(e => `<option value="${e.id}">${e.evento.tipo} - ${e.cliente.nome} (${formatarData(e.evento.data)})</option>`).join('');
-}
-
-function carregarParaAssinatura() {
-  const id = document.getElementById('assinatura_evento').value;
-  if (!id) {
-    document.getElementById('areaAssinaturaOpcoes').style.display = 'none';
-    return;
-  }
-  
-  eventoAtual = EVENTOS.find(e => e.id == id);
-  document.getElementById('areaAssinaturaOpcoes').style.display = 'block';
-  
-  // Resetar opções
-  document.querySelectorAll('.opcao-card').forEach(c => c.classList.remove('active'));
-  ['presencial', 'link', 'foto', 'whatsapp'].forEach(tipo => {
-    document.getElementById('area' + tipo.charAt(0).toUpperCase() + tipo.slice(1)).style.display = 'none';
-  });
-  
-  // Atualizar status
-  const statusEl = document.getElementById('statusAtual');
-  if (eventoAtual.assinatura) {
-    statusEl.className = 'status-assinatura status-assinado';
-    statusEl.innerHTML = '✅ Contrato assinado em ' + formatarData(eventoAtual.assinatura.data);
-  } else {
-    statusEl.className = 'status-assinatura status-pendente';
-    statusEl.innerHTML = '⏳ Aguardando assinatura do cliente';
-  }
-  
-  // Gerar preview do contrato
-  gerarPreviewContratoAssinatura();
-  
-  // Gerar link único (simulado)
-  const link = `https://djpro.app/assinar/${eventoAtual.id.toString(36).toUpperCase()}`;
-  document.getElementById('linkAssinatura').textContent = link;
-}
-
-function selecionarOpcaoAssinatura(opcao) {
-  // Marcar visualmente
-  document.querySelectorAll('.opcao-card').forEach(c => c.classList.remove('active'));
-  event.target.closest('.opcao-card').classList.add('active');
-  
-  // Esconder todas as áreas
-  ['presencial', 'link', 'foto', 'whatsapp'].forEach(tipo => {
-    document.getElementById('area' + tipo.charAt(0).toUpperCase() + tipo.slice(1)).style.display = 'none';
-  });
-  
-  // Mostrar área selecionada
-  document.getElementById('area' + opcao.charAt(0).toUpperCase() + opcao.slice(1)).style.display = 'block';
-  
-  // Inicializar canvas se necessário
-  if (opcao === 'presencial') {
-    setTimeout(initCanvasAssinaturaCliente, 100);
-  }
-}
-
-// ==========================================
-// OPÇÃO 1: ASSINATURA PRESENCIAL
-// ==========================================
-function initCanvasAssinaturaCliente() {
-  const canvas = document.getElementById('canvasAssinaturaCliente');
-  if (!canvas || assinaturaClienteCtx) return;
-  
-  canvas.width = canvas.offsetWidth;
-  canvas.height = 200;
-  assinaturaClienteCtx = canvas.getContext('2d');
-  assinaturaClienteCtx.strokeStyle = '#000';
-  assinaturaClienteCtx.lineWidth = 2;
-  assinaturaClienteCtx.lineCap = 'round';
-  
-  let drawing = false;
-  
-  const getPos = (e) => {
-    const rect = canvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    return { x: clientX - rect.left, y: clientY - rect.top };
-  };
-  
-  canvas.addEventListener('mousedown', (e) => {
-    drawing = true;
-    const pos = getPos(e);
-    assinaturaClienteCtx.beginPath();
-    assinaturaClienteCtx.moveTo(pos.x, pos.y);
-  });
-  
-  canvas.addEventListener('mousemove', (e) => {
-    if (!drawing) return;
-    const pos = getPos(e);
-    assinaturaClienteCtx.lineTo(pos.x, pos.y);
-    assinaturaClienteCtx.stroke();
-  });
-  
-  canvas.addEventListener('mouseup', () => drawing = false);
-  canvas.addEventListener('mouseout', () => drawing = false);
-  
-  canvas.addEventListener('touchstart', (e) => {
-    drawing = true;
-    const pos = getPos(e);
-    assinaturaClienteCtx.beginPath();
-    assinaturaClienteCtx.moveTo(pos.x, pos.y);
-    e.preventDefault();
-  });
-  
-  canvas.addEventListener('touchmove', (e) => {
-    if (!drawing) return;
-    const pos = getPos(e);
-    assinaturaClienteCtx.lineTo(pos.x, pos.y);
-    assinaturaClienteCtx.stroke();
-    e.preventDefault();
-  });
-  
-  canvas.addEventListener('touchend', () => drawing = false);
-}
-
-function limparAssinaturaCliente() {
-  if (assinaturaClienteCtx) {
-    const canvas = document.getElementById('canvasAssinaturaCliente');
-    assinaturaClienteCtx.clearRect(0, 0, canvas.width, canvas.height);
-  }
-}
-
-function salvarAssinaturaCliente() {
-  const canvas = document.getElementById('canvasAssinaturaCliente');
-  const dataUrl = canvas.toDataURL();
-  
-  if (eventoAtual) {
-    const idx = EVENTOS.findIndex(e => e.id === eventoAtual.id);
-    if (idx !== -1) {
-      EVENTOS[idx].assinatura = {
-        tipo: 'digital',
-        data: new Date().toISOString().split('T')[0],
-        imagem: dataUrl,
-        ip: 'local'
-      };
-      salvarDados();
-      showToast('✅ Assinatura salva com sucesso!');
-      atualizarDashboard();
-      carregarParaAssinatura();
-    }
-  }
-}
-
-// ==========================================
-// OPÇÃO 2: LINK ONLINE
-// ==========================================
-function copiarLink() {
-  const link = document.getElementById('linkAssinatura').textContent;
-  navigator.clipboard.writeText(link).then(() => {
-    showToast('📋 Link copiado!');
-  });
-}
-
-function enviarLinkWhatsApp() {
-  if (!eventoAtual) return;
-  
-  const link = document.getElementById('linkAssinatura').textContent;
-  const texto = `Olá ${eventoAtual.cliente.nome}! 👋\n\nPara confirmar nosso serviço de *${eventoAtual.evento.tipo}*, por favor assine o contrato digitalmente:\n\n🔗 ${link}\n\nÉ rápido, seguro e você pode fazer pelo celular!\n\nObrigado! 🎧 ${CONFIG.nome_artistico}`;
-  
-  window.open(`https://wa.me/${eventoAtual.cliente.telefone.replace(/\D/g, '')}?text=${encodeURIComponent(texto)}`, '_blank');
-}
-
-// ==========================================
-// OPÇÃO 3: FOTO DA ASSINATURA
-// ==========================================
-function processarFotoAssinatura(input) {
-  const file = input.files[0];
-  if (!file) return;
-  
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    fotoAssinaturaAtual = e.target.result;
-    
-    const img = document.getElementById('imgPreviewAssinatura');
-    img.src = fotoAssinaturaAtual;
-    
-    document.getElementById('uploadArea').classList.add('has-file');
-    document.getElementById('previewFotoAssinatura').style.display = 'block';
-    
-    showToast('✅ Foto carregada!');
-  };
-  reader.readAsDataURL(file);
-}
-
-function tirarOutraFoto() {
-  document.getElementById('inputFotoAssinatura').value = '';
-  document.getElementById('uploadArea').classList.remove('has-file');
-  document.getElementById('previewFotoAssinatura').style.display = 'none';
-  fotoAssinaturaAtual = null;
-}
-
-function salvarAssinaturaFoto() {
-  if (!fotoAssinaturaAtual || !eventoAtual) {
-    showToast('⚠️ Tire uma foto primeiro!', 'error');
-    return;
-  }
-  
-  const idx = EVENTOS.findIndex(e => e.id === eventoAtual.id);
-  if (idx !== -1) {
-    EVENTOS[idx].assinatura = {
-      tipo: 'foto',
-      data: new Date().toISOString().split('T')[0],
-      imagem: fotoAssinaturaAtual
-    };
-    salvarDados();
-    showToast('✅ Assinatura por foto salva!');
-    atualizarDashboard();
-    carregarParaAssinatura();
-    tirarOutraFoto();
-  }
-}
-
-// ==========================================
-// OPÇÃO 4: WHATSAPP COM PDF
-// ==========================================
-function gerarPDFContrato() {
-  // Simulação - na prática usaria biblioteca como jsPDF
-  showToast('📄 PDF gerado! Compartilhe pelo WhatsApp.');
-  
-  if (eventoAtual) {
-    const texto = `Olá ${eventoAtual.cliente.nome}! 👋\n\nSegue o contrato para o evento de *${eventoAtual.evento.tipo}*.\n\nPor favor:\n1️⃣ Imprima o PDF anexo\n2️⃣ Assine com caneta azul\n3️⃣ Tire uma foto nítida\n4️⃣ Envie a foto aqui\n\nObrigado! 🎧 ${CONFIG.nome_artistico}`;
-    
-    window.open(`https://wa.me/${eventoAtual.cliente.telefone.replace(/\D/g, '')}?text=${encodeURIComponent(texto)}`, '_blank');
-  }
-}
-
-// ==========================================
-// PREVIEW DO CONTRATO
-// ==========================================
-function gerarPreviewContratoAssinatura() {
-  if (!eventoAtual) return;
-  
-  const e = eventoAtual;
-  
-  const html = `
-    <div style="font-family: 'Times New Roman', serif; font-size: 12pt; line-height: 1.6;">
-      <h2 style="text-align: center; font-size: 14pt; margin-bottom: 20px;">CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE DJ</h2>
-      
-      <p><strong>CONTRATADO:</strong> ${CONFIG.nome_artistico} (${CONFIG.nome_civil}), CPF: ${CONFIG.cpf}, Tel: ${CONFIG.telefone}.</p>
-      
-      <p><strong>CONTRATANTE:</strong> ${e.cliente.nome}, CPF: ${e.cliente.cpf}, Tel: ${e.cliente.telefone}.</p>
-      
-      <p><strong>EVENTO:</strong> ${e.evento.tipo} no dia ${formatarData(e.evento.data)}, no local ${e.evento.local}.</p>
-      
-      <p><strong>VALOR:</strong> R$ ${e.evento.valor}.</p>
-      
-      <p><strong>SERVIÇOS:</strong> ${e.evento.servicos || 'Serviços de DJ profissional com equipamentos completos.'}</p>
-      
-      <div style="margin-top: 40px; text-align: center;">
-        <p>${CONFIG.cidade}/${CONFIG.uf}, ${new Date().toLocaleDateString('pt-BR', {day: 'numeric', month: 'long', year: 'numeric'})}.</p>
-      </div>
-      
-      <div style="display: flex; justify-content: space-around; margin-top: 60px;">
-        <div style="width: 40%; text-align: center;">
-          <div style="border-top: 1px solid #000; padding-top: 5px;">
-            <strong>${e.cliente.nome}</strong><br>CONTRATANTE
-          </div>
-        </div>
-        <div style="width: 40%; text-align: center;">
-          <div style="border-top: 1px solid #000; padding-top: 5px;">
-            <strong>${CONFIG.nome_artistico}</strong><br>CONTRATADO
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-  
-  document.getElementById('previewContratoAssinatura').innerHTML = html;
-}
-
-// ==========================================
-// DASHBOARD E LISTAS
-// ==========================================
-function atualizarDashboard() {
-  document.getElementById('totalEventos').textContent = EVENTOS.length;
-  document.getElementById('totalAssinados').textContent = EVENTOS.filter(e => e.assinatura).length;
-  
-  // Lista de pendentes
-  const pendentes = EVENTOS.filter(e => !e.assinatura);
-  const container = document.getElementById('listaPendentes');
-  
-  if (pendentes.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">✅</div>
-        <p>Todos os contratos assinados!</p>
-      </div>
-    `;
-  } else {
-    container.innerHTML = pendentes.map(e => `
-      <div class="list-item" style="cursor: pointer;" onclick="irParaAssinatura(${e.id})">
-        <div class="list-item-header">
-          <div>
-            <div class="list-item-title">${e.evento.tipo}</div>
-            <div class="list-item-meta">👤 ${e.cliente.nome} | 📅 ${formatarData(e.evento.data)}</div>
-          </div>
-          <span class="status-assinatura status-pendente">Pendente</span>
-        </div>
-      </div>
-    `).join('');
-  }
-}
-
-function atualizarListaEventos() {
-  const container = document.getElementById('listaEventos');
-  
-  if (EVENTOS.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">📭</div>
-        <p>Nenhum evento cadastrado</p>
-      </div>
-    `;
-    return;
-  }
-  
-  const sorted = EVENTOS.sort((a, b) => new Date(b.evento.data) - new Date(a.evento.data));
-  
-  container.innerHTML = sorted.map(e => `
-    <div class="list-item">
-      <div class="list-item-header">
-        <div>
-          <div class="list-item-title">${e.evento.tipo}</div>
-          <div class="list-item-meta">👤 ${e.cliente.nome} | 📅 ${formatarData(e.evento.data)}</div>
-          <div class="list-item-meta">📍 ${e.evento.local} | 💰 R$ ${e.evento.valor}</div>
-        </div>
-        <div style="text-align: right;">
-          <div style="font-weight: 700; color: var(--primary);">R$ ${e.evento.valor}</div>
-          ${e.assinatura 
-            ? '<span class="status-assinatura status-assinado">✍️ Assinado</span>' 
-            : '<span class="status-assinatura status-pendente">⏳ Pendente</span>'}
-        </div>
-      </div>
-      <div style="display: flex; gap: 10px; margin-top: 15px;">
-        <button class="btn btn-sm btn-primary" onclick="irParaAssinatura(${e.id})">
-          ✍️ Assinar
-        </button>
-        <button class="btn btn-sm btn-secondary" onclick="editarEvento(${e.id})">
-          ✏️ Editar
-        </button>
-      </div>
-    </div>
-  `).join('');
-}
-
-function atualizarListas() {
-  atualizarListaEventos();
-  atualizarSelectAssinatura();
-}
-
-function irParaAssinatura(id) {
-  showTab('assinatura');
-  document.getElementById('assinatura_evento').value = id;
-  carregarParaAssinatura();
+  document.getElementById('evt_pagamento').value = '50% na reserva, 50% no dia';
 }
 
 function editarEvento(id) {
@@ -1485,42 +1780,1077 @@ function editarEvento(id) {
   document.getElementById('cli_nome').value = e.cliente.nome;
   document.getElementById('cli_cpf').value = e.cliente.cpf;
   document.getElementById('cli_tel').value = e.cliente.telefone;
+  document.getElementById('cli_email').value = e.cliente.email || '';
+  document.getElementById('cli_cep').value = e.cliente.cep || '';
+  document.getElementById('cli_end').value = e.cliente.endereco || '';
+  document.getElementById('cli_numero').value = e.cliente.numero || '';
+  document.getElementById('cli_bairro').value = e.cliente.bairro || '';
+  document.getElementById('cli_cidade').value = e.cliente.cidade || '';
+  document.getElementById('cli_uf').value = e.cliente.uf || '';
+  
   document.getElementById('evt_tipo').value = e.evento.tipo;
   document.getElementById('evt_local').value = e.evento.local;
   document.getElementById('evt_data').value = e.evento.data;
+  document.getElementById('evt_inicio').value = e.evento.inicio || '';
+  document.getElementById('evt_termino').value = e.evento.termino || '';
+  document.getElementById('evt_horas').value = e.evento.horas || '';
   document.getElementById('evt_valor').value = e.evento.valor;
-  document.getElementById('evt_servicos').value = e.evento.servicos || '';
+  document.getElementById('evt_pagamento').value = e.evento.pagamento;
+  document.getElementById('evt_servicos').value = e.evento.servicos;
+  document.getElementById('evt_obs').value = e.evento.observacoes || '';
   
   showTab('cadastro');
+  showToast('✏️ Editando evento...');
 }
 
-// ==========================================
-// CONFIGURAÇÕES
-// ==========================================
-function preencherConfiguracoes() {
-  document.getElementById('config_nome_artistico').value = CONFIG.nome_artistico;
-  document.getElementById('config_nome_civil').value = CONFIG.nome_civil;
-  document.getElementById('config_cpf').value = CONFIG.cpf;
-  document.getElementById('config_telefone').value = CONFIG.telefone;
-}
-
-function salvarConfiguracoes() {
-  CONFIG.nome_artistico = document.getElementById('config_nome_artistico').value;
-  CONFIG.nome_civil = document.getElementById('config_nome_civil').value;
-  CONFIG.cpf = document.getElementById('config_cpf').value;
-  CONFIG.telefone = document.getElementById('config_telefone').value;
+function excluirEvento(id) {
+  if (!confirm('Tem certeza que deseja excluir este evento?')) return;
+  
+  EVENTOS = EVENTOS.filter(e => e.id !== id);
+  FINANCEIRO = FINANCEIRO.filter(f => f.eventoId !== id);
   
   salvarDados();
-  showToast('✅ Dados salvos!');
+  atualizarListaEventos();
+  atualizarDashboard();
+  atualizarFinanceiro();
+  showToast('🗑️ Evento excluído!');
+}
+
+function mudarStatusEvento(id, status) {
+  const idx = EVENTOS.findIndex(e => e.id === id);
+  if (idx !== -1) {
+    EVENTOS[idx].status = status;
+    salvarDados();
+    atualizarListaEventos();
+    atualizarDashboard();
+    showToast(`✅ Status: ${status}`);
+  }
 }
 
 // ==========================================
-// UTILITÁRIOS
+// LISTAGENS
+// ==========================================
+function atualizarDashboard() {
+  // Totais
+  const total = EVENTOS.reduce((s, e) => {
+    if (e.status !== 'cancelado') {
+      return s + parseFloat(e.evento.valor.replace(/\./g, '').replace(',', '.'));
+    }
+    return s;
+  }, 0);
+  
+  document.getElementById('dashTotal').textContent = `R$ ${total.toLocaleString('pt-BR', {maximumFractionDigits: 0})}`;
+  document.getElementById('dashEventos').textContent = EVENTOS.filter(e => e.status !== 'cancelado').length;
+  document.getElementById('dashRecibos').textContent = RECIBOS.length;
+  document.getElementById('dashPendentes').textContent = EVENTOS.filter(e => e.status === 'pendente').length;
+  
+  // Próximos eventos
+  const hoje = new Date().toISOString().split('T')[0];
+  const proximos = EVENTOS
+    .filter(e => e.evento.data >= hoje && e.status !== 'cancelado')
+    .sort((a, b) => new Date(a.evento.data) - new Date(b.evento.data))
+    .slice(0, 5);
+  
+  const container = document.getElementById('listaProximos');
+  if (proximos.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📭</div>
+        <p>Nenhum evento próximo</p>
+      </div>
+    `;
+  } else {
+    container.innerHTML = proximos.map(e => {
+      const dias = Math.ceil((new Date(e.evento.data) - new Date(hoje)) / (1000 * 60 * 60 * 24));
+      const badge = dias === 0 ? '<span class="badge badge-danger">HOJE</span>' : 
+                    dias === 1 ? '<span class="badge badge-warning">AMANHÃ</span>' : 
+                    dias <= 7 ? `<span class="badge badge-info">${dias} dias</span>` : '';
+      
+      return `
+        <div class="list-item" onclick="editarEvento(${e.id})" style="cursor: pointer;">
+          <div class="list-item-header">
+            <div>
+              <div class="list-item-title">${e.evento.tipo} ${badge}</div>
+              <div class="list-item-meta">👤 ${e.cliente.nome}</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 700; color: var(--primary);">R$ ${e.evento.valor}</div>
+              <div class="list-item-meta">${formatarData(e.evento.data)}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+}
+
+function atualizarListaEventos() {
+  const container = document.getElementById('listaEventos');
+  const busca = document.getElementById('filtroBusca')?.value?.toLowerCase() || '';
+  const statusFiltro = document.getElementById('filtroStatus')?.value || '';
+  
+  let filtrados = EVENTOS;
+  
+  if (busca) {
+    filtrados = filtrados.filter(e => 
+      e.cliente.nome.toLowerCase().includes(busca) ||
+      e.evento.tipo.toLowerCase().includes(busca) ||
+      e.evento.local.toLowerCase().includes(busca)
+    );
+  }
+  
+  if (statusFiltro) {
+    filtrados = filtrados.filter(e => e.status === statusFiltro);
+  }
+  
+  if (filtrados.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📭</div>
+        <p>Nenhum evento encontrado</p>
+      </div>
+    `;
+    return;
+  }
+  
+  const sorted = filtrados.sort((a, b) => new Date(b.evento.data) - new Date(a.evento.data));
+  
+  container.innerHTML = sorted.map(e => {
+    const statusColors = {
+      pendente: 'warning',
+      confirmado: 'success',
+      realizado: 'secondary',
+      cancelado: 'danger'
+    };
+    
+    return `
+      <div class="list-item">
+        <div class="list-item-header">
+          <div>
+            <div class="list-item-title">${e.evento.tipo}</div>
+            <div class="list-item-meta">👤 ${e.cliente.nome} | 📅 ${formatarData(e.evento.data)}</div>
+            <div class="list-item-meta">📍 ${e.evento.local}</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-weight: 700; color: var(--primary); font-size: 18px;">R$ ${e.evento.valor}</div>
+            <span class="badge badge-${statusColors[e.status] || 'secondary'}">${e.status || 'pendente'}</span>
+          </div>
+        </div>
+        <div class="list-item-actions">
+          <button class="btn btn-sm btn-warning" onclick="editarEvento(${e.id})">✏️ Editar</button>
+          <button class="btn btn-sm btn-primary" onclick="verContratoId(${e.id})">📄 Contrato</button>
+          <button class="btn btn-sm btn-success" onclick="criarReciboDoEvento(${e.id})">🧾 Recibo</button>
+          <select class="btn btn-sm btn-secondary" onchange="mudarStatusEvento(${e.id}, this.value)" style="padding: 10px 15px;">
+            <option value="">Alterar status...</option>
+            <option value="pendente" ${e.status === 'pendente' ? 'selected' : ''}>Pendente</option>
+            <option value="confirmado" ${e.status === 'confirmado' ? 'selected' : ''}>Confirmado</option>
+            <option value="realizado" ${e.status === 'realizado' ? 'selected' : ''}>Realizado</option>
+            <option value="cancelado" ${e.status === 'cancelado' ? 'selected' : ''}>Cancelado</option>
+          </select>
+          <button class="btn btn-sm btn-danger" onclick="excluirEvento(${e.id})">🗑️</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function filtrarEventos() {
+  atualizarListaEventos();
+}
+
+function atualizarListas() {
+  atualizarListaEventos();
+  atualizarSelectContrato();
+  atualizarSelectFinanceiro();
+}
+
+// ==========================================
+// FINANCEIRO
+// ==========================================
+function atualizarSelectFinanceiro() {
+  const select = document.getElementById('fin_evento');
+  select.innerHTML = '<option value="">Nenhum</option>' +
+    EVENTOS.sort((a, b) => new Date(b.evento.data) - new Date(a.evento.data))
+    .map(e => `<option value="${e.id}">${e.evento.tipo} - ${e.cliente.nome}</option>`).join('');
+}
+
+function addFinanceiro() {
+  const tipo = document.getElementById('fin_tipo').value;
+  const valorStr = document.getElementById('fin_valor').value;
+  const desc = document.getElementById('fin_desc').value;
+  const eventoId = document.getElementById('fin_evento').value;
+  
+  if (!valorStr || !desc) {
+    showToast('⚠️ Preencha valor e descrição!', 'error');
+    return;
+  }
+  
+  const valor = parseFloat(valorStr.replace(/\./g, '').replace(',', '.'));
+  
+  FINANCEIRO.push({
+    id: Date.now(),
+    tipo,
+    descricao: desc,
+    valor,
+    data: new Date().toISOString().split('T')[0],
+    eventoId: eventoId || null
+  });
+  
+  salvarDados();
+  document.getElementById('fin_valor').value = '';
+  document.getElementById('fin_desc').value = '';
+  atualizarFinanceiro();
+  atualizarDashboard();
+  showToast('✅ Movimentação adicionada!');
+}
+
+function atualizarFinanceiro() {
+  const entradas = FINANCEIRO.filter(f => f.tipo === 'entrada').reduce((s, f) => s + f.valor, 0);
+  const saidas = FINANCEIRO.filter(f => f.tipo === 'saida').reduce((s, f) => s + f.valor, 0);
+  
+  document.getElementById('finEntradas').textContent = `R$ ${entradas.toLocaleString('pt-BR', {maximumFractionDigits: 0})}`;
+  document.getElementById('finSaidas').textContent = `R$ ${saidas.toLocaleString('pt-BR', {maximumFractionDigits: 0})}`;
+  document.getElementById('finSaldo').textContent = `R$ ${(entradas - saidas).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+  
+  const container = document.getElementById('listaFinanceiro');
+  const sorted = FINANCEIRO.sort((a, b) => b.id - a.id).slice(0, 20);
+  
+  if (sorted.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">💳</div>
+        <p>Sem movimentações</p>
+      </div>
+    `;
+    return;
+  }
+  
+  container.innerHTML = sorted.map(f => `
+    <div class="list-item" style="border-left-color: ${f.tipo === 'entrada' ? 'var(--success)' : 'var(--danger)'};">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div class="list-item-title">${f.descricao}</div>
+          <div class="list-item-meta">${formatarData(f.data)}</div>
+        </div>
+        <div style="font-size: 18px; font-weight: 700; color: ${f.tipo === 'entrada' ? 'var(--success)' : 'var(--danger)'};">
+          ${f.tipo === 'entrada' ? '+' : '-'} R$ ${f.valor.toFixed(2)}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ==========================================
+// CONTRATOS
+// ==========================================
+function atualizarSelectContrato() {
+  const select = document.getElementById('contrato_evento');
+  const sorted = EVENTOS.sort((a, b) => new Date(b.evento.data) - new Date(a.evento.data));
+  select.innerHTML = '<option value="">Escolha um evento...</option>' +
+    sorted.map(e => `<option value="${e.id}">${e.evento.tipo} - ${e.cliente.nome} (${formatarData(e.evento.data)})</option>`).join('');
+}
+
+function carregarContrato() {
+  const id = document.getElementById('contrato_evento').value;
+  if (!id) {
+    document.getElementById('areaContrato').style.display = 'none';
+    return;
+  }
+  
+  eventoAtual = EVENTOS.find(e => e.id == id);
+  document.getElementById('areaContrato').style.display = 'block';
+  gerarPreviewContrato();
+}
+
+function gerarPreviewContrato() {
+  if (!eventoAtual) return;
+  
+  const modelo = document.getElementById('contrato_modelo').value;
+  const e = eventoAtual;
+  
+  const enderecoCliente = `${e.cliente.endereco || '_________________'}${e.cliente.numero ? ', Nº ' + e.cliente.numero : ''}${e.cliente.bairro ? ' — ' + e.cliente.bairro : ''} — ${e.cliente.cidade || '_________________'}/${e.cliente.uf || '__'}`;
+  
+  let clausulas = '';
+  
+  if (modelo === 'completo') {
+    clausulas = `
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>CLÁUSULA 1ª - DO OBJETO:</strong> O presente contrato tem por objeto a prestação de serviços de DJ e sonorização para o evento descrito, incluindo montagem, operação e desmontagem do sistema de som e iluminação.</p>
+      
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>CLÁUSULA 2ª - DO PAGAMENTO:</strong> O valor total do serviço é de <strong>R$ ${e.evento.valor}</strong>, a ser pago da seguinte forma: <strong>${e.evento.pagamento}</strong>. O pagamento do sinal caracteriza reserva de data e não será reembolsável em caso de desistência. Cancelamentos com menos de 30 dias estão sujeitos a multa de 50% do valor total.</p>
+      
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>CLÁUSULA 3ª - DAS OBRIGAÇÕES DO CONTRATANTE:</strong> Fornecer local adequado, energia elétrica em 220V, estrutura para montagem (mesa/cobertura), segurança dos equipamentos e acesso para carga/descarga. O CONTRATANTE é responsável por obter licenças, alvarás e pagamento de taxas ao ECAD.</p>
+      
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>CLÁUSULA 4ª - DAS OBRIGAÇÕES DO CONTRATADO:</strong> Comparecer no horário estabelecido, trazer equipamentos em perfeito funcionamento, executar o serviço com profissionalismo e zelar pela boa execução do evento.</p>
+      
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>CLÁUSULA 5ª - DO CANCELAMENTO:</strong> Em caso de force majeure (doença comprovada, acidente, desastre natural), o CONTRATADO poderá indicar substituto de igual qualidade ou devolver valores pagos em até 7 dias. O CONTRATANTE pode remarcar uma vez sem custo com 15 dias de antecedência.</p>
+      
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>CLÁUSULA 6ª - DOS EQUIPAMENTOS:</strong> Os equipamentos são de propriedade do CONTRATADO. Danos causados por negligência do CONTRATANTE ou seus convidados serão ressarcidos mediante apresentação de nota fiscal.</p>
+      
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>CLÁUSULA 7ª - DA INTERRUPÇÃO:</strong> O CONTRATADO pode interromper o serviço em caso de: falta de energia por mais de 30 minutos, condições climáticas adversas (eventos ao ar livre), violência ou situações de risco, sem devolução de valores.</p>
+      
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>CLÁUSULA 8ª - DO HORÁRIO:</strong> O atraso superior a 60 minutos do CONTRATANTE não obriga o CONTRATADO a estender o horário contratado. Horas extras serão cobradas conforme valor pré-acordado.</p>
+      
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>CLÁUSULA 9ª - DA IMAGEM:</strong> O CONTRATANTE autoriza o uso de imagens do evento para portfólio e divulgação do CONTRATADO, exceto mediante solicitação expressa em contrário por escrito.</p>
+      
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>CLÁUSULA 10ª - DO FORO:</strong> Fica eleito o foro da comarca de ${CONFIG.cidade}/${CONFIG.uf} para dirimir quaisquer controvérsias, com renúncia a qualquer outro, por mais privilegiado que seja.</p>
+      
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>CLÁUSULA 11ª - DISPOSIÇÕES GERAIS:</strong> Este contrato pode ser assinado digitalmente ou fisicamente, tendo ambas as formas igual validade jurídica. A tolerância de qualquer das partes quanto ao descumprimento não implicará em renúncia ou novação.</p>
+    `;
+  } else if (modelo === 'simplificado') {
+    clausulas = `
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>1. SERVIÇO:</strong> Prestação de serviços de DJ para ${e.evento.tipo} no dia ${formatarData(e.evento.data)}, das ${e.evento.inicio || '__:__'} às ${e.evento.termino || '__:__'}.</p>
+      
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>2. VALOR:</strong> R$ ${e.evento.valor}, ${e.evento.pagamento}. Sinal não reembolsável.</p>
+      
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>3. OBRIGAÇÕES:</strong> CONTRATANTE fornece energia e estrutura. CONTRATADO fornece equipamentos e mão de obra qualificada.</p>
+      
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>4. CANCELAMENTO:</strong> Cancelamento com menos de 15 dias perde o sinal. Force majeure permite remarcação ou devolução integral.</p>
+      
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>5. FORO:</strong> Comarca de ${CONFIG.cidade}/${CONFIG.uf}.</p>
+    `;
+  } else {
+    clausulas = `
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>1.</strong> Serviço de DJ para ${e.evento.tipo} em ${formatarData(e.evento.data)} no valor de R$ ${e.evento.valor}.</p>
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>2.</strong> ${e.evento.pagamento}. Sinal não reembolsável.</p>
+      <p style="text-align: justify; margin-bottom: 12px;"><strong>3.</strong> Foro: ${CONFIG.cidade}/${CONFIG.uf}.</p>
+    `;
+  }
+  
+  const html = `
+    <div style="font-family: 'Times New Roman', serif; font-size: 12pt; line-height: 1.6; color: #000;">
+      <h2 style="text-align: center; font-size: 14pt; margin-bottom: 20px; text-transform: uppercase;">Contrato de Prestação de Serviços de DJ</h2>
+      
+      <p style="margin-bottom: 15px;"><strong>CONTRATADO:</strong> ${CONFIG.nome_artistico} (${CONFIG.nome_civil}), CPF: ${CONFIG.cpf}, RG: ${CONFIG.rg}, residente em ${CONFIG.endereco}, ${CONFIG.cidade}/${CONFIG.uf}.</p>
+      
+      <p style="margin-bottom: 15px;"><strong>CONTRATANTE:</strong> ${e.cliente.nome}, CPF: ${e.cliente.cpf}, telefone: ${e.cliente.telefone}, residente em ${enderecoCliente}.</p>
+      
+      <p style="margin-bottom: 15px;"><strong>DO EVENTO:</strong> ${e.evento.tipo} a ser realizado no dia ${formatarData(e.evento.data)}, no local ${e.evento.local}. Horário previsto: ${e.evento.inicio || '___:___'} às ${e.evento.termino || '___:___'}. Serviços contratados: ${e.evento.servicos}.</p>
+      
+      ${clausulas}
+      
+      <div style="margin-top: 40px; text-align: center;">
+        <p>${CONFIG.cidade}/${CONFIG.uf}, ${new Date().toLocaleDateString('pt-BR', {day: 'numeric', month: 'long', year: 'numeric'})}.</p>
+      </div>
+      
+      <div style="display: flex; justify-content: space-around; margin-top: 60px;">
+        <div style="width: 40%; text-align: center;">
+          <div style="border-top: 1px solid #000; padding-top: 5px;">
+            <strong>${e.cliente.nome}</strong><br>
+            CONTRATANTE
+          </div>
+        </div>
+        <div style="width: 40%; text-align: center;">
+          <div style="border-top: 1px solid #000; padding-top: 5px;">
+            <strong>${CONFIG.nome_artistico}</strong><br>
+            CONTRATADO
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.getElementById('previewContrato').innerHTML = html;
+}
+
+function previewContrato() {
+  const eventoTemp = {
+    cliente: {
+      nome: document.getElementById('cli_nome').value || 'NOME DO CLIENTE',
+      cpf: document.getElementById('cli_cpf').value || '000.000.000-00',
+      telefone: document.getElementById('cli_tel').value || '(00) 00000-0000',
+      endereco: document.getElementById('cli_end').value || 'Endereço',
+      numero: document.getElementById('cli_numero').value || '',
+      bairro: document.getElementById('cli_bairro').value || '',
+      cidade: document.getElementById('cli_cidade').value || 'Cidade',
+      uf: document.getElementById('cli_uf').value || 'UF'
+    },
+    evento: {
+      tipo: document.getElementById('evt_tipo').value || 'Evento',
+      local: document.getElementById('evt_local').value || 'Local',
+      data: document.getElementById('evt_data').value || new Date().toISOString().split('T')[0],
+      inicio: document.getElementById('evt_inicio').value || '',
+      termino: document.getElementById('evt_termino').value || '',
+      valor: document.getElementById('evt_valor').value || '0,00',
+      pagamento: document.getElementById('evt_pagamento').value || 'A combinar',
+      servicos: document.getElementById('evt_servicos').value || 'Serviços de DJ'
+    }
+  };
+  
+  eventoAtual = eventoTemp;
+  showTab('contrato');
+  document.getElementById('contrato_evento').value = '';
+  document.getElementById('areaContrato').style.display = 'block';
+  document.getElementById('contrato_modelo').value = 'simplificado';
+  gerarPreviewContrato();
+}
+
+function verContratoId(id) {
+  eventoAtual = EVENTOS.find(e => e.id === id);
+  showTab('contrato');
+  document.getElementById('contrato_evento').value = id;
+  document.getElementById('areaContrato').style.display = 'block';
+  gerarPreviewContrato();
+}
+
+function imprimirContrato() {
+  window.print();
+  showToast('📄 Contrato preparado para impressão!');
+}
+
+function enviarContratoWhatsApp() {
+  if (!eventoAtual) return;
+  
+  const texto = `Olá ${eventoAtual.cliente.nome}! 👋\n\nSegue o contrato para o seu evento de *${eventoAtual.evento.tipo}* no dia *${formatarData(eventoAtual.evento.data)}*.\n\n💰 Valor: R$ ${eventoAtual.evento.valor}\n📍 Local: ${eventoAtual.evento.local}\n\nPor favor, assine e nos retorne o quanto antes.\n\nObrigado! 🎧 ${CONFIG.nome_artistico}`;
+  
+  window.open(`https://wa.me/${eventoAtual.cliente.telefone.replace(/\D/g, '')}?text=${encodeURIComponent(texto)}`, '_blank');
+}
+
+function compartilharContrato() {
+  if (!eventoAtual) return;
+  
+  const texto = `Contrato - ${eventoAtual.evento.tipo}\nCliente: ${eventoAtual.cliente.nome}\nData: ${formatarData(eventoAtual.evento.data)}\nValor: R$ ${eventoAtual.evento.valor}`;
+  
+  if (navigator.share) {
+    navigator.share({
+      title: 'Contrato de Serviço',
+      text: texto
+    });
+  } else {
+    navigator.clipboard.writeText(texto);
+    showToast('📋 Texto copiado!');
+  }
+}
+
+function criarReciboDoContrato() {
+  if (!eventoAtual) return;
+  
+  document.getElementById('rec_pagador').value = eventoAtual.cliente.nome;
+  document.getElementById('rec_doc').value = eventoAtual.cliente.cpf;
+  document.getElementById('rec_tel').value = eventoAtual.cliente.telefone;
+  document.getElementById('rec_valor').value = eventoAtual.evento.valor;
+  document.getElementById('rec_referente').value = `Serviços de DJ - ${eventoAtual.evento.tipo}`;
+  document.getElementById('rec_obs').value = `Evento: ${eventoAtual.evento.tipo} | Data: ${formatarData(eventoAtual.evento.data)} | Local: ${eventoAtual.evento.local}`;
+  
+  atualizarValorExtenso();
+  showTab('recibo');
+  showToast('🧾 Dados carregados no recibo!');
+}
+
+// ==========================================
+// ASSINATURAS
+// ==========================================
+function initAssinaturas() {
+  // Contrato
+  const canvas1 = document.getElementById('assinaturaCanvas');
+  if (canvas1) {
+    setTimeout(() => {
+      canvas1.width = canvas1.offsetWidth;
+      canvas1.height = 200;
+      assinaturaCtx = canvas1.getContext('2d');
+      assinaturaCtx.strokeStyle = '#000';
+      assinaturaCtx.lineWidth = 2;
+      assinaturaCtx.lineCap = 'round';
+      
+      let drawing = false;
+      
+      const getPos = (e) => {
+        const rect = canvas1.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return { x: clientX - rect.left, y: clientY - rect.top };
+      };
+      
+      canvas1.addEventListener('mousedown', (e) => {
+        drawing = true;
+        const pos = getPos(e);
+        assinaturaCtx.beginPath();
+        assinaturaCtx.moveTo(pos.x, pos.y);
+      });
+      
+      canvas1.addEventListener('mousemove', (e) => {
+        if (!drawing) return;
+        const pos = getPos(e);
+        assinaturaCtx.lineTo(pos.x, pos.y);
+        assinaturaCtx.stroke();
+      });
+      
+      canvas1.addEventListener('mouseup', () => drawing = false);
+      canvas1.addEventListener('mouseout', () => drawing = false);
+      
+      canvas1.addEventListener('touchstart', (e) => {
+        drawing = true;
+        const pos = getPos(e);
+        assinaturaCtx.beginPath();
+        assinaturaCtx.moveTo(pos.x, pos.y);
+        e.preventDefault();
+      });
+      
+      canvas1.addEventListener('touchmove', (e) => {
+        if (!drawing) return;
+        const pos = getPos(e);
+        assinaturaCtx.lineTo(pos.x, pos.y);
+        assinaturaCtx.stroke();
+        e.preventDefault();
+      });
+      
+      canvas1.addEventListener('touchend', () => drawing = false);
+    }, 500);
+  }
+  
+  // Recibo
+  const canvas2 = document.getElementById('reciboAssinaturaCanvas');
+  if (canvas2) {
+    setTimeout(() => {
+      canvas2.width = canvas2.offsetWidth;
+      canvas2.height = 200;
+      reciboAssinaturaCtx = canvas2.getContext('2d');
+      reciboAssinaturaCtx.strokeStyle = '#000';
+      reciboAssinaturaCtx.lineWidth = 2;
+      reciboAssinaturaCtx.lineCap = 'round';
+      
+      let drawing = false;
+      
+      const getPos = (e) => {
+        const rect = canvas2.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return { x: clientX - rect.left, y: clientY - rect.top };
+      };
+      
+      canvas2.addEventListener('mousedown', (e) => {
+        drawing = true;
+        const pos = getPos(e);
+        reciboAssinaturaCtx.beginPath();
+        reciboAssinaturaCtx.moveTo(pos.x, pos.y);
+      });
+      
+      canvas2.addEventListener('mousemove', (e) => {
+        if (!drawing) return;
+        const pos = getPos(e);
+        reciboAssinaturaCtx.lineTo(pos.x, pos.y);
+        reciboAssinaturaCtx.stroke();
+      });
+      
+      canvas2.addEventListener('mouseup', () => drawing = false);
+      canvas2.addEventListener('mouseout', () => drawing = false);
+      
+      canvas2.addEventListener('touchstart', (e) => {
+        drawing = true;
+        const pos = getPos(e);
+        reciboAssinaturaCtx.beginPath();
+        reciboAssinaturaCtx.moveTo(pos.x, pos.y);
+        e.preventDefault();
+      });
+      
+      canvas2.addEventListener('touchmove', (e) => {
+        if (!drawing) return;
+        const pos = getPos(e);
+        reciboAssinaturaCtx.lineTo(pos.x, pos.y);
+        reciboAssinaturaCtx.stroke();
+        e.preventDefault();
+      });
+      
+      canvas2.addEventListener('touchend', () => drawing = false);
+    }, 500);
+  }
+}
+
+function limparAssinatura() {
+  if (assinaturaCtx) {
+    const canvas = document.getElementById('assinaturaCanvas');
+    assinaturaCtx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
+function salvarAssinatura() {
+  const canvas = document.getElementById('assinaturaCanvas');
+  const dataUrl = canvas.toDataURL();
+  
+  if (eventoAtual && eventoAtual.id) {
+    const idx = EVENTOS.findIndex(e => e.id === eventoAtual.id);
+    if (idx !== -1) {
+      EVENTOS[idx].assinaturaDigital = dataUrl;
+      salvarDados();
+      showToast('✅ Assinatura salva!');
+    }
+  }
+}
+
+function limparAssinaturaRecibo() {
+  if (reciboAssinaturaCtx) {
+    const canvas = document.getElementById('reciboAssinaturaCanvas');
+    reciboAssinaturaCtx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
+// ==========================================
+// RECIBOS
+// ==========================================
+function atualizarNumeroRecibo() {
+  const ano = new Date().getFullYear();
+  const numero = String(RECIBOS.length + 1).padStart(3, '0');
+  document.getElementById('rec_numero').value = `${numero}/${ano}`;
+}
+
+function criarReciboDoEvento(eventoId) {
+  const evento = EVENTOS.find(e => e.id === eventoId);
+  if (!evento) return;
+  
+  showTab('recibo');
+  document.getElementById('rec_pagador').value = evento.cliente.nome;
+  document.getElementById('rec_doc').value = evento.cliente.cpf;
+  document.getElementById('rec_tel').value = evento.cliente.telefone;
+  document.getElementById('rec_valor').value = evento.evento.valor;
+  document.getElementById('rec_referente').value = `Serviços de DJ - ${evento.evento.tipo}`;
+  document.getElementById('rec_obs').value = `Evento: ${evento.evento.tipo} | Data: ${formatarData(evento.evento.data)} | Local: ${evento.evento.local}`;
+  
+  atualizarValorExtenso();
+  showToast('🧾 Dados carregados!');
+}
+
+function atualizarValorExtenso() {
+  const valor = document.getElementById('rec_valor').value;
+  const display = document.getElementById('valorExtensoDisplay');
+  
+  if (valor) {
+    const extenso = valorPorExtenso(valor);
+    display.textContent = extenso;
+    display.style.display = 'block';
+  } else {
+    display.style.display = 'none';
+  }
+}
+
+function gerarRecibo() {
+  const numero = document.getElementById('rec_numero').value;
+  const data = document.getElementById('rec_data').value;
+  const pagador = document.getElementById('rec_pagador').value;
+  const doc = document.getElementById('rec_doc').value;
+  const valor = document.getElementById('rec_valor').value;
+  const forma = document.getElementById('rec_forma').value;
+  const referente = document.getElementById('rec_referente').value;
+  const obs = document.getElementById('rec_obs').value;
+  
+  if (!numero || !data || !pagador || !valor || !forma || !referente) {
+    showToast('⚠️ Preencha todos os campos obrigatórios!', 'error');
+    return;
+  }
+  
+  const valorExtenso = valorPorExtenso(valor);
+  const dataFormatada = formatarData(data);
+  const dataExtenso = dataPorExtenso(data);
+  
+  const html = `
+    <div style="border: 3px double #333; padding: 40px; background: #fffef0; font-family: 'Times New Roman', serif; color: #000; position: relative;">
+      <div style="position: absolute; top: 20px; right: 30px; font-size: 72px; font-weight: bold; color: rgba(0,0,0,0.03); transform: rotate(-15deg); pointer-events: none;">RECIBO</div>
+      
+      <div style="text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 20px;">
+        <div style="font-size: 32px; font-weight: bold; margin-bottom: 5px;">🎧 ${CONFIG.nome_artistico}</div>
+        <div style="font-size: 14px; color: #666;">${CONFIG.nome_civil}</div>
+        <div style="font-size: 12px; color: #666; margin-top: 5px;">CPF: ${CONFIG.cpf}</div>
+        <div style="font-size: 12px; color: #666;">${CONFIG.endereco} - ${CONFIG.cidade}/${CONFIG.uf}</div>
+        <div style="font-size: 12px; color: #666;">Tel: ${CONFIG.telefone}</div>
+        ${CONFIG.pix ? `<div style="font-size: 12px; color: #666; margin-top: 5px;">Pix: ${CONFIG.pix}</div>` : ''}
+      </div>
+      
+      <div style="background: #333; color: white; display: inline-block; padding: 8px 20px; font-weight: bold; margin-bottom: 20px;">
+        RECIBO Nº ${numero}
+      </div>
+      
+      <div style="text-align: right; margin-bottom: 20px; font-size: 13px; color: #666;">
+        Data: ${dataFormatada}
+      </div>
+      
+      <p style="font-size: 15px; line-height: 1.8; text-align: justify; margin-bottom: 20px;">
+        Recebi de <strong style="font-size: 16px;">${pagador}</strong>, 
+        ${doc ? `CPF/CNPJ: <strong>${doc}</strong>,` : ''} 
+        a importância de 
+      </p>
+      
+      <div style="border: 3px solid #333; padding: 25px; text-align: center; margin: 25px 0; background: #f8f9fa;">
+        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px; color: #666;">Valor</div>
+        <div style="font-size: 32px; font-weight: bold; color: #28a745;">R$ ${valor}</div>
+        <div style="margin-top: 15px; font-size: 14px; font-style: italic; color: #555;">
+          (${valorExtenso})
+        </div>
+      </div>
+      
+      <p style="font-size: 15px; line-height: 1.8; text-align: justify;">
+        Referente a <strong>${referente}</strong>.
+      </p>
+      
+      <p style="font-size: 14px; margin-top: 15px;">
+        <strong>Forma de Pagamento:</strong> ${forma}
+      </p>
+      
+      ${obs ? `<p style="font-size: 13px; margin-top: 15px; color: #555; background: #f8f9fa; padding: 12px; border-radius: 5px;"><strong>Observações:</strong> ${obs}</p>` : ''}
+      
+      <div style="margin-top: 50px; text-align: center; font-size: 14px; color: #666;">
+        <p>${CONFIG.cidade}/${CONFIG.uf}, ${dataExtenso}</p>
+      </div>
+      
+      <div style="display: flex; justify-content: space-between; margin-top: 70px;">
+        <div style="width: 45%; text-align: center;">
+          <div style="border-top: 1px solid #333; padding-top: 10px;">
+            <strong>${CONFIG.nome_civil}</strong><br>
+            <span style="font-size: 12px; color: #666;">${CONFIG.nome_artistico} - CPF: ${CONFIG.cpf}</span>
+          </div>
+        </div>
+        <div style="width: 45%; text-align: center;">
+          <div id="assinaturaPreviewBox" style="height: 60px; margin-bottom: 10px;"></div>
+          <div style="border-top: 1px solid #333; padding-top: 10px;">
+            <strong>${pagador}</strong><br>
+            <span style="font-size: 12px; color: #666;">Pagador${doc ? ' - ' + doc : ''}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 50px; padding-top: 15px; border-top: 2px dashed #ccc; text-align: center; font-size: 11px; color: #999;">
+        <p>Documento gerado eletronicamente - ${CONFIG.app_nome || 'DJ Pro'}</p>
+        <p>Este recibo não possui valor fiscal.</p>
+      </div>
+    </div>
+  `;
+  
+  document.getElementById('previewRecibo').innerHTML = html;
+  document.getElementById('areaRecibo').style.display = 'block';
+  
+  // Copiar assinatura
+  const canvas = document.getElementById('reciboAssinaturaCanvas');
+  if (canvas) {
+    const dataUrl = canvas.toDataURL();
+    document.getElementById('assinaturaPreviewBox').innerHTML = `<img src="${dataUrl}" style="max-height: 60px; max-width: 180px;">`;
+  }
+  
+  window.scrollTo({ top: document.getElementById('areaRecibo').offsetTop - 100, behavior: 'smooth' });
+}
+
+function imprimirRecibo() {
+  window.print();
+  showToast('🖨️ Recibo preparado!');
+}
+
+function enviarReciboWhatsApp() {
+  const pagador = document.getElementById('rec_pagador').value;
+  const valor = document.getElementById('rec_valor').value;
+  const numero = document.getElementById('rec_numero').value;
+  const tel = document.getElementById('rec_tel').value;
+  
+  if (!tel) {
+    showToast('⚠️ Adicione o telefone!', 'error');
+    return;
+  }
+  
+  const texto = `Olá ${pagador}! 👋\n\nSegue o recibo *Nº ${numero}* no valor de *R$ ${valor}*.\n\nAgradeço a preferência! 🎧 ${CONFIG.nome_artistico}`;
+  
+  window.open(`https://wa.me/${tel.replace(/\D/g, '')}?text=${encodeURIComponent(texto)}`, '_blank');
+}
+
+function salvarRecibo() {
+  const recibo = {
+    id: Date.now(),
+    numero: document.getElementById('rec_numero').value,
+    data: document.getElementById('rec_data').value,
+    pagador: document.getElementById('rec_pagador').value,
+    documento: document.getElementById('rec_doc').value,
+    valor: document.getElementById('rec_valor').value,
+    forma: document.getElementById('rec_forma').value,
+    referente: document.getElementById('rec_referente').value,
+    observacoes: document.getElementById('rec_obs').value,
+    assinatura: document.getElementById('reciboAssinaturaCanvas').toDataURL()
+  };
+  
+  RECIBOS.push(recibo);
+  
+  // Adicionar ao financeiro
+  const valorNum = parseFloat(recibo.valor.replace(/\./g, '').replace(',', '.'));
+  FINANCEIRO.push({
+    id: Date.now(),
+    tipo: 'entrada',
+    descricao: `Recibo ${recibo.numero} - ${recibo.referente}`,
+    valor: valorNum,
+    data: recibo.data,
+    reciboId: recibo.id
+  });
+  
+  salvarDados();
+  atualizarListaRecibos();
+  atualizarFinanceiro();
+  atualizarDashboard();
+  showToast('✅ Recibo salvo!');
+  novoRecibo();
+}
+
+function novoRecibo() {
+  atualizarNumeroRecibo();
+  document.getElementById('rec_data').valueAsDate = new Date();
+  document.getElementById('rec_pagador').value = '';
+  document.getElementById('rec_doc').value = '';
+  document.getElementById('rec_tel').value = '';
+  document.getElementById('rec_valor').value = '';
+  document.getElementById('rec_forma').value = '';
+  document.getElementById('rec_referente').value = '';
+  document.getElementById('rec_obs').value = '';
+  document.getElementById('areaRecibo').style.display = 'none';
+  document.getElementById('valorExtensoDisplay').style.display = 'none';
+  limparAssinaturaRecibo();
+}
+
+function atualizarListaRecibos() {
+  const container = document.getElementById('listaRecibos');
+  
+  if (RECIBOS.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📭</div>
+        <p>Nenhum recibo emitido</p>
+      </div>
+    `;
+    return;
+  }
+  
+  const sorted = RECIBOS.sort((a, b) => new Date(b.data) - new Date(a.data));
+  
+  container.innerHTML = sorted.map(r => `
+    <div class="list-item" style="border-left-color: var(--info);">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div class="list-item-title">🧾 Recibo Nº ${r.numero}</div>
+          <div class="list-item-meta">👤 ${r.pagador} | 📅 ${formatarData(r.data)}</div>
+          <div class="list-item-meta">💰 R$ ${r.valor} | ${r.forma}</div>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-primary" onclick="verReciboSalvo(${r.id})">👁️</button>
+          <button class="btn btn-sm btn-danger" onclick="excluirRecibo(${r.id})">🗑️</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function verReciboSalvo(id) {
+  const r = RECIBOS.find(rec => rec.id === id);
+  if (!r) return;
+  
+  document.getElementById('rec_numero').value = r.numero;
+  document.getElementById('rec_data').value = r.data;
+  document.getElementById('rec_pagador').value = r.pagador;
+  document.getElementById('rec_doc').value = r.documento || '';
+  document.getElementById('rec_valor').value = r.valor;
+  document.getElementById('rec_forma').value = r.forma;
+  document.getElementById('rec_referente').value = r.referente;
+  document.getElementById('rec_obs').value = r.observacoes || '';
+  
+  atualizarValorExtenso();
+  gerarRecibo();
+  
+  if (r.assinatura) {
+    const img = new Image();
+    img.onload = function() {
+      reciboAssinaturaCtx.drawImage(img, 0, 0);
+    };
+    img.src = r.assinatura;
+  }
+}
+
+function excluirRecibo(id) {
+  if (!confirm('Excluir este recibo?')) return;
+  
+  RECIBOS = RECIBOS.filter(r => r.id !== id);
+  FINANCEIRO = FINANCEIRO.filter(f => f.reciboId !== id);
+  
+  salvarDados();
+  atualizarListaRecibos();
+  atualizarFinanceiro();
+  atualizarDashboard();
+  showToast('🗑️ Recibo excluído!');
+}
+
+// ==========================================
+// BACKUP E UTILITÁRIOS
+// ==========================================
+function exportarDados() {
+  const dados = {
+    config: CONFIG,
+    eventos: EVENTOS,
+    financeiro: FINANCEIRO,
+    recibos: RECIBOS,
+    exportado: new Date().toISOString(),
+    versao: '3.0'
+  };
+  
+  const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `djpro_backup_${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  
+  showToast('✅ Backup exportado!');
+}
+
+function importarDados(input) {
+  const file = input.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const dados = JSON.parse(e.target.result);
+      
+      if (!confirm(`Importar dados?\n\nEventos: ${dados.eventos?.length || 0}\nRecibos: ${dados.recibos?.length || 0}\n\nIsso substituirá os dados atuais.`)) {
+        return;
+      }
+      
+      if (dados.config) CONFIG = dados.config;
+      if (dados.eventos) EVENTOS = dados.eventos;
+      if (dados.financeiro) FINANCEIRO = dados.financeiro;
+      if (dados.recibos) RECIBOS = dados.recibos;
+      
+      salvarConfig();
+      salvarDados();
+      aplicarConfiguracoes();
+      
+      atualizarDashboard();
+      atualizarListas();
+      atualizarFinanceiro();
+      atualizarListaRecibos();
+      
+      showToast('✅ Dados importados!');
+      closeModal();
+    } catch (err) {
+      showToast('❌ Erro ao importar!', 'error');
+    }
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+
+function limparTodosDados() {
+  if (!confirm('⚠️ ATENÇÃO!\n\nIsso apagará TODOS os dados permanentemente!\n\nConfirma?')) return;
+  if (!confirm('Última chance!\n\nTodos os eventos, recibos e configurações serão perdidos.\n\nTem certeza absoluta?')) return;
+  
+  CONFIG = {
+    nome_artistico: 'DJ Brow',
+    nome_civil: 'Marcelo da Cruz',
+    cpf: '200.050.638-09',
+    rg: '27.325.130-2',
+    telefone: '(14) 99765-4321',
+    endereco: 'Avenida São João, 195',
+    cidade: 'Quintana',
+    uf: 'SP',
+    cep: '17670-007',
+    pix: '200.050.638-09',
+    banco: '',
+    app_nome: 'DJ Pro',
+    tema: 'light',
+    cor: 'blue',
+    pin: ''
+  };
+  
+  EVENTOS = [];
+  FINANCEIRO = [];
+  RECIBOS = [];
+  
+  salvarConfig();
+  salvarDados();
+  aplicarConfiguracoes();
+  preencherConfiguracoes();
+  
+  atualizarDashboard();
+  atualizarListas();
+  atualizarFinanceiro();
+  atualizarListaRecibos();
+  
+  showToast('🗑️ Todos os dados apagados!');
+  closeModal();
+}
+
+function salvarDados() {
+  localStorage.setItem('djpro_eventos', JSON.stringify(EVENTOS));
+  localStorage.setItem('djpro_financeiro', JSON.stringify(FINANCEIRO));
+  localStorage.setItem('djpro_recibos', JSON.stringify(RECIBOS));
+}
+
+function salvarBackupSilencioso() {
+  // Backup automático silencioso
+  salvarDados();
+}
+
+function verificarNotificacoes() {
+  const hoje = new Date();
+  const amanha = new Date(hoje);
+  amanha.setDate(amanha.getDate() + 1);
+  
+  const eventosAmanha = EVENTOS.filter(e => {
+    const dataEvento = new Date(e.evento.data);
+    return dataEvento.toDateString() === amanha.toDateString() && e.status !== 'cancelado';
+  });
+  
+  if (eventosAmanha.length > 0) {
+    setTimeout(() => {
+      showToast(`📅 ${eventosAmanha.length} evento(s) amanhã!`, 'warning');
+    }, 2000);
+  }
+}
+
+// ==========================================
+// FUNÇÕES AUXILIARES
 // ==========================================
 function formatarData(dataStr) {
   if (!dataStr) return '';
   const [ano, mes, dia] = dataStr.split('-');
   return `${dia}/${mes}/${ano}`;
+}
+
+function dataPorExtenso(dataStr) {
+  if (!dataStr) return '';
+  const [ano, mes, dia] = dataStr.split('-');
+  const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+  return `${parseInt(dia)} de ${meses[parseInt(mes) - 1]} de ${ano}`;
+}
+
+function valorPorExtenso(valorStr) {
+  const valor = parseFloat(valorStr.replace(/\./g, '').replace(',', '.'));
+  const reais = Math.floor(valor);
+  const centavos = Math.round((valor - reais) * 100);
+  
+  const unidades = ['', 'um', 'dois', 'três', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove'];
+  const especiais = ['dez', 'onze', 'doze', 'treze', 'quatorze', 'quinze', 'dezesseis', 'dezessete', 'dezoito', 'dezenove'];
+  const dezenas = ['', '', 'vinte', 'trinta', 'quarenta', 'cinquenta', 'sessenta', 'setenta', 'oitenta', 'noventa'];
+  const centenas = ['', 'cento', 'duzentos', 'trezentos', 'quatrocentos', 'quinhentos', 'seiscentos', 'setecentos', 'oitocentos', 'novecentos'];
+  
+  function numeroPorExtenso(n) {
+    if (n === 0) return 'zero';
+    if (n === 100) return 'cem';
+    if (n < 10) return unidades[n];
+    if (n < 20) return especiais[n - 10];
+    if (n < 100) {
+      const d = Math.floor(n / 10);
+      const u = n % 10;
+      return dezenas[d] + (u > 0 ? ' e ' + unidades[u] : '');
+    }
+    if (n < 1000) {
+      const c = Math.floor(n / 100);
+      const resto = n % 100;
+      return centenas[c] + (resto > 0 ? ' e ' + numeroPorExtenso(resto) : '');
+    }
+    if (n < 1000000) {
+      const mil = Math.floor(n / 1000);
+      const resto = n % 1000;
+      const milStr = mil === 1 ? 'mil' : numeroPorExtenso(mil) + ' mil';
+      return milStr + (resto > 0 ? (resto < 100 ? ' e ' : ', ') + numeroPorExtenso(resto) : '');
+    }
+    return String(n);
+  }
+  
+  let resultado = numeroPorExtenso(reais) + (reais === 1 ? ' real' : ' reais');
+  if (centavos > 0) {
+    resultado += ' e ' + numeroPorExtenso(centavos) + (centavos === 1 ? ' centavo' : ' centavos');
+  }
+  
+  return resultado.charAt(0).toUpperCase() + resultado.slice(1);
 }
 
 function showToast(msg, tipo = 'success') {
@@ -1530,46 +2860,51 @@ function showToast(msg, tipo = 'success') {
   setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
-function mostrarAjuda() {
+function showModal(tipo) {
   const modal = document.getElementById('modal');
-  document.getElementById('modalTitle').textContent = '❓ Como o Cliente Assina?';
-  document.getElementById('modalBody').innerHTML = `
-    <div class="passos-assinatura">
-      <div class="passo">
-        <div class="passo-numero">1</div>
-        <div class="passo-conteudo">
-          <h4>📱 Presencial (Recomendado)</h4>
-          <p>Entregue seu celular/tablet para o cliente assinar com o dedo na tela. Mais rápido e prático!</p>
-        </div>
+  const title = document.getElementById('modalTitle');
+  const body = document.getElementById('modalBody');
+  const footer = document.getElementById('modalFooter');
+  
+  if (tipo === 'config') {
+    title.textContent = '⚙️ Configurações';
+    body.innerHTML = `
+      <div style="text-align: center; padding: 20px;">
+        <p>Acesse a aba <strong>Perfil</strong> para configurar todos os dados.</p>
+        <button class="btn btn-primary" onclick="closeModal(); showTab('perfil');">Ir para Perfil</button>
       </div>
-      <div class="passo">
-        <div class="passo-numero">2</div>
-        <div class="passo-conteudo">
-          <h4>🔗 Link Online</h4>
-          <p>Envie um link pelo WhatsApp. O cliente abre no celular dele e assina digitalmente.</p>
-        </div>
-      </div>
-      <div class="passo">
-        <div class="passo-numero">3</div>
-        <div class="passo-conteudo">
-          <h4>📸 Foto da Assinatura</h4>
-          <p>Cliente assina no papel, você tira foto da assinatura e anexa no sistema.</p>
-        </div>
-      </div>
-      <div class="passo">
-        <div class="passo-numero">4</div>
-        <div class="passo-conteudo">
-          <h4>💬 WhatsApp + PDF</h4>
-          <p>Envie o PDF, cliente imprime, assina, escaneia e envia a foto de volta.</p>
-        </div>
-      </div>
-    </div>
-  `;
+    `;
+    footer.innerHTML = '<button class="btn btn-secondary" onclick="closeModal()">Fechar</button>';
+  }
+  
   modal.classList.add('active');
 }
 
 function closeModal() {
   document.getElementById('modal').classList.remove('active');
+}
+
+function menuRapido() {
+  const opt = prompt(
+    '⚡ MENU RÁPIDO\n\n' +
+    '1. 📊 Dashboard\n' +
+    '2. ➕ Novo Evento\n' +
+    '3. 📋 Lista de Eventos\n' +
+    '4. 💰 Financeiro\n' +
+    '5. 📄 Contratos\n' +
+    '6. 🧾 Recibos\n' +
+    '7. ⚙️ Meu Perfil\n' +
+    '8. 💾 Backup'
+  );
+  
+  const opcoes = {
+    '1': 'dashboard', '2': 'cadastro', '3': 'lista',
+    '4': 'financeiro', '5': 'contrato', '6': 'recibo',
+    '7': 'perfil'
+  };
+  
+  if (opcoes[opt]) showTab(opcoes[opt]);
+  if (opt === '8') showModal('config');
 }
 </script>
 
