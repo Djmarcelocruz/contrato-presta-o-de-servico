@@ -2,3614 +2,625 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<meta name="theme-color" content="#0b76d1"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="apple-mobile-web-app-title" content="DJ Pro"/>
-<meta name="description" content="Sistema profissional de gestão para DJs"/>
-<title>DJ Pro - Sistema de Gestão</title>
-
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%230b76d1' width='100' height='100' rx='20'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle'%3E🎧%3C/text%3E%3C/svg%3E"/>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%230b76d1' width='100' height='100' rx='20'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle'%3E🎧%3C/text%3E%3C/svg%3E"/>
-
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>DJ Pro - Gestão</title>
 <style>
-  :root {
-    --primary: #0b76d1;
-    --primary-dark: #0056b3;
-    --secondary: #6c757d;
-    --success: #28a745;
-    --danger: #dc3545;
-    --warning: #ffc107;
-    --info: #17a2b8;
-    --bg: #f8f9fa;
-    --card: #ffffff;
-    --text: #212529;
-    --text-muted: #6c757d;
-    --border: #dee2e6;
-    --shadow: 0 4px 20px rgba(0,0,0,0.08);
-    --radius: 16px;
-    --header-height: 70px;
-    --bottom-nav-height: 70px;
-  }
-
-  [data-theme="dark"] {
-    --bg: #0f1419;
-    --card: #1a1d29;
-    --text: #e4e6eb;
-    --text-muted: #b0b3b8;
-    --border: #3e4042;
-    --shadow: 0 4px 20px rgba(0,0,0,0.4);
-  }
-
-  [data-color="purple"] { --primary: #6f42c1; --primary-dark: #5a32a3; }
-  [data-color="green"] { --primary: #28a745; --primary-dark: #1e7e34; }
-  [data-color="red"] { --primary: #dc3545; --primary-dark: #bd2130; }
-  [data-color="orange"] { --primary: #fd7e14; --primary-dark: #e56b0a; }
-  [data-color="pink"] { --primary: #e83e8c; --primary-dark: #d91a72; }
-  [data-color="black"] { --primary: #343a40; --primary-dark: #1d2124; }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  
-  html { scroll-behavior: smooth; }
-  
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-    padding-bottom: calc(var(--bottom-nav-height) + 20px);
-    min-height: 100vh;
-  }
-
-  .app-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: var(--header-height);
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    z-index: 1000;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  }
-  
-  .app-header h1 {
-    font-size: 22px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .header-actions {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .header-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    border: none;
-    background: rgba(255,255,255,0.2);
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    backdrop-filter: blur(10px);
-  }
-  
-  .header-btn:hover { background: rgba(255,255,255,0.3); transform: scale(1.05); }
-
-  .main-content {
-    margin-top: var(--header-height);
-    padding: 20px;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .card {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 24px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border);
-    animation: slideUp 0.4s ease;
-  }
-  
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .card-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 14px 18px;
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    background: var(--card);
-    color: var(--text);
-    font-size: 16px;
-    transition: all 0.2s;
-  }
-  
-  .form-control:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(11, 118, 209, 0.1);
-    outline: none;
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 14px 24px;
-    border-radius: 12px;
-    border: none;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: var(--primary);
-    color: white;
-    text-decoration: none;
-  }
-  
-  .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(11, 118, 209, 0.3);
-  }
-  
-  .btn-success { background: var(--success); }
-  .btn-danger { background: var(--danger); }
-  .btn-warning { background: var(--warning); color: #000; }
-  .btn-secondary { background: var(--secondary); }
-  .btn-outline {
-    background: transparent;
-    border: 2px solid var(--primary);
-    color: var(--primary);
-  }
-  .btn-outline:hover { background: var(--primary); color: white; }
-  .btn-lg { padding: 18px 32px; font-size: 17px; width: 100%; }
-  .btn-sm { padding: 10px 16px; font-size: 13px; }
-
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: var(--bottom-nav-height);
-    background: var(--card);
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 999;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-  
-  .nav-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    padding: 10px;
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 500;
-    transition: all 0.2s;
-    cursor: pointer;
-    background: none;
-    border: none;
-  }
-  
-  .nav-item .icon { font-size: 24px; transition: transform 0.2s; }
-  .nav-item.active { color: var(--primary); }
-  .nav-item.active .icon { transform: translateY(-4px); }
-
-  .section { display: none; animation: fadeIn 0.3s ease; }
-  .section.active { display: block; }
-  
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin-bottom: 20px;
-  }
-  
-  .stat-card {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: white;
-    padding: 20px;
-    border-radius: var(--radius);
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  
-  .stat-card:hover { transform: translateY(-5px); }
-  .stat-value { font-size: 28px; font-weight: 800; margin-bottom: 5px; }
-  .stat-label { font-size: 12px; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; }
-
-  .list-item {
-    background: var(--bg);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 12px;
-    border-left: 4px solid var(--primary);
-    transition: all 0.2s;
-  }
-  
-  .list-item:hover { transform: translateX(5px); box-shadow: var(--shadow); }
-  
-  .list-item-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    margin-bottom: 10px;
-  }
-  
-  .list-item-title { font-size: 17px; font-weight: 700; color: var(--text); }
-  .list-item-meta { font-size: 14px; color: var(--text-muted); margin-top: 5px; }
-  .list-item-actions { display: flex; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
-
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-  
-  .badge-success { background: #d4edda; color: #155724; }
-  .badge-warning { background: #fff3cd; color: #856404; }
-  .badge-danger { background: #f8d7da; color: #721c24; }
-  .badge-info { background: #d1ecf1; color: #0c5460; }
-
-  /* ÁREA DO CONTRATO - Apenas esta parte aparece na impressão */
-  #contractPrintArea {
-    background: white;
-    color: black;
-    padding: 40px;
-    font-family: 'Times New Roman', Times, serif;
-    line-height: 1.8;
-    font-size: 14px;
-    max-width: 800px;
-    margin: 0 auto;
-    display: none;
-  }
-
-  #contractPrintArea h2 {
-    color: black;
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 22px;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-
-  #contractPrintArea p {
-    margin-bottom: 15px;
-    text-align: justify;
-    color: black;
-  }
-
-  #contractPrintArea strong {
-    color: black;
-  }
-
-  #contractPrintArea .signature-area {
-    margin-top: 80px;
-    display: flex;
-    justify-content: space-between;
-    gap: 80px;
-    page-break-inside: avoid;
-  }
-
-  #contractPrintArea .signature-box {
-    text-align: center;
-    flex: 1;
-    min-width: 200px;
-  }
-
-  #contractPrintArea .signature-line {
-    border-top: 1px solid #333;
-    height: 60px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    padding-bottom: 5px;
-    position: relative;
-  }
-
-  #contractPrintArea .signature-img {
-    max-height: 55px;
-    max-width: 90%;
-    position: absolute;
-    bottom: 5px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  #contractPrintArea .signature-label {
-    font-size: 12px;
-    font-weight: bold;
-    margin-top: 5px;
-  }
-
-  #contractPrintArea .signature-name {
-    font-size: 11px;
-    color: #333;
-    margin-top: 3px;
-  }
-
-  /* Controles do contrato - NÃO aparecem na impressão */
-  .contract-controls {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
-  }
-
-  .signature-pad-container {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: var(--shadow);
-  }
-
-  .signature-pad {
-    background: white;
-    border: 2px solid #333;
-    border-radius: 8px;
-    width: 100%;
-    height: 200px;
-    touch-action: none;
-    cursor: crosshair;
-    display: block;
-  }
-
-  /* CSS CRÍTICO PARA IMPRESSÃO - Esconde TUDO exceto o contrato */
-  @media print {
-    * {
-      visibility: hidden !important;
-    }
-    
-    html, body {
-      background: white !important;
-      padding: 0 !important;
-      margin: 0 !important;
-    }
-    
-    #contractPrintArea,
-    #contractPrintArea * {
-      visibility: visible !important;
-      color: black !important;
-      background: white !important;
-      box-shadow: none !important;
-      border: none !important;
-    }
-    
-    #contractPrintArea {
-      position: absolute !important;
-      left: 0 !important;
-      top: 0 !important;
-      width: 100% !important;
-      max-width: 100% !important;
-      padding: 30px !important;
-      margin: 0 !important;
-      display: block !important;
-    }
-    
-    #contractPrintArea h2 {
-      font-size: 18px !important;
-      margin-bottom: 20px !important;
-    }
-    
-    #contractPrintArea p {
-      font-size: 12px !important;
-      line-height: 1.6 !important;
-      margin-bottom: 10px !important;
-    }
-    
-    #contractPrintArea .signature-area {
-      margin-top: 60px !important;
-      gap: 60px !important;
-    }
-    
-    #contractPrintArea .signature-line {
-      height: 50px !important;
-    }
-    
-    .app-header, 
-    .bottom-nav, 
-    .contract-controls,
-    .signature-pad-container,
-    .btn,
-    .card:not(#contractPrintArea),
-    .section:not(#contrato),
-    #contrato > *:not(#contractPrintArea) {
-      display: none !important;
-      visibility: hidden !important;
-    }
-  }
-
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.6);
-    z-index: 2000;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    backdrop-filter: blur(5px);
-  }
-  
-  .modal-overlay.active { display: flex; }
-  
-  .modal-content {
-    background: var(--card);
-    border-radius: var(--radius);
-    width: 100%;
-    max-width: 600px;
-    max-height: 90vh;
-    overflow-y: auto;
-    animation: modalSlide 0.3s ease;
-  }
-  
-  @keyframes modalSlide {
-    from { transform: translateY(50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-  
-  .modal-header {
-    padding: 24px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .modal-header h3 { font-size: 20px; font-weight: 700; color: var(--primary); }
-  
-  .modal-close {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: none;
-    background: var(--bg);
-    color: var(--text);
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .modal-body { padding: 24px; }
-  .modal-footer {
-    padding: 20px 24px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-  }
-
-  .login-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    z-index: 3000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-  }
-  
-  .login-logo { font-size: 80px; margin-bottom: 20px; }
-  .login-title { color: white; font-size: 28px; font-weight: 700; margin-bottom: 10px; }
-  .login-subtitle { color: rgba(255,255,255,0.8); margin-bottom: 40px; text-align: center; }
-  
-  .pin-display { display: flex; gap: 15px; margin-bottom: 30px; }
-  
-  .pin-dot {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
-    transition: all 0.2s;
-  }
-  
-  .pin-dot.filled { background: white; transform: scale(1.2); }
-  
-  .pin-pad {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .pin-btn {
-    aspect-ratio: 1;
-    border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.3);
-    background: transparent;
-    color: white;
-    font-size: 24px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .pin-btn:hover { background: rgba(255,255,255,0.1); border-color: white; }
-
-  .profile-header {
-    text-align: center;
-    padding: 30px;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: white;
-    border-radius: var(--radius);
-    margin-bottom: 20px;
-  }
-  
-  .profile-avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 50px;
-    margin: 0 auto 15px;
-    border: 4px solid rgba(255,255,255,0.3);
-  }
-  
-  .profile-name { font-size: 24px; font-weight: 700; margin-bottom: 5px; }
-  .profile-role { opacity: 0.9; font-size: 14px; }
-
-  .color-picker { display: flex; gap: 10px; flex-wrap: wrap; }
-  
-  .color-option {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    cursor: pointer;
-    border: 3px solid transparent;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 20px;
-  }
-  
-  .color-option:hover { transform: scale(1.1); }
-  .color-option.selected { border-color: var(--text); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-
-  .toast {
-    position: fixed;
-    bottom: 100px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: var(--success);
-    color: white;
-    padding: 16px 32px;
-    border-radius: 50px;
-    font-weight: 600;
-    z-index: 4000;
-    opacity: 0;
-    transition: all 0.3s;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  }
-  
-  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-  .toast.error { background: var(--danger); }
-  .toast.warning { background: var(--warning); color: #000; }
-
-  .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
-  .empty-state-icon { font-size: 64px; margin-bottom: 20px; opacity: 0.5; }
-
-  .section-group {
-    background: var(--bg);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-    border: 1px solid var(--border);
-  }
-
-  .section-group-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .progress-bar {
-    width: 100%;
-    height: 20px;
-    background: var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 10px;
-  }
-
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--success), var(--primary));
-    transition: width 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 12px;
-    font-weight: 600;
-  }
-
-  .payment-history {
-    background: var(--bg);
-    border-radius: 8px;
-    padding: 15px;
-    margin-top: 15px;
-  }
-
-  .payment-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .payment-item:last-child { border-bottom: none; }
-
-  .financial-summary {
-    background: linear-gradient(135deg, var(--success) 0%, var(--primary) 100%);
-    color: white;
-    padding: 20px;
-    border-radius: var(--radius);
-    margin-bottom: 20px;
-  }
-
-  .financial-summary h3 {
-    font-size: 16px;
-    margin-bottom: 15px;
-    opacity: 0.9;
-  }
-
-  .financial-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-  }
-
-  .financial-item {
-    background: rgba(255,255,255,0.2);
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-  }
-
-  .financial-value {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 5px;
-  }
-
-  .financial-label {
-    font-size: 12px;
-    opacity: 0.9;
-    text-transform: uppercase;
-  }
-
-  /* NOVOS ESTILOS PARA RELATÓRIOS E BUSCA */
-  .search-container {
-    position: relative;
-    margin-bottom: 20px;
-  }
-
-  .search-input {
-    width: 100%;
-    padding: 16px 20px 16px 50px;
-    border: 2px solid var(--border);
-    border-radius: 50px;
-    font-size: 16px;
-    background: var(--card);
-    color: var(--text);
-    transition: all 0.3s;
-  }
-
-  .search-input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(11, 118, 209, 0.1);
-    outline: none;
-  }
-
-  .search-icon {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 20px;
-    color: var(--text-muted);
-  }
-
-  .search-results {
-    background: var(--card);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    max-height: 400px;
-    overflow-y: auto;
-    margin-top: 10px;
-  }
-
-  .search-result-item {
-    padding: 15px 20px;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .search-result-item:hover {
-    background: var(--bg);
-    padding-left: 25px;
-  }
-
-  .search-result-item:last-child {
-    border-bottom: none;
-  }
-
-  .report-filters {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin-bottom: 20px;
-  }
-
-  .report-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-bottom: 20px;
-  }
-
-  .report-card {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 20px;
-    border-left: 4px solid var(--primary);
-    box-shadow: var(--shadow);
-  }
-
-  .report-card-title {
-    font-size: 14px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-
-  .report-card-value {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 5px;
-  }
-
-  .report-card-subtitle {
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-
-  .chart-container {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
-    height: 300px;
-    position: relative;
-  }
-
-  .tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    overflow-x: auto;
-    padding-bottom: 5px;
-  }
-
-  .tab {
-    padding: 10px 20px;
-    border-radius: 25px;
-    border: 2px solid var(--border);
-    background: var(--card);
-    color: var(--text);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-    font-weight: 600;
-  }
-
-  .tab.active {
-    background: var(--primary);
-    color: white;
-    border-color: var(--primary);
-  }
-
-  .event-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-  }
-
-  .event-status.agendado {
-    background: #d1ecf1;
-    color: #0c5460;
-  }
-
-  .event-status.hoje {
-    background: #f8d7da;
-    color: #721c24;
-    animation: pulse 2s infinite;
-  }
-
-  .event-status.proximo {
-    background: #fff3cd;
-    color: #856404;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-  }
-
-  .quick-actions {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin-bottom: 20px;
-  }
-
-  .quick-action-btn {
-    background: var(--card);
-    border: 2px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .quick-action-btn:hover {
-    border-color: var(--primary);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow);
-  }
-
-  .quick-action-icon {
-    font-size: 32px;
-    margin-bottom: 10px;
-  }
-
-  .quick-action-text {
-    font-weight: 600;
-    color: var(--text);
-  }
-
-  .timeline {
-    position: relative;
-    padding-left: 30px;
-  }
-
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 10px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--border);
-  }
-
-  .timeline-item {
-    position: relative;
-    margin-bottom: 20px;
-    padding: 15px;
-    background: var(--bg);
-    border-radius: 12px;
-  }
-
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -24px;
-    top: 20px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--primary);
-    border: 2px solid var(--card);
-  }
-
-  @media (min-width: 1024px) {
-    .main-content { max-width: 1200px; }
-    .bottom-nav { display: none; }
-    body { padding-bottom: 20px; }
-    .stats-grid { grid-template-columns: repeat(4, 1fr); }
-  }
-
-  @media (max-width: 480px) {
-    :root { --radius: 12px; }
-    .card { padding: 20px; }
-    .stat-value { font-size: 24px; }
-    .btn { padding: 12px 20px; }
-    .form-row { grid-template-columns: 1fr; }
-    #contractPrintArea { padding: 20px; }
-    .quick-actions { grid-template-columns: 1fr; }
-  }
-
-  @supports (padding-top: env(safe-area-inset-top)) {
-    .app-header {
-      padding-top: env(safe-area-inset-top);
-      height: calc(var(--header-height) + env(safe-area-inset-top));
-    }
-    .main-content { margin-top: calc(var(--header-height) + env(safe-area-inset-top)); }
-  }
+:root{--p:#0b76d1;--pd:#0056b3;--s:#28a745;--d:#dc3545;--w:#ffc107;--b:#f8f9fa;--c:#fff;--t:#212529;--tm:#6c757d;--bd:#dee2e6;--sh:0 2px 10px rgba(0,0,0,0.1);--r:12px;--hh:60px;--bh:60px}
+[data-theme="dark"]{--b:#0f1419;--c:#1a1d29;--t:#e4e6eb;--tm:#b0b3b8;--bd:#3e4042}
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+body{background:var(--b);color:var(--t);line-height:1.5;padding-bottom:var(--bh);min-height:100vh}
+header{position:fixed;top:0;left:0;right:0;height:var(--hh);background:linear-gradient(135deg,var(--p) 0%,var(--pd) 100%);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 15px;z-index:1000}
+header h1{font-size:20px;display:flex;align-items:center;gap:8px}
+header button{width:40px;height:40px;border-radius:8px;border:none;background:rgba(255,255,255,0.2);color:#fff;font-size:18px;cursor:pointer}
+main{margin-top:var(--hh);padding:15px;max-width:1000px;margin-left:auto;margin-right:auto}
+.card{background:var(--c);border-radius:var(--r);padding:20px;margin-bottom:15px;box-shadow:var(--sh)}
+.card-title{font-size:18px;font-weight:700;color:var(--p);margin-bottom:15px;display:flex;align-items:center;gap:8px}
+.form-group{margin-bottom:15px}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--tm);margin-bottom:5px;text-transform:uppercase}
+.form-control{width:100%;padding:12px 15px;border:2px solid var(--bd);border-radius:8px;background:var(--c);color:var(--t);font-size:15px}
+.form-control:focus{border-color:var(--p);outline:none}
+.form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 20px;border-radius:8px;border:none;font-size:14px;font-weight:600;cursor:pointer;background:var(--p);color:#fff;width:100%}
+.btn-s{background:var(--s)}.btn-d{background:var(--d)}.btn-w{background:var(--w);color:#000}
+nav{position:fixed;bottom:0;left:0;right:0;height:var(--bh);background:var(--c);border-top:1px solid var(--bd);display:flex;justify-content:space-around;align-items:center;z-index:999}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px;color:var(--tm);background:none;border:none;font-size:11px;cursor:pointer}
+nav button span:first-child{font-size:20px}
+nav button.active{color:var(--p)}
+section{display:none}section.active{display:block}
+.list-item{background:var(--b);border-radius:8px;padding:15px;margin-bottom:10px;border-left:3px solid var(--p)}
+.list-item:hover{transform:translateX(3px);transition:0.2s}
+.list-item-title{font-size:16px;font-weight:700}
+.list-item-meta{font-size:13px;color:var(--tm);margin-top:3px}
+.badge{display:inline-flex;padding:4px 10px;border-radius:15px;font-size:11px;font-weight:600;background:var(--b);color:var(--t)}
+.badge-s{background:#d4edda;color:#155724}.badge-w{background:#fff3cd;color:#856404}.badge-d{background:#f8d7da;color:#721c24}
+.empty-state{text-align:center;padding:40px 20px;color:var(--tm)}
+.empty-state div{font-size:50px;margin-bottom:15px;opacity:0.5}
+.tabs{display:flex;gap:8px;margin-bottom:15px;overflow-x:auto}
+.tab{padding:8px 16px;border-radius:20px;border:2px solid var(--bd);background:var(--c);cursor:pointer;font-size:13px;white-space:nowrap}
+.tab.active{background:var(--p);color:#fff;border-color:var(--p)}
+.search{position:relative;margin-bottom:15px}
+.search input{width:100%;padding:12px 15px 12px 40px;border:2px solid var(--bd);border-radius:25px;font-size:15px;background:var(--c)}
+.search::before{content:"🔍";position:absolute;left:15px;top:50%;transform:translateY(-50%)}
+.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:15px}
+.quick-btn{background:var(--c);border:2px solid var(--bd);border-radius:var(--r);padding:15px;text-align:center;cursor:pointer}
+.quick-btn div:first-child{font-size:28px;margin-bottom:5px}
+.fin{background:linear-gradient(135deg,var(--s) 0%,var(--p) 100%);color:#fff;padding:15px;border-radius:var(--r);margin-bottom:15px}
+.fin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.fin-item{background:rgba(255,255,255,0.2);padding:12px;border-radius:8px;text-align:center}
+.fin-val{font-size:22px;font-weight:700}
+.fin-lab{font-size:11px;opacity:0.9;text-transform:uppercase}
+#contractPrintArea{display:none;background:#fff;color:#000;padding:30px;font-family:'Times New Roman',serif;font-size:13px;line-height:1.6;max-width:700px;margin:0 auto}
+#contractPrintArea h2{text-align:center;font-size:18px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:20px}
+#contractPrintArea p{margin-bottom:10px;text-align:justify}
+.sign-area{margin-top:50px;display:flex;justify-content:space-between;gap:40px}
+.sign-box{text-align:center;flex:1}
+.sign-line{border-top:1px solid #000;height:60px;margin-bottom:5px;position:relative}
+.sign-line img{max-height:55px;position:absolute;bottom:0;left:50%;transform:translateX(-50%)}
+.sign-label{font-size:11px;font-weight:bold}.sign-name{font-size:10px;color:#333;margin-top:2px}
+@media print{*{visibility:hidden!important}#contractPrintArea,#contractPrintArea *,#contractPrintArea .sign-area,#contractPrintArea .sign-box,#contractPrintArea .sign-line,#contractPrintArea .sign-line img{visibility:visible!important;display:block!important;color:#000!important;background:#fff!important}#contractPrintArea{position:absolute;left:0;top:0;width:100%;padding:20px;display:block!important}nav,header,.card:not(#contractPrintArea),section:not(#contrato),#contrato>*:not(#contractPrintArea){display:none!important}}
+.sig-pad{background:#fff;border:2px solid #333;border-radius:8px;width:100%;height:150px;touch-action:none;cursor:crosshair}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--s);color:#fff;padding:12px 24px;border-radius:25px;font-weight:600;z-index:4000;opacity:0;transition:0.3s}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast.e{background:var(--d)}
 </style>
 </head>
 <body>
 
-<!-- TELA DE LOGIN/PIN -->
-<div id="loginScreen" class="login-screen" style="display: none;">
-  <div class="login-logo">🎧</div>
-  <div class="login-title" id="loginTitle">DJ Pro</div>
-  <div class="login-subtitle" id="loginSubtitle">Digite seu PIN para acessar</div>
-  
-  <div class="pin-display" id="pinDisplay">
-    <div class="pin-dot"></div>
-    <div class="pin-dot"></div>
-    <div class="pin-dot"></div>
-    <div class="pin-dot"></div>
-  </div>
-  
-  <div class="pin-pad">
-    <button class="pin-btn" onclick="enterPin(1)">1</button>
-    <button class="pin-btn" onclick="enterPin(2)">2</button>
-    <button class="pin-btn" onclick="enterPin(3)">3</button>
-    <button class="pin-btn" onclick="enterPin(4)">4</button>
-    <button class="pin-btn" onclick="enterPin(5)">5</button>
-    <button class="pin-btn" onclick="enterPin(6)">6</button>
-    <button class="pin-btn" onclick="enterPin(7)">7</button>
-    <button class="pin-btn" onclick="enterPin(8)">8</button>
-    <button class="pin-btn" onclick="enterPin(9)">9</button>
-    <button class="pin-btn" onclick="clearPin()">⌫</button>
-    <button class="pin-btn" onclick="enterPin(0)">0</button>
-    <button class="pin-btn" onclick="skipLogin()">✓</button>
-  </div>
+<header>
+<h1>🎧 DJ Pro</h1>
+<div>
+<button onclick="showTab('contratos')" title="Contratos">📄</button>
+<button onclick="toggleTheme()" title="Tema">🌓</button>
 </div>
-
-<!-- HEADER -->
-<header class="app-header">
-  <h1>🎧 <span id="appTitle">DJ Pro</span></h1>
-  <div class="header-actions">
-    <button class="header-btn" onclick="showModal('config')" title="Configurações">⚙️</button>
-    <button class="header-btn" onclick="toggleTheme()" title="Tema">🌓</button>
-  </div>
 </header>
 
-<!-- CONTEÚDO PRINCIPAL -->
-<main class="main-content">
+<main>
 
-<!-- DASHBOARD - REDESENHADO -->
-<section id="dashboard" class="section active">
-  <!-- Busca Inteligente Global -->
-  <div class="search-container">
-    <span class="search-icon">🔍</span>
-    <input type="text" class="search-input" id="globalSearch" placeholder="Buscar cliente por nome, CPF, telefone..." oninput="buscarGlobal()">
-    <div class="search-results" id="searchResults" style="display: none;"></div>
-  </div>
-
-  <!-- Ações Rápidas -->
-  <div class="quick-actions">
-    <div class="quick-action-btn" onclick="showTab('clientes')">
-      <div class="quick-action-icon">👤</div>
-      <div class="quick-action-text">Novo Cliente</div>
-    </div>
-    <div class="quick-action-btn" onclick="showTab('eventos')">
-      <div class="quick-action-icon">🎉</div>
-      <div class="quick-action-text">Novo Evento</div>
-    </div>
-    <div class="quick-action-btn" onclick="showTab('caixa')">
-      <div class="quick-action-icon">💵</div>
-      <div class="quick-action-text">Lançamento</div>
-    </div>
-    <div class="quick-action-btn" onclick="showTab('relatorios')">
-      <div class="quick-action-icon">📊</div>
-      <div class="quick-action-text">Relatórios</div>
-    </div>
-  </div>
-
-  <!-- Resumo Financeiro do Mês -->
-  <div class="financial-summary">
-    <h3>📈 Resumo do Mês Atual</h3>
-    <div class="financial-grid">
-      <div class="financial-item">
-        <div class="financial-value" id="mesEntradas">R$ 0</div>
-        <div class="financial-label">Entradas</div>
-      </div>
-      <div class="financial-item">
-        <div class="financial-value" id="mesSaidas">R$ 0</div>
-        <div class="financial-label">Saídas</div>
-      </div>
-      <div class="financial-item">
-        <div class="financial-value" id="mesLucro">R$ 0</div>
-        <div class="financial-label">Lucro Líquido</div>
-      </div>
-      <div class="financial-item">
-        <div class="financial-value" id="mesEventos">0</div>
-        <div class="financial-label">Eventos</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Eventos Agendados (Próximos 30 dias) -->
-  <div class="card">
-    <div class="card-title">📅 Próximos Eventos (30 dias)
-      <span style="margin-left: auto; font-size: 14px; color: var(--text-muted);" id="contadorEventos"></span>
-    </div>
-    <div id="eventosAgendados">
-      <div class="empty-state">
-        <div class="empty-state-icon">📅</div>
-        <p>Nenhum evento agendado para os próximos 30 dias</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Timeline de Atividades -->
-  <div class="card">
-    <div class="card-title">🕐 Atividades Recentes</div>
-    <div class="timeline" id="timelineAtividades">
-      <!-- Preenchido via JS -->
-    </div>
-  </div>
+<section id="dashboard" class="active">
+<div class="search"><input type="text" id="globalSearch" placeholder="Buscar..." oninput="buscar(this.value)"></div>
+<div class="quick">
+<div class="quick-btn" onclick="showTab('clientes')"><div>👤</div><div>Cliente</div></div>
+<div class="quick-btn" onclick="showTab('eventos')"><div>🎉</div><div>Evento</div></div>
+<div class="quick-btn" onclick="showTab('caixa')"><div>💵</div><div>Caixa</div></div>
+<div class="quick-btn" onclick="showTab('relatorios')"><div>📊</div><div>Relatório</div></div>
+</div>
+<div class="fin">
+<div class="card-title" style="color:#fff;margin-bottom:10px">📈 Resumo Mês</div>
+<div class="fin-grid">
+<div class="fin-item"><div class="fin-val" id="mEnt">R$ 0</div><div class="fin-lab">Entradas</div></div>
+<div class="fin-item"><div class="fin-val" id="mSai">R$ 0</div><div class="fin-lab">Saídas</div></div>
+<div class="fin-item"><div class="fin-val" id="mLuc">R$ 0</div><div class="fin-lab">Lucro</div></div>
+<div class="fin-item"><div class="fin-val" id="mEvt">0</div><div class="fin-lab">Eventos</div></div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">📅 Próximos Eventos</div>
+<div id="listEvt"></div>
+</div>
 </section>
 
-<!-- CLIENTES COM BUSCA AVANÇADA -->
-<section id="clientes" class="section">
-  <div class="search-container">
-    <span class="search-icon">🔍</span>
-    <input type="text" class="search-input" id="buscaClientes" placeholder="Buscar por nome, CPF/CNPJ, telefone ou e-mail..." oninput="filtrarClientes()">
-  </div>
-
-  <div class="card">
-    <div class="card-title">👥 Novo Cliente</div>
-    <form id="formCliente" onsubmit="salvarCliente(event)">
-      <div class="form-row">
-        <div class="form-group" style="flex: 2;">
-          <label class="form-label">Nome Completo *</label>
-          <input type="text" class="form-control" id="clienteNome" required placeholder="Nome completo do cliente">
-        </div>
-        <div class="form-group">
-          <label class="form-label">CPF/CNPJ *</label>
-          <input type="text" class="form-control" id="clienteDocumento" required placeholder="000.000.000-00" onblur="validarDocumento()">
-        </div>
-      </div>
-      
-      <div class="section-group-title">📍 Endereço Completo</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">CEP</label>
-          <input type="text" class="form-control" id="clienteCep" placeholder="00000-000" onblur="buscarCep()">
-        </div>
-        <div class="form-group" style="flex: 2;">
-          <label class="form-label">Rua/Avenida</label>
-          <input type="text" class="form-control" id="clienteRua" placeholder="Nome da rua">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Número</label>
-          <input type="text" class="form-control" id="clienteNumero" placeholder="123">
-        </div>
-      </div>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Complemento</label>
-          <input type="text" class="form-control" id="clienteComplemento" placeholder="Apto, Sala, etc">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Bairro</label>
-          <input type="text" class="form-control" id="clienteBairro" placeholder="Bairro">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Cidade</label>
-          <input type="text" class="form-control" id="clienteCidade" placeholder="Cidade">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Estado</label>
-          <input type="text" class="form-control" id="clienteEstado" placeholder="UF" maxlength="2">
-        </div>
-      </div>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Telefone *</label>
-          <input type="tel" class="form-control" id="clienteTelefone" required placeholder="(00) 00000-0000">
-        </div>
-        <div class="form-group">
-          <label class="form-label">E-mail</label>
-          <input type="email" class="form-control" id="clienteEmail" placeholder="email@exemplo.com">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Data Nascimento</label>
-          <input type="date" class="form-control" id="clienteNascimento">
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label">Observações</label>
-        <textarea class="form-control" id="clienteObservacoes" rows="2" placeholder="Informações adicionais sobre o cliente..."></textarea>
-      </div>
-      
-      <button type="submit" class="btn btn-lg">💾 Salvar Cliente</button>
-    </form>
-  </div>
-
-  <div class="card">
-    <div class="card-title">📋 Clientes Cadastrados (<span id="totalClientes">0</span>)</div>
-    <div id="listaClientes">
-      <div class="empty-state">
-        <div class="empty-state-icon">👤</div>
-        <p>Nenhum cliente cadastrado</p>
-      </div>
-    </div>
-  </div>
+<section id="clientes">
+<div class="search"><input type="text" id="buscaCli" placeholder="Buscar cliente..." oninput="filtrarCli(this.value)"></div>
+<div class="card">
+<div class="card-title">👥 Novo Cliente</div>
+<form onsubmit="salvarCli(event)">
+<input type="hidden" id="cId">
+<div class="form-row">
+<div class="form-group" style="flex:2"><label class="form-label">Nome</label><input class="form-control" id="cNome" required></div>
+<div class="form-group"><label class="form-label">CPF/CNPJ</label><input class="form-control" id="cDoc" required></div>
+</div>
+<div class="form-row">
+<div class="form-group"><label class="form-label">Telefone</label><input class="form-control" id="cTel" required></div>
+<div class="form-group"><label class="form-label">Email</label><input class="form-control" id="cMail" type="email"></div>
+</div>
+<div class="form-row">
+<div class="form-group"><label class="form-label">CEP</label><input class="form-control" id="cCep" onblur="buscaCep()"></div>
+<div class="form-group" style="flex:2"><label class="form-label">Rua</label><input class="form-control" id="cRua"></div>
+<div class="form-group"><label class="form-label">Nº</label><input class="form-control" id="cNum"></div>
+</div>
+<div class="form-row">
+<div class="form-group"><label class="form-label">Bairro</label><input class="form-control" id="cBai"></div>
+<div class="form-group"><label class="form-label">Cidade</label><input class="form-control" id="cCid"></div>
+<div class="form-group"><label class="form-label">UF</label><input class="form-control" id="cUF" maxlength="2"></div>
+</div>
+<button class="btn">💾 Salvar</button>
+</form>
+</div>
+<div class="card">
+<div class="card-title">📋 Clientes (<span id="totCli">0</span>)</div>
+<div id="listCli"></div>
+</div>
 </section>
 
-<!-- EVENTOS - SOMENTE AGENDADOS -->
-<section id="eventos" class="section">
-  <div class="tabs">
-    <div class="tab active" onclick="filtrarEventos('todos')">Todos</div>
-    <div class="tab" onclick="filtrarEventos('agendados')">Agendados</div>
-    <div class="tab" onclick="filtrarEventos('hoje')">Hoje</div>
-    <div class="tab" onclick="filtrarEventos('semana')">Esta Semana</div>
-    <div class="tab" onclick="filtrarEventos('concluidos')">Concluídos</div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">🎉 Novo Evento</div>
-    <form id="formEvento" onsubmit="salvarEvento(event)">
-      <div class="form-group">
-        <label class="form-label">Cliente *</label>
-        <select class="form-control" id="eventoCliente" required>
-          <option value="">Selecione um cliente...</option>
-        </select>
-      </div>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Tipo de Evento *</label>
-          <select class="form-control" id="eventoTipo" required>
-            <option value="Casamento">Casamento</option>
-            <option value="Aniversário">Aniversário</option>
-            <option value="Corporativo">Corporativo</option>
-            <option value="Debutante">Debutante</option>
-            <option value="Formatura">Formatura</option>
-            <option value="Festa 15 Anos">Festa 15 Anos</option>
-            <option value="Chá de Bebê">Chá de Bebê</option>
-            <option value="Chá de Panela">Chá de Panela</option>
-            <option value="Confraternização">Confraternização</option>
-            <option value="Outro">Outro</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Data do Evento *</label>
-          <input type="date" class="form-control" id="eventoData" required>
-        </div>
-      </div>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Horário Início *</label>
-          <input type="time" class="form-control" id="eventoHoraInicio" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Horário Término *</label>
-          <input type="time" class="form-control" id="eventoHoraFim" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Nº Convidados</label>
-          <input type="number" class="form-control" id="eventoConvidados" placeholder="Quantidade">
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label">Local do Evento *</label>
-        <input type="text" class="form-control" id="eventoLocal" required placeholder="Nome do local e endereço completo">
-      </div>
-      
-      <div class="section-group-title">💰 Valores e Pagamento</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Valor Total (R$) *</label>
-          <input type="number" step="0.01" class="form-control" id="eventoValorTotal" required placeholder="0,00" onchange="calcularSaldo()">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Sinal/Entrada (R$)</label>
-          <input type="number" step="0.01" class="form-control" id="eventoValorEntrada" placeholder="0,00" onchange="calcularSaldo()">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Saldo Restante</label>
-          <input type="text" class="form-control" id="eventoSaldo" readonly style="background: var(--bg); font-weight: bold; color: var(--primary);">
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label">Observações / Playlist / Pedidos Especiais</label>
-        <textarea class="form-control" id="eventoObservacoes" rows="3" placeholder="Detalhes importantes sobre o evento..."></textarea>
-      </div>
-      
-      <button type="submit" class="btn btn-lg">💾 Salvar Evento</button>
-    </form>
-  </div>
-
-  <div class="card">
-    <div class="card-title">📋 Eventos</div>
-    <div id="listaEventos">
-      <div class="empty-state">
-        <div class="empty-state-icon">📅</div>
-        <p>Nenhum evento encontrado</p>
-      </div>
-    </div>
-  </div>
+<section id="eventos">
+<div class="tabs">
+<div class="tab active" onclick="filtEvt('todos',this)">Todos</div>
+<div class="tab" onclick="filtEvt('hoje',this)">Hoje</div>
+<div class="tab" onclick="filtEvt('sem',this)">Semana</div>
+<div class="tab" onclick="filtEvt('conc',this)">Concluídos</div>
+</div>
+<div class="card">
+<div class="card-title">🎉 Novo Evento</div>
+<form onsubmit="salvarEvt(event)">
+<div class="form-group"><label class="form-label">Cliente</label><select class="form-control" id="eCli" required></select></div>
+<div class="form-row">
+<div class="form-group"><label class="form-label">Tipo</label><select class="form-control" id="eTipo"><option>Casamento</option><option>Aniversário</option><option>Corporativo</option><option>Outro</option></select></div>
+<div class="form-group"><label class="form-label">Data</label><input type="date" class="form-control" id="eData" required></div>
+</div>
+<div class="form-row">
+<div class="form-group"><label class="form-label">Início</label><input type="time" class="form-control" id="eIni" required></div>
+<div class="form-group"><label class="form-label">Fim</label><input type="time" class="form-control" id="eFim" required></div>
+</div>
+<div class="form-group"><label class="form-label">Local</label><input class="form-control" id="eLoc" required></div>
+<div class="form-row">
+<div class="form-group"><label class="form-label">Valor Total</label><input type="number" step="0.01" class="form-control" id="eVal" required onchange="calcSaldo()"></div>
+<div class="form-group"><label class="form-label">Entrada</label><input type="number" step="0.01" class="form-control" id="eEnt" onchange="calcSaldo()"></div>
+<div class="form-group"><label class="form-label">Saldo</label><input class="form-control" id="eSal" readonly style="background:var(--b);font-weight:bold"></div>
+</div>
+<button class="btn">💾 Salvar</button>
+</form>
+</div>
+<div class="card">
+<div class="card-title">📋 Eventos</div>
+<div id="listEvt2"></div>
+</div>
 </section>
 
-<!-- CONTRATOS -->
-<section id="contratos" class="section">
-  <div class="contract-controls">
-    <div class="card-title">📄 Gerar Contrato</div>
-    <div class="form-group">
-      <label class="form-label">Selecione o Evento</label>
-      <select class="form-control" id="contratoEvento" onchange="carregarDadosContrato()">
-        <option value="">Selecione um evento...</option>
-      </select>
-    </div>
-    
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Data do Contrato</label>
-        <input type="date" class="form-control" id="contratoData">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Cidade do Contrato</label>
-        <input type="text" class="form-control" id="contratoCidade" placeholder="Cidade">
-      </div>
-    </div>
-    
-    <div class="form-group">
-      <label class="form-label">Cláusulas Adicionais</label>
-      <textarea class="form-control" id="contratoClausulas" rows="3" placeholder="Cláusulas específicas do contrato..."></textarea>
-    </div>
-    
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Assinatura do CONTRATANTE (Cliente)</label>
-        <div class="signature-pad-container">
-          <canvas id="assinaturaContratante" class="signature-pad"></canvas>
-          <div style="margin-top: 10px; display: flex; gap: 10px;">
-            <button type="button" class="btn btn-sm btn-secondary" onclick="limparAssinatura('contratante')">🗑️ Limpar</button>
-            <button type="button" class="btn btn-sm btn-success" onclick="salvarAssinatura('contratante')">💾 Salvar</button>
-          </div>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label">Assinatura do CONTRATADO (DJ)</label>
-        <div class="signature-pad-container">
-          <canvas id="assinaturaContratado" class="signature-pad"></canvas>
-          <div style="margin-top: 10px; display: flex; gap: 10px;">
-            <button type="button" class="btn btn-sm btn-secondary" onclick="limparAssinatura('contratado')">🗑️ Limpar</button>
-            <button type="button" class="btn btn-sm btn-success" onclick="salvarAssinatura('contratado')">💾 Salvar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div style="display: flex; gap: 10px; margin-top: 20px;">
-      <button class="btn btn-success btn-lg" onclick="gerarContrato()" style="flex: 1;">👁️ Visualizar Contrato</button>
-      <button class="btn btn-primary btn-lg" onclick="imprimirContrato()" style="flex: 1;">🖨️ Imprimir / Salvar PDF</button>
-    </div>
-  </div>
+<section id="contratos">
+<div class="card">
+<div class="card-title">📄 Gerar Contrato</div>
+<div class="form-group"><label class="form-label">Evento</label><select class="form-control" id="ctEvt" onchange="carregaCt()"></select></div>
+<div class="form-row">
+<div class="form-group"><label class="form-label">Data Contrato</label><input type="date" class="form-control" id="ctData"></div>
+<div class="form-group"><label class="form-label">Cidade</label><input class="form-control" id="ctCid"></div>
+</div>
+<div style="display:flex;gap:10px;margin:15px 0">
+<span id="stAssC" class="badge badge-d">✗ Cliente</span>
+<span id="stAssD" class="badge badge-d">✗ DJ</span>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">Assinatura CLIENTE</label>
+<canvas id="assC" class="sig-pad"></canvas>
+<div style="display:flex;gap:10px;margin-top:10px">
+<button class="btn btn-w" onclick="limpAss('c')" style="flex:1;font-size:12px">🗑️ Limpar</button>
+<button class="btn btn-s" onclick="salvaAss('c')" style="flex:1;font-size:12px">✓ Salvar</button>
+</div>
+</div>
+<div class="form-group">
+<label class="form-label">Assinatura DJ</label>
+<canvas id="assD" class="sig-pad"></canvas>
+<div style="display:flex;gap:10px;margin-top:10px">
+<button class="btn btn-w" onclick="limpAss('d')" style="flex:1;font-size:12px">🗑️ Limpar</button>
+<button class="btn btn-s" onclick="salvaAss('d')" style="flex:1;font-size:12px">✓ Salvar</button>
+</div>
+</div>
+</div>
+<div style="display:flex;gap:15px;margin-top:20px">
+<button class="btn btn-s" onclick="geraCt()" style="flex:1">👁️ Visualizar</button>
+<button class="btn" onclick="impCt()" style="flex:1;background:var(--pd)">🖨️ Imprimir PDF</button>
+</div>
+</div>
 
-  <!-- ÁREA DE IMPRESSÃO DO CONTRATO -->
-  <div id="contractPrintArea">
-    <h2>CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE DISCOTECAGEM</h2>
-    
-    <p style="text-align: center; margin-bottom: 30px;">
-      <strong>CONTRATO Nº <span id="printContratoNumero"></span></strong><br>
-      Data: <span id="printDataContrato"></span>
-    </p>
-    
-    <p><strong>CONTRATANTE:</strong> <span id="printContratanteNome"></span>, brasileiro(a), portador(a) do CPF/CNPJ nº <span id="printContratanteDocumento"></span>, residente e domiciliado(a) à <span id="printContratanteEndereco"></span>.</p>
-    
-    <p><strong>CONTRATADO:</strong> <span id="printContratadoNome"></span>, pessoa jurídica de direito privado, inscrita no CNPJ sob o nº <span id="printContratadoDocumento"></span>, com sede na <span id="printContratadoEndereco"></span>, neste ato representado por seu sócio-administrador.</p>
-    
-    <p style="margin-top: 20px;"><strong>CLÁUSULA 1ª - DO OBJETO</strong></p>
-    <p>O presente contrato tem por objeto a prestação de serviços de discotecagem/sonorização para o evento de <strong><span id="printEventoTipo"></span></strong>, a ser realizado no dia <strong><span id="printEventoData"></span></strong>, com início às <strong><span id="printEventoHoraInicio"></span></strong> e término às <strong><span id="printEventoHoraFim"></span></strong>, no local <strong><span id="printEventoLocal"></span></strong>.</p>
-    
-    <p><strong>CLÁUSULA 2ª - DO VALOR E FORMA DE PAGAMENTO</strong></p>
-    <p>O valor total dos serviços contratados é de <strong>R$ <span id="printValorTotal"></span></strong> (<span id="printValorExtenso"></span>).</p>
-    <p>O CONTRATANTE pagará ao CONTRATADO a importância de <strong>R$ <span id="printValorEntrada"></span></strong> como sinal/entrada na data de assinatura deste contrato.</p>
-    <p>O saldo remanescente de <strong>R$ <span id="printValorSaldo"></span></strong> deverá ser pago até a data do evento, conforme acordo entre as partes.</p>
-    
-    <p><strong>CLÁUSULA 3ª - DAS OBRIGAÇÕES DO CONTRATADO</strong></p>
-    <p>a) Fornecer equipamento de som profissional adequado ao tamanho do evento;<br>
-    b) Disponibilizar iluminação básica (se contratado);<br>
-    c) Presença de DJ profissional durante todo o período contratado;<br>
-    d) Playlist personalizada conforme preferências do CONTRATANTE;<br>
-    e) Chegada com antecedência mínima de 1 hora para montagem.</p>
-    
-    <p><strong>CLÁUSULA 4ª - DAS OBRIGAÇÕES DO CONTRATANTE</strong></p>
-    <p>a) Fornecer energia elétrica adequada (220V);<br>
-    b) Local coberto para equipamentos (em caso de evento externo);<br>
-    c) Efetuar os pagamentos conforme estabelecido na Cláusula 2ª;<br>
-    d) Informar com antecedência mínima de 7 dias qualquer alteração no evento.</p>
-    
-    <p><strong>CLÁUSULA 5ª - DO CANCELAMENTO</strong></p>
-    <p>Em caso de cancelamento por parte do CONTRATANTE com menos de 30 dias de antecedência, o sinal/entrada não será devolvido. Cancelamentos com mais de 30 dias terão 50% do sinal restituído.</p>
-    <p>Em caso de cancelamento por parte do CONTRATADO, o valor total pago será devolvido em dobro.</p>
-    
-    <p id="printClausulasAdicionais" style="display: none;"><strong>CLÁUSULAS ADICIONAIS:</strong><br><span id="printClausulasTexto"></span></p>
-    
-    <p style="margin-top: 30px;">E, por estarem assim justos e contratados, firmam o presente instrumento em duas vias de igual teor e forma.</p>
-    
-    <p style="text-align: center; margin-top: 30px;"><span id="printCidadeContrato"></span>, <span id="printDataExtenso"></span>.</p>
-    
-    <div class="signature-area">
-      <div class="signature-box">
-        <div class="signature-line">
-          <img id="imgAssinaturaContratante" class="signature-img" style="display: none;">
-        </div>
-        <div class="signature-label">CONTRATANTE</div>
-        <div class="signature-name" id="printNomeAssinaturaContratante"></div>
-      </div>
-      
-      <div class="signature-box">
-        <div class="signature-line">
-          <img id="imgAssinaturaContratado" class="signature-img" style="display: none;">
-        </div>
-        <div class="signature-label">CONTRATADO</div>
-        <div class="signature-name" id="printNomeAssinaturaContratado"></div>
-      </div>
-    </div>
-    
-    <div style="margin-top: 40px; padding: 20px; border: 1px solid #ccc; border-radius: 8px; font-size: 11px; text-align: center; color: #666;">
-      <p>Documento gerado eletronicamente pelo sistema DJ Pro</p>
-      <p>Para verificação de autenticidade, acesse: www.djpro.com.br/verificar</p>
-    </div>
-  </div>
+<div id="contractPrintArea">
+<h2>CONTRATO DE PRESTAÇÃO DE SERVIÇOS</h2>
+<p style="text-align:center"><strong>Nº <span id="pId"></span></strong> - <span id="pData"></span></p>
+<p><strong>CONTRATANTE:</strong> <span id="pCNome"></span>, CPF/CNPJ <span id="pCDoc"></span>, residente em <span id="pCEnd"></span>.</p>
+<p><strong>CONTRATADO:</strong> <span id="pDNome"></span>, CNPJ <span id="pDDoc"></span>, sede em <span id="pDEnd"></span>.</p>
+<p><strong>OBJETO:</strong> Prestação de serviços de discotecagem para evento de <strong><span id="pTipo"></span></strong>, no dia <strong><span id="pDtEvt"></span></strong>, das <strong><span id="pIni"></span></strong> às <strong><span id="pFim"></span></strong>, no local <strong><span id="pLoc"></span></strong>.</p>
+<p><strong>VALOR:</strong> R$ <span id="pVal"></span> (total), sendo R$ <span id="pEnt"></span> de entrada e R$ <span id="pSal"></span> de saldo.</p>
+<p style="margin-top:30px;text-align:center"><span id="pCid"></span>, <span id="pDataEx"></span>.</p>
+<div class="sign-area">
+<div class="sign-box">
+<div class="sign-line"><img id="imgC" style="display:none"></div>
+<div class="sign-label">CONTRATANTE</div>
+<div class="sign-name" id="pCAss"></div>
+</div>
+<div class="sign-box">
+<div class="sign-line"><img id="imgD" style="display:none"></div>
+<div class="sign-label">CONTRATADO</div>
+<div class="sign-name" id="pDAss"></div>
+</div>
+</div>
+</div>
 </section>
 
-<!-- RECIBOS -->
-<section id="recibos" class="section">
-  <div class="card">
-    <div class="card-title">🧾 Emitir Recibo</div>
-    <form id="formRecibo" onsubmit="salvarRecibo(event)">
-      <div class="form-group">
-        <label class="form-label">Cliente *</label>
-        <select class="form-control" id="reciboCliente" required onchange="carregarEventosRecibo()">
-          <option value="">Selecione um cliente...</option>
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label">Evento Associado *</label>
-        <select class="form-control" id="reciboEvento" required>
-          <option value="">Selecione um evento...</option>
-        </select>
-      </div>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Valor (R$) *</label>
-          <input type="number" step="0.01" class="form-control" id="reciboValor" required placeholder="0,00">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Data do Pagamento *</label>
-          <input type="date" class="form-control" id="reciboData" required>
-        </div>
-      </div>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Forma de Pagamento *</label>
-          <select class="form-control" id="reciboFormaPagamento" required>
-            <option value="Dinheiro">Dinheiro</option>
-            <option value="Pix">Pix</option>
-            <option value="Cartão de Crédito">Cartão de Crédito</option>
-            <option value="Cartão de Débito">Cartão de Débito</option>
-            <option value="Transferência">Transferência Bancária</option>
-            <option value="Boleto">Boleto</option>
-            <option value="Cheque">Cheque</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Referente a *</label>
-          <input type="text" class="form-control" id="reciboReferente" required placeholder="Ex: Sinal, Pagamento parcial, etc">
-        </div>
-      </div>
-      
-      <button type="submit" class="btn btn-lg">💾 Salvar Recibo</button>
-    </form>
-  </div>
-
-  <div class="card">
-    <div class="card-title">📋 Histórico de Recibos</div>
-    <div id="listaRecibos">
-      <div class="empty-state">
-        <div class="empty-state-icon">🧾</div>
-        <p>Nenhum recibo emitido</p>
-      </div>
-    </div>
-  </div>
+<section id="caixa">
+<div class="tabs">
+<div class="tab active" onclick="showAba('lan',this)">Lançar</div>
+<div class="tab" onclick="showAba('ext',this)">Extrato</div>
+<div class="tab" onclick="showAba('rel',this)">Relatório</div>
+</div>
+<div id="abaLan" class="aba">
+<div class="card">
+<div class="card-title">💵 Novo Lançamento</div>
+<form onsubmit="salvaCx(event)">
+<div class="form-row">
+<div class="form-group"><label class="form-label">Tipo</label><select class="form-control" id="xTipo"><option value="e">Entrada</option><option value="s">Saída</option></select></div>
+<div class="form-group"><label class="form-label">Valor</label><input type="number" step="0.01" class="form-control" id="xVal" required></div>
+</div>
+<div class="form-row">
+<div class="form-group"><label class="form-label">Data</label><input type="date" class="form-control" id="xData" required></div>
+<div class="form-group"><label class="form-label">Categoria</label><select class="form-control" id="xCat"><option>Evento</option><option>Equipamento</option><option>Marketing</option><option>Outros</option></select></div>
+</div>
+<div class="form-group"><label class="form-label">Descrição</label><input class="form-control" id="xDesc" required></div>
+<button class="btn">💾 Salvar</button>
+</form>
+</div>
+</div>
+<div id="abaExt" class="aba" style="display:none">
+<div class="card">
+<div class="card-title">📋 Extrato</div>
+<div id="listCx"></div>
+</div>
+</div>
+<div id="abaRel" class="aba" style="display:none">
+<div class="fin">
+<div class="fin-grid">
+<div class="fin-item"><div class="fin-val" id="rEnt">R$ 0</div><div class="fin-lab">Entradas</div></div>
+<div class="fin-item"><div class="fin-val" id="rSai">R$ 0</div><div class="fin-lab">Saídas</div></div>
+<div class="fin-item"><div class="fin-val" id="rLuc">R$ 0</div><div class="fin-lab">Lucro</div></div>
+</div>
+</div>
+</div>
 </section>
 
-<!-- CAIXA/FINANCEIRO COMPLETO -->
-<section id="caixa" class="section">
-  <div class="tabs">
-    <div class="tab active" onclick="mostrarAbaCaixa('lancamento')">Novo Lançamento</div>
-    <div class="tab" onclick="mostrarAbaCaixa('extrato')">Extrato</div>
-    <div class="tab" onclick="mostrarAbaCaixa('relatorio')">Relatórios</div>
-  </div>
-
-  <!-- Aba Lançamento -->
-  <div id="abaLancamento" class="aba-caixa">
-    <div class="card">
-      <div class="card-title">💵 Novo Lançamento</div>
-      <form id="formCaixa" onsubmit="salvarLancamento(event)">
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Tipo *</label>
-            <select class="form-control" id="caixaTipo" required onchange="toggleClienteLancamento()">
-              <option value="entrada">Entrada (Recebimento)</option>
-              <option value="saida">Saída (Despesa)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Valor (R$) *</label>
-            <input type="number" step="0.01" class="form-control" id="caixaValor" required placeholder="0,00">
-          </div>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Data *</label>
-            <input type="date" class="form-control" id="caixaData" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Categoria *</label>
-            <select class="form-control" id="caixaCategoria" required>
-              <option value="Evento">Evento</option>
-              <option value="Equipamento">Equipamento</option>
-              <option value="Marketing">Marketing</option>
-              <option value="Transporte">Transporte</option>
-              <option value="Alimentação">Alimentação</option>
-              <option value="Impostos">Impostos</option>
-              <option value="Aluguel">Aluguel</option>
-              <option value="Salários">Salários</option>
-              <option value="Outros">Outros</option>
-            </select>
-          </div>
-        </div>
-        
-        <div class="form-group" id="grupoClienteLancamento">
-          <label class="form-label">Associar a Cliente</label>
-          <select class="form-control" id="caixaCliente" onchange="carregarEventosCaixa()">
-            <option value="">Nenhum</option>
-          </select>
-        </div>
-        
-        <div class="form-group" id="grupoEventoLancamento" style="display: none;">
-          <label class="form-label">Associar a Evento</label>
-          <select class="form-control" id="caixaEvento">
-            <option value="">Nenhum</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">Descrição *</label>
-          <input type="text" class="form-control" id="caixaDescricao" required placeholder="Descrição detalhada do lançamento">
-        </div>
-        
-        <button type="submit" class="btn btn-lg">💾 Salvar Lançamento</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Aba Extrato -->
-  <div id="abaExtrato" class="aba-caixa" style="display: none;">
-    <div class="card">
-      <div class="card-title">📋 Extrato Completo</div>
-      <div class="report-filters">
-        <div class="form-group">
-          <label class="form-label">De</label>
-          <input type="date" class="form-control" id="extratoDataInicio" onchange="filtrarExtrato()">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Até</label>
-          <input type="date" class="form-control" id="extratoDataFim" onchange="filtrarExtrato()">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Tipo</label>
-          <select class="form-control" id="extratoTipo" onchange="filtrarExtrato()">
-            <option value="todos">Todos</option>
-            <option value="entrada">Entradas</option>
-            <option value="saida">Saídas</option>
-          </select>
-        </div>
-      </div>
-      <div id="listaCaixa">
-        <div class="empty-state">
-          <div class="empty-state-icon">💰</div>
-          <p>Nenhum lançamento encontrado</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Aba Relatórios -->
-  <div id="abaRelatorio" class="aba-caixa" style="display: none;">
-    <div class="report-grid">
-      <div class="report-card">
-        <div class="report-card-title">Este Mês</div>
-        <div class="report-card-value" id="relMesEntradas">R$ 0</div>
-        <div class="report-card-subtitle">Entradas</div>
-      </div>
-      <div class="report-card" style="border-left-color: var(--danger);">
-        <div class="report-card-title">Este Mês</div>
-        <div class="report-card-value" id="relMesSaidas">R$ 0</div>
-        <div class="report-card-subtitle">Saídas</div>
-      </div>
-      <div class="report-card" style="border-left-color: var(--success);">
-        <div class="report-card-title">Este Mês</div>
-        <div class="report-card-value" id="relMesLucro">R$ 0</div>
-        <div class="report-card-subtitle">Lucro Líquido</div>
-      </div>
-      <div class="report-card" style="border-left-color: var(--info);">
-        <div class="report-card-title">Este Ano</div>
-        <div class="report-card-value" id="relAnoEntradas">R$ 0</div>
-        <div class="report-card-subtitle">Total Entradas</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">📊 Relatório por Período</div>
-      <div class="report-filters">
-        <div class="form-group">
-          <label class="form-label">Período</label>
-          <select class="form-control" id="relPeriodo" onchange="gerarRelatorioPeriodo()">
-            <option value="mes">Este Mês</option>
-            <option value="ultimo_mes">Mês Passado</option>
-            <option value="trimestre">Últimos 3 Meses</option>
-            <option value="semestre">Últimos 6 Meses</option>
-            <option value="ano">Este Ano</option>
-            <option value="ano_passado">Ano Passado</option>
-            <option value="personalizado">Personalizado</option>
-          </select>
-        </div>
-        <div class="form-group" id="grupoDataInicio" style="display: none;">
-          <label class="form-label">Data Início</label>
-          <input type="date" class="form-control" id="relDataInicio">
-        </div>
-        <div class="form-group" id="grupoDataFim" style="display: none;">
-          <label class="form-label">Data Fim</label>
-          <input type="date" class="form-control" id="relDataFim">
-        </div>
-      </div>
-      
-      <div id="resultadoRelatorio">
-        <div class="empty-state">
-          <div class="empty-state-icon">📊</div>
-          <p>Selecione um período para gerar o relatório</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">📈 Análise por Categoria</div>
-      <div id="analiseCategoria">
-        <div class="empty-state">
-          <div class="empty-state-icon">📊</div>
-          <p>Selecione um período acima</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- RELATÓRIOS -->
-<section id="relatorios" class="section">
-  <div class="tabs">
-    <div class="tab active" onclick="mostrarAbaRelatorio('financeiro')">Financeiro</div>
-    <div class="tab" onclick="mostrarAbaRelatorio('clientes')">Clientes</div>
-    <div class="tab" onclick="mostrarAbaRelatorio('eventos')">Eventos</div>
-  </div>
-
-  <div id="relFinanceiro" class="aba-relatorio">
-    <div class="report-grid">
-      <div class="report-card">
-        <div class="report-card-title">Total em Contas a Receber</div>
-        <div class="report-card-value" id="totalAReceber">R$ 0</div>
-        <div class="report-card-subtitle">De todos os eventos</div>
-      </div>
-      <div class="report-card" style="border-left-color: var(--success);">
-        <div class="report-card-title">Total Recebido</div>
-        <div class="report-card-value" id="totalRecebidoGeral">R$ 0</div>
-        <div class="report-card-subtitle">Desde o início</div>
-      </div>
-      <div class="report-card" style="border-left-color: var(--warning);">
-        <div class="report-card-title">Ticket Médio</div>
-        <div class="report-card-value" id="ticketMedio">R$ 0</div>
-        <div class="report-card-subtitle">Por evento</div>
-      </div>
-      <div class="report-card" style="border-left-color: var(--info);">
-        <div class="report-card-title">Clientes Ativos</div>
-        <div class="report-card-value" id="clientesAtivos">0</div>
-        <div class="report-card-subtitle">Com eventos</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">💰 Projeção Financeira</div>
-      <div id="projecaoFinanceira">
-        <div class="timeline" id="timelineProjecao"></div>
-      </div>
-    </div>
-  </div>
-
-  <div id="relClientes" class="aba-relatorio" style="display: none;">
-    <div class="card">
-      <div class="card-title">🏆 Top Clientes</div>
-      <div id="topClientes">
-        <div class="empty-state">
-          <div class="empty-state-icon">👑</div>
-          <p>Sem dados suficientes</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="relEventos" class="aba-relatorio" style="display: none;">
-    <div class="card">
-      <div class="card-title">📅 Eventos por Período</div>
-      <div class="report-filters">
-        <div class="form-group">
-          <label class="form-label">Ano</label>
-          <select class="form-control" id="relAnoEventos" onchange="gerarRelatorioEventos()">
-            <option value="2024">2024</option>
-            <option value="2025">2025</option>
-            <option value="2026">2026</option>
-          </select>
-        </div>
-      </div>
-      <div id="relatorioEventos"></div>
-    </div>
-  </div>
-</section>
-
-<!-- PERFIL -->
-<section id="perfil" class="section">
-  <div class="profile-header">
-    <div class="profile-avatar">🎧</div>
-    <div class="profile-name" id="profileName">DJ Pro</div>
-    <div class="profile-role">Administrador</div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">⚙️ Configurações do Sistema</div>
-    
-    <div class="section-group">
-      <div class="section-group-title">🏢 Dados da Empresa</div>
-      <div class="form-group">
-        <label class="form-label">Nome Fantasia</label>
-        <input type="text" class="form-control" id="configNome" placeholder="Nome da empresa">
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">CNPJ</label>
-          <input type="text" class="form-control" id="configDocumento" placeholder="00.000.000/0000-00">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Telefone</label>
-          <input type="text" class="form-control" id="configTelefone" placeholder="(00) 00000-0000">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Endereço Completo</label>
-        <textarea class="form-control" id="configEndereco" rows="2" placeholder="Endereço comercial"></textarea>
-      </div>
-    </div>
-    
-    <div class="section-group">
-      <div class="section-group-title">🎨 Personalização</div>
-      <div class="form-group">
-        <label class="form-label">Tema</label>
-        <button class="btn btn-secondary" onclick="toggleTheme()" style="width: 100%;">
-          Alternar Tema Claro/Escuro
-        </button>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Cor Principal</label>
-        <div class="color-picker">
-          <div class="color-option selected" style="background: #0b76d1;" onclick="setColor('blue')" data-color="blue">✓</div>
-          <div class="color-option" style="background: #6f42c1;" onclick="setColor('purple')" data-color="purple"></div>
-          <div class="color-option" style="background: #28a745;" onclick="setColor('green')" data-color="green"></div>
-          <div class="color-option" style="background: #dc3545;" onclick="setColor('red')" data-color="red"></div>
-          <div class="color-option" style="background: #fd7e14;" onclick="setColor('orange')" data-color="orange"></div>
-          <div class="color-option" style="background: #e83e8c;" onclick="setColor('pink')" data-color="pink"></div>
-          <div class="color-option" style="background: #343a40;" onclick="setColor('black')" data-color="black"></div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="section-group">
-      <div class="section-group-title">🔒 Segurança</div>
-      <button class="btn btn-secondary" onclick="alterarPin()" style="width: 100%; margin-bottom: 10px;">
-        Alterar PIN de Acesso
-      </button>
-      <button class="btn btn-danger" onclick="logout()" style="width: 100%;">
-        Sair da Conta
-      </button>
-    </div>
-    
-    <div class="section-group">
-      <div class="section-group-title">💾 Backup de Dados</div>
-      <button class="btn btn-success" onclick="exportarDados()" style="width: 100%; margin-bottom: 10px;">
-        📥 Exportar Dados (JSON)
-      </button>
-      <button class="btn btn-warning" onclick="document.getElementById('importFile').click()" style="width: 100%;">
-        📤 Importar Dados
-      </button>
-      <input type="file" id="importFile" style="display: none;" accept=".json" onchange="importarDados(this)">
-    </div>
-    
-    <button class="btn btn-lg" onclick="salvarConfiguracoes()">💾 Salvar Configurações</button>
-  </div>
+<section id="relatorios">
+<div class="card">
+<div class="card-title">📊 Resumo Geral</div>
+<div class="fin-grid" style="margin-top:15px">
+<div class="fin-item" style="background:var(--b);color:var(--t)"><div class="fin-val" id="tRec">R$ 0</div><div class="fin-lab">Total Recebido</div></div>
+<div class="fin-item" style="background:var(--b);color:var(--t)"><div class="fin-val" id="tAre">R$ 0</div><div class="fin-lab">A Receber</div></div>
+<div class="fin-item" style="background:var(--b);color:var(--t)"><div class="fin-val" id="tCli">0</div><div class="fin-lab">Clientes</div></div>
+<div class="fin-item" style="background:var(--b);color:var(--t)"><div class="fin-val" id="tEvt">0</div><div class="fin-lab">Eventos</div></div>
+</div>
+</div>
 </section>
 
 </main>
 
-<!-- NAVEGAÇÃO INFERIOR -->
-<nav class="bottom-nav">
-  <button class="nav-item active" onclick="showTab('dashboard')" data-tab="dashboard">
-    <span class="icon">📊</span>
-    <span>Início</span>
-  </button>
-  <button class="nav-item" onclick="showTab('clientes')" data-tab="clientes">
-    <span class="icon">👥</span>
-    <span>Clientes</span>
-  </button>
-  <button class="nav-item" onclick="showTab('eventos')" data-tab="eventos">
-    <span class="icon">🎉</span>
-    <span>Eventos</span>
-  </button>
-  <button class="nav-item" onclick="showTab('caixa')" data-tab="caixa">
-    <span class="icon">💰</span>
-    <span>Caixa</span>
-  </button>
-  <button class="nav-item" onclick="showTab('perfil')" data-tab="perfil">
-    <span class="icon">⚙️</span>
-    <span>Perfil</span>
-  </button>
+<nav>
+<button class="active" onclick="showTab('dashboard',this)"><span>📊</span><span>Início</span></button>
+<button onclick="showTab('clientes',this)"><span>👥</span><span>Clientes</span></button>
+<button onclick="showTab('eventos',this)"><span>🎉</span><span>Eventos</span></button>
+<button onclick="showTab('caixa',this)"><span>💰</span><span>Caixa</span></button>
 </nav>
 
-<!-- MODAL DE CONFIGURAÇÃO RÁPIDA -->
-<div id="modalConfig" class="modal-overlay">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>⚙️ Configurações Rápidas</h3>
-      <button class="modal-close" onclick="closeModal('config')">×</button>
-    </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label class="form-label">Nome do DJ/Empresa</label>
-        <input type="text" class="form-control" id="modalConfigNome" placeholder="Seu nome">
-      </div>
-      <div class="form-group">
-        <label class="form-label">CNPJ/CPF</label>
-        <input type="text" class="form-control" id="modalConfigDocumento" placeholder="Documento">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Endereço</label>
-        <textarea class="form-control" id="modalConfigEndereco" rows="2"></textarea>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="closeModal('config')">Cancelar</button>
-      <button class="btn" onclick="salvarModalConfig()">Salvar</button>
-    </div>
-  </div>
-</div>
-
-<!-- TOAST -->
 <div id="toast" class="toast"></div>
 
 <script>
-// ==================== VARIÁVEIS GLOBAIS ====================
-let db = {
-  clientes: [],
-  eventos: [],
-  recibos: [],
-  caixa: [],
-  configuracoes: {
-    nome: 'DJ Pro',
-    documento: '',
-    endereco: '',
-    telefone: '',
-    tema: 'light',
-    cor: 'blue',
-    pin: '1234'
-  }
-};
+// DADOS
+let db=JSON.parse(localStorage.getItem('djpro'))||{c:[],e:[],x:[],cfg:{n:'DJ Pro',t:'light',pin:'1234'}};
+let ass={c:null,d:null};
+let pads={};
 
-let currentPin = '';
-let assinaturas = {
-  contratante: null,
-  contratado: null
-};
-let filtroEventosAtual = 'todos';
-
-// ==================== INICIALIZAÇÃO ====================
-document.addEventListener('DOMContentLoaded', function() {
-  carregarDados();
-  initSignaturePads();
-  
-  // Definir data atual
-  const hoje = new Date().toISOString().split('T')[0];
-  document.getElementById('contratoData').value = hoje;
-  document.getElementById('reciboData').value = hoje;
-  document.getElementById('caixaData').value = hoje;
-  document.getElementById('extratoDataFim').value = hoje;
-  
-  // Data início do mês para extrato
-  const inicioMes = new Date();
-  inicioMes.setDate(1);
-  document.getElementById('extratoDataInicio').value = inicioMes.toISOString().split('T')[0];
-  
-  atualizarDashboard();
-  atualizarSelects();
-  gerarRelatorioPeriodo();
+// INIT
+document.addEventListener('DOMContentLoaded',()=>{
+if(db.cfg.t=='dark')document.documentElement.setAttribute('data-theme','dark');
+initPads();
+const hoje=new Date().toISOString().split('T')[0];
+['ctData','xData'].forEach(id=>document.getElementById(id).value=hoje);
+atualizaTudo();
 });
 
-// ==================== NAVEGAÇÃO ====================
-function showTab(tabName) {
-  document.querySelectorAll('.section').forEach(section => {
-    section.classList.remove('active');
-  });
-  
-  document.getElementById(tabName).classList.add('active');
-  
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.classList.remove('active');
-    if(item.dataset.tab === tabName) {
-      item.classList.add('active');
-    }
-  });
-  
-  if(tabName === 'eventos') {
-    atualizarSelectClientes();
-    filtrarEventos(filtroEventosAtual);
-  }
-  if(tabName === 'contratos') atualizarSelectContratos();
-  if(tabName === 'recibos') atualizarSelectRecibos();
-  if(tabName === 'caixa') {
-    atualizarSelectCaixa();
-    filtrarExtrato();
-  }
-  if(tabName === 'relatorios') {
-    gerarRelatorioPeriodo();
-    gerarRelatorioEventos();
-  }
-  
-  window.scrollTo(0, 0);
-}
-
-// ==================== BUSCA INTELIGENTE GLOBAL ====================
-function buscarGlobal() {
-  const termo = document.getElementById('globalSearch').value.toLowerCase().trim();
-  const resultadosDiv = document.getElementById('searchResults');
-  
-  if(termo.length < 2) {
-    resultadosDiv.style.display = 'none';
-    return;
-  }
-  
-  const resultados = [];
-  
-  // Buscar em clientes
-  db.clientes.forEach(cliente => {
-    const match = 
-      cliente.nome.toLowerCase().includes(termo) ||
-      (cliente.documento && cliente.documento.includes(termo)) ||
-      (cliente.telefone && cliente.telefone.includes(termo)) ||
-      (cliente.email && cliente.email.toLowerCase().includes(termo));
-    
-    if(match) {
-      resultados.push({
-        tipo: 'cliente',
-        id: cliente.id,
-        titulo: cliente.nome,
-        subtitulo: `CPF: ${cliente.documento || 'N/A'} | Tel: ${cliente.telefone || 'N/A'}`,
-        acao: () => {
-          editarCliente(cliente.id);
-          resultadosDiv.style.display = 'none';
-          document.getElementById('globalSearch').value = '';
-        }
-      });
-    }
-  });
-  
-  // Buscar em eventos
-  db.eventos.forEach(evento => {
-    const cliente = db.clientes.find(c => c.id === evento.clienteId);
-    if(
-      evento.tipo.toLowerCase().includes(termo) ||
-      evento.local.toLowerCase().includes(termo) ||
-      (cliente && cliente.nome.toLowerCase().includes(termo))
-    ) {
-      resultados.push({
-        tipo: 'evento',
-        id: evento.id,
-        titulo: `${evento.tipo} - ${cliente ? cliente.nome : 'Cliente'}`,
-        subtitulo: `${formatarData(evento.data)} | ${evento.local}`,
-        acao: () => {
-          showTab('eventos');
-          resultadosDiv.style.display = 'none';
-          document.getElementById('globalSearch').value = '';
-        }
-      });
-    }
-  });
-  
-  if(resultados.length === 0) {
-    resultadosDiv.innerHTML = '<div class="search-result-item">Nenhum resultado encontrado</div>';
-  } else {
-    resultadosDiv.innerHTML = resultados.map(r => `
-      <div class="search-result-item" onclick='(${r.acao.toString()})()'>
-        <div>
-          <div style="font-weight: 600;">${r.titulo}</div>
-          <div style="font-size: 12px; color: var(--text-muted);">${r.subtitulo}</div>
-        </div>
-        <span class="badge badge-info">${r.tipo === 'cliente' ? '👤 Cliente' : '🎉 Evento'}</span>
-      </div>
-    `).join('');
-  }
-  
-  resultadosDiv.style.display = 'block';
-}
-
-// Fechar resultados ao clicar fora
-document.addEventListener('click', function(e) {
-  if(!e.target.closest('.search-container')) {
-    document.getElementById('searchResults').style.display = 'none';
-  }
+// PADS
+function initPads(){
+['c','d'].forEach(t=>{
+const c=document.getElementById('ass'+t.toUpperCase());
+if(!c)return;
+const x=c.getContext('2d');
+let d=false,p={x:0,y:0};
+const resize=()=>{c.width=c.offsetWidth;c.height=150;x.strokeStyle='#000';x.lineWidth=2;x.lineCap='round'};
+setTimeout(resize,100);
+const pos=e=>{const r=c.getBoundingClientRect();const ev=e.touches?e.touches[0]:e;return{x:ev.clientX-r.left,y:ev.clientY-r.top}};
+const start=e=>{d=true;p=pos(e);x.beginPath();x.moveTo(p.x,p.y);e.preventDefault()};
+const move=e=>{if(!d)return;p=pos(e);x.lineTo(p.x,p.y);x.stroke();e.preventDefault()};
+const end=()=>d=false;
+c.addEventListener('mousedown',start);
+c.addEventListener('mousemove',move);
+c.addEventListener('mouseup',end);
+c.addEventListener('mouseout',end);
+c.addEventListener('touchstart',start,{passive:false});
+c.addEventListener('touchmove',move,{passive:false});
+c.addEventListener('touchend',end);
+pads[t]={clear:()=>x.clearRect(0,0,c.width,c.height),toData:()=>c.toDataURL(),isEmpty:()=>{
+const b=document.createElement('canvas');b.width=c.width;b.height=c.height;return c.toDataURL()==b.toDataURL();
+}};
 });
-
-// ==================== ASSINATURAS DIGITAIS ====================
-let signaturePads = {};
-
-function initSignaturePads() {
-  const canvasContratante = document.getElementById('assinaturaContratante');
-  const canvasContratado = document.getElementById('assinaturaContratado');
-  
-  if(canvasContratante) signaturePads.contratante = initSignaturePad(canvasContratante);
-  if(canvasContratado) signaturePads.contratado = initSignaturePad(canvasContratado);
-}
-
-function initSignaturePad(canvas) {
-  const ctx = canvas.getContext('2d');
-  let isDrawing = false;
-  let lastX = 0;
-  let lastY = 0;
-  
-  function resizeCanvas() {
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 2;
-    ctx.lineCap = 'round';
-  }
-  
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-  
-  function getPos(e) {
-    const rect = canvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    return {
-      x: clientX - rect.left,
-      y: clientY - rect.top
-    };
-  }
-  
-  function startDrawing(e) {
-    isDrawing = true;
-    const pos = getPos(e);
-    lastX = pos.x;
-    lastY = pos.y;
-    e.preventDefault();
-  }
-  
-  function draw(e) {
-    if(!isDrawing) return;
-    const pos = getPos(e);
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
-    ctx.lineTo(pos.x, pos.y);
-    ctx.stroke();
-    lastX = pos.x;
-    lastY = pos.y;
-    e.preventDefault();
-  }
-  
-  function stopDrawing() {
-    isDrawing = false;
-  }
-  
-  canvas.addEventListener('mousedown', startDrawing);
-  canvas.addEventListener('mousemove', draw);
-  canvas.addEventListener('mouseup', stopDrawing);
-  canvas.addEventListener('mouseout', stopDrawing);
-  canvas.addEventListener('touchstart', startDrawing);
-  canvas.addEventListener('touchmove', draw);
-  canvas.addEventListener('touchend', stopDrawing);
-  
-  return {
-    clear: function() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    },
-    toDataURL: function() {
-      return canvas.toDataURL();
-    },
-    isEmpty: function() {
-      const pixelBuffer = new Uint32Array(
-        ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer
-      );
-      return !pixelBuffer.some(color => color !== 0);
-    }
-  };
-}
-
-function limparAssinatura(tipo) {
-  if(signaturePads[tipo]) {
-    signaturePads[tipo].clear();
-    assinaturas[tipo] = null;
-    showToast(`Assinatura ${tipo === 'contratante' ? 'do cliente' : 'do DJ'} limpa`);
-  }
-}
-
-function salvarAssinatura(tipo) {
-  if(signaturePads[tipo] && !signaturePads[tipo].isEmpty()) {
-    assinaturas[tipo] = signaturePads[tipo].toDataURL();
-    showToast(`Assinatura ${tipo === 'contratante' ? 'do cliente' : 'do DJ'} salva!`);
-  } else {
-    showToast('Faça a assinatura primeiro!', 'error');
-  }
-}
-
-// ==================== CLIENTES COM BUSCA ====================
-function filtrarClientes() {
-  const termo = document.getElementById('buscaClientes').value.toLowerCase().trim();
-  atualizarListaClientes(termo);
-}
-
-function salvarCliente(e) {
-  e.preventDefault();
-  
-  const cliente = {
-    id: Date.now(),
-    nome: document.getElementById('clienteNome').value,
-    documento: document.getElementById('clienteDocumento').value,
-    cep: document.getElementById('clienteCep').value,
-    rua: document.getElementById('clienteRua').value,
-    numero: document.getElementById('clienteNumero').value,
-    complemento: document.getElementById('clienteComplemento').value,
-    bairro: document.getElementById('clienteBairro').value,
-    cidade: document.getElementById('clienteCidade').value,
-    estado: document.getElementById('clienteEstado').value,
-    telefone: document.getElementById('clienteTelefone').value,
-    email: document.getElementById('clienteEmail').value,
-    nascimento: document.getElementById('clienteNascimento').value,
-    observacoes: document.getElementById('clienteObservacoes').value,
-    dataCadastro: new Date().toISOString()
-  };
-  
-  // Verificar se é edição
-  const clienteExistente = db.clientes.find(c => c.documento === cliente.documento && c.id !== cliente.id);
-  if(clienteExistente) {
-    if(!confirm('Já existe um cliente com este documento. Deseja atualizar?')) return;
-    db.clientes = db.clientes.filter(c => c.id !== clienteExistente.id);
-  }
-  
-  db.clientes.push(cliente);
-  salvarDados();
-  
-  showToast('Cliente salvo com sucesso!');
-  document.getElementById('formCliente').reset();
-  atualizarListaClientes();
-  atualizarSelects();
-}
-
-function buscarCep() {
-  const cep = document.getElementById('clienteCep').value.replace(/\D/g, '');
-  if(cep.length === 8) {
-    fetch(`https://viacep.com.br/ws/${cep}/json/`)
-      .then(res => res.json())
-      .then(data => {
-        if(!data.erro) {
-          document.getElementById('clienteRua').value = data.logradouro;
-          document.getElementById('clienteBairro').value = data.bairro;
-          document.getElementById('clienteCidade').value = data.localidade;
-          document.getElementById('clienteEstado').value = data.uf;
-          document.getElementById('clienteNumero').focus();
-        }
-      })
-      .catch(() => showToast('Erro ao buscar CEP', 'error'));
-  }
-}
-
-function validarDocumento() {
-  // Validação básica de CPF/CNPJ
-  const doc = document.getElementById('clienteDocumento').value.replace(/\D/g, '');
-  if(doc.length !== 11 && doc.length !== 14) {
-    showToast('Documento inválido! Use CPF (11 dígitos) ou CNPJ (14 dígitos)', 'warning');
-  }
-}
-
-function atualizarListaClientes(filtro = '') {
-  const container = document.getElementById('listaClientes');
-  document.getElementById('totalClientes').textContent = db.clientes.length;
-  
-  let clientes = db.clientes;
-  
-  if(filtro) {
-    const termo = filtro.toLowerCase();
-    clientes = clientes.filter(c => 
-      c.nome.toLowerCase().includes(termo) ||
-      (c.documento && c.documento.includes(termo)) ||
-      (c.telefone && c.telefone.includes(termo)) ||
-      (c.email && c.email.toLowerCase().includes(termo))
-    );
-  }
-  
-  if(clientes.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">👤</div>
-        <p>${filtro ? 'Nenhum cliente encontrado' : 'Nenhum cliente cadastrado'}</p>
-      </div>
-    `;
-    return;
-  }
-  
-  container.innerHTML = clientes.map(cliente => {
-    const endereco = `${cliente.rua || ''}, ${cliente.numero || ''}${cliente.complemento ? ' - ' + cliente.complemento : ''}, ${cliente.bairro || ''}, ${cliente.cidade || ''}-${cliente.estado || ''}`.replace(/^, |, $/g, '');
-    
-    const totalRecebido = db.caixa
-      .filter(l => l.clienteId === cliente.id && l.tipo === 'entrada')
-      .reduce((sum, l) => sum + l.valor, 0);
-    
-    const eventosCount = db.eventos.filter(e => e.clienteId === cliente.id).length;
-    
-    return `
-      <div class="list-item">
-        <div class="list-item-header">
-          <div>
-            <div class="list-item-title">${cliente.nome}</div>
-            <div class="list-item-meta">🆔 ${cliente.documento || 'Sem documento'} | 📱 ${cliente.telefone || 'Sem telefone'}</div>
-            ${endereco ? `<div class="list-item-meta">📍 ${endereco}</div>` : ''}
-            <div class="list-item-meta" style="margin-top: 8px;">
-              <span class="badge badge-info">${eventosCount} eventos</span>
-              <span class="badge badge-success">R$ ${totalRecebido.toFixed(2)} recebido</span>
-            </div>
-          </div>
-        </div>
-        <div class="list-item-actions">
-          <button class="btn btn-sm btn-secondary" onclick="editarCliente(${cliente.id})">✏️ Editar</button>
-          <button class="btn btn-sm" onclick="novoEventoCliente(${cliente.id})">🎉 Novo Evento</button>
-          <button class="btn btn-sm btn-danger" onclick="excluirCliente(${cliente.id})">🗑️ Excluir</button>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-// ==================== EVENTOS - SOMENTE AGENDADOS ====================
-function filtrarEventos(filtro) {
-  filtroEventosAtual = filtro;
-  
-  // Atualizar tabs
-  document.querySelectorAll('#eventos .tab').forEach(tab => {
-    tab.classList.remove('active');
-    if(tab.textContent.toLowerCase().includes(filtro) || (filtro === 'todos' && tab.textContent === 'Todos')) {
-      tab.classList.add('active');
-    }
-  });
-  
-  atualizarListaEventos(filtro);
-}
-
-function salvarEvento(e) {
-  e.preventDefault();
-  
-  const clienteId = parseInt(document.getElementById('eventoCliente').value);
-  const cliente = db.clientes.find(c => c.id === clienteId);
-  
-  const evento = {
-    id: Date.now(),
-    clienteId: clienteId,
-    clienteNome: cliente ? cliente.nome : '',
-    tipo: document.getElementById('eventoTipo').value,
-    data: document.getElementById('eventoData').value,
-    horaInicio: document.getElementById('eventoHoraInicio').value,
-    horaFim: document.getElementById('eventoHoraFim').value,
-    local: document.getElementById('eventoLocal').value,
-    convidados: document.getElementById('eventoConvidados').value,
-    valorTotal: parseFloat(document.getElementById('eventoValorTotal').value) || 0,
-    valorEntrada: parseFloat(document.getElementById('eventoValorEntrada').value) || 0,
-    observacoes: document.getElementById('eventoObservacoes').value,
-    status: 'agendado',
-    concluido: false,
-    dataCadastro: new Date().toISOString()
-  };
-  
-  db.eventos.push(evento);
-  
-  // Criar lançamento automático se houver entrada
-  if(evento.valorEntrada > 0) {
-    const lancamento = {
-      id: Date.now(),
-      tipo: 'entrada',
-      valor: evento.valorEntrada,
-      descricao: `Sinal - ${evento.tipo} de ${cliente.nome}`,
-      clienteId: clienteId,
-      eventoId: evento.id,
-      data: new Date().toISOString().split('T')[0],
-      categoria: 'Evento'
-    };
-    db.caixa.push(lancamento);
-    
-    const recibo = {
-      id: Date.now(),
-      clienteId: clienteId,
-      eventoId: evento.id,
-      clienteNome: cliente.nome,
-      valor: evento.valorEntrada,
-      data: new Date().toISOString().split('T')[0],
-      formaPagamento: 'Não especificado',
-      referente: `Sinal/Entrada - ${evento.tipo}`
-    };
-    db.recibos.push(recibo);
-  }
-  
-  salvarDados();
-  showToast('Evento salvo com sucesso!');
-  document.getElementById('formEvento').reset();
-  atualizarListaEventos(filtroEventosAtual);
-  atualizarDashboard();
-}
-
-function calcularSaldo() {
-  const total = parseFloat(document.getElementById('eventoValorTotal').value) || 0;
-  const entrada = parseFloat(document.getElementById('eventoValorEntrada').value) || 0;
-  const saldo = total - entrada;
-  document.getElementById('eventoSaldo').value = `R$ ${saldo.toFixed(2)}`;
-}
-
-function atualizarListaEventos(filtro = 'todos') {
-  const container = document.getElementById('listaEventos');
-  const hoje = new Date();
-  hoje.setHours(0,0,0,0);
-  
-  let eventos = [...db.eventos];
-  
-  // Aplicar filtros
-  switch(filtro) {
-    case 'agendados':
-      eventos = eventos.filter(e => !e.concluido && new Date(e.data) >= hoje);
-      break;
-    case 'hoje':
-      const hojeStr = hoje.toISOString().split('T')[0];
-      eventos = eventos.filter(e => e.data === hojeStr);
-      break;
-    case 'semana':
-      const semana = new Date(hoje);
-      semana.setDate(semana.getDate() + 7);
-      eventos = eventos.filter(e => {
-        const data = new Date(e.data);
-        return data >= hoje && data <= semana;
-      });
-      break;
-    case 'concluidos':
-      eventos = eventos.filter(e => e.concluido || new Date(e.data) < hoje);
-      break;
-    default:
-      // Todos - mostrar apenas não concluídos por padrão na dashboard
-      eventos = eventos.filter(e => !e.concluido);
-  }
-  
-  // Ordenar por data
-  eventos.sort((a, b) => new Date(a.data) - new Date(b.data));
-  
-  if(eventos.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">📅</div>
-        <p>Nenhum evento encontrado</p>
-      </div>
-    `;
-    return;
-  }
-  
-  container.innerHTML = eventos.map(evento => {
-    const dataEvento = new Date(evento.data);
-    const diffTime = dataEvento - hoje;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
-    let statusClass = 'agendado';
-    let statusText = `Em ${diffDays} dias`;
-    
-    if(diffDays < 0) {
-      statusClass = '';
-      statusText = 'Concluído';
-    } else if(diffDays === 0) {
-      statusClass = 'hoje';
-      statusText = 'HOJE!';
-    } else if(diffDays <= 7) {
-      statusClass = 'proximo';
-      statusText = diffDays === 1 ? 'Amanhã' : `Em ${diffDays} dias`;
-    }
-    
-    const totalRecebido = db.caixa
-      .filter(l => l.eventoId === evento.id && l.tipo === 'entrada')
-      .reduce((sum, l) => sum + l.valor, 0);
-    
-    const percentual = evento.valorTotal > 0 ? (totalRecebido / evento.valorTotal * 100) : 0;
-    const estaPago = percentual >= 100;
-    
-    return `
-      <div class="list-item" style="${diffDays < 0 ? 'opacity: 0.7;' : ''}">
-        <div class="list-item-header">
-          <div>
-            <div class="list-item-title">${evento.tipo} - ${evento.clienteNome}</div>
-            <div class="list-item-meta">📅 ${formatarData(evento.data)} | ⏰ ${evento.horaInicio} às ${evento.horaFim}</div>
-            <div class="list-item-meta">📍 ${evento.local}</div>
-            <div class="list-item-meta" style="margin-top: 8px;">
-              <span class="event-status ${statusClass}">${statusText}</span>
-              <span class="badge ${estaPago ? 'badge-success' : 'badge-warning'}">
-                R$ ${totalRecebido.toFixed(2)} / R$ ${evento.valorTotal.toFixed(2)}
-              </span>
-            </div>
-            <div class="progress-bar" style="margin-top: 10px;">
-              <div class="progress-fill" style="width: ${Math.min(percentual, 100)}%">
-                ${percentual.toFixed(0)}%
-              </div>
-            </div>
-          </div>
-        </div>
-        ${diffDays >= 0 ? `
-        <div class="list-item-actions">
-          <button class="btn btn-sm btn-secondary" onclick="adicionarPagamento(${evento.id})">💵 Add Pagamento</button>
-          <button class="btn btn-sm" onclick="gerarContratoEvento(${evento.id})">📄 Contrato</button>
-          <button class="btn btn-sm btn-success" onclick="marcarConcluido(${evento.id})">✓ Concluir</button>
-          <button class="btn btn-sm btn-danger" onclick="excluirEvento(${evento.id})">🗑️</button>
-        </div>
-        ` : `
-        <div class="list-item-actions">
-          <button class="btn btn-sm btn-secondary" onclick="reativarEvento(${evento.id})">↩ Reativar</button>
-          <button class="btn btn-sm btn-danger" onclick="excluirEvento(${evento.id})">🗑️ Excluir</button>
-        </div>
-        `}
-      </div>
-    `;
-  }).join('');
-}
-
-function marcarConcluido(id) {
-  const evento = db.eventos.find(e => e.id === id);
-  if(evento) {
-    evento.concluido = true;
-    salvarDados();
-    atualizarListaEventos(filtroEventosAtual);
-    atualizarDashboard();
-    showToast('Evento marcado como concluído!');
-  }
-}
-
-function reativarEvento(id) {
-  const evento = db.eventos.find(e => e.id === id);
-  if(evento) {
-    evento.concluido = false;
-    salvarDados();
-    atualizarListaEventos(filtroEventosAtual);
-    atualizarDashboard();
-    showToast('Evento reativado!');
-  }
-}
-
-// ==================== CONTRATOS ====================
-function carregarDadosContrato() {
-  const eventoId = document.getElementById('contratoEvento').value;
-  if(!eventoId) return;
-  
-  const evento = db.eventos.find(e => e.id === parseInt(eventoId));
-  if(!evento) return;
-  
-  const cliente = db.clientes.find(c => c.id === evento.clienteId);
-  
-  document.getElementById('printContratoNumero').textContent = evento.id;
-  document.getElementById('printContratanteNome').textContent = cliente ? cliente.nome : '';
-  document.getElementById('printContratanteDocumento').textContent = cliente ? cliente.documento : '';
-  document.getElementById('printContratanteEndereco').textContent = cliente ? 
-    `${cliente.rua}, ${cliente.numero} - ${cliente.bairro}, ${cliente.cidade}-${cliente.estado}` : '';
-  
-  document.getElementById('printContratadoNome').textContent = db.configuracoes.nome;
-  document.getElementById('printContratadoDocumento').textContent = db.configuracoes.documento || '00.000.000/0000-00';
-  document.getElementById('printContratadoEndereco').textContent = db.configuracoes.endereco || 'Endereço não configurado';
-  
-  document.getElementById('printEventoTipo').textContent = evento.tipo;
-  document.getElementById('printEventoData').textContent = formatarData(evento.data);
-  document.getElementById('printEventoHoraInicio').textContent = evento.horaInicio;
-  document.getElementById('printEventoHoraFim').textContent = evento.horaFim;
-  document.getElementById('printEventoLocal').textContent = evento.local;
-  document.getElementById('printValorTotal').textContent = evento.valorTotal.toFixed(2);
-  document.getElementById('printValorEntrada').textContent = evento.valorEntrada.toFixed(2);
-  document.getElementById('printValorSaldo').textContent = (evento.valorTotal - evento.valorEntrada).toFixed(2);
-  document.getElementById('printValorExtenso').textContent = valorPorExtenso(evento.valorTotal);
-  
-  const clausulas = document.getElementById('contratoClausulas').value;
-  if(clausulas) {
-    document.getElementById('printClausulasAdicionais').style.display = 'block';
-    document.getElementById('printClausulasTexto').textContent = clausulas;
-  } else {
-    document.getElementById('printClausulasAdicionais').style.display = 'none';
-  }
-  
-  const dataContrato = document.getElementById('contratoData').value;
-  document.getElementById('printDataContrato').textContent = formatarData(dataContrato);
-  document.getElementById('printDataExtenso').textContent = dataPorExtenso(dataContrato);
-  document.getElementById('printCidadeContrato').textContent = document.getElementById('contratoCidade').value || cliente?.cidade || '';
-  
-  document.getElementById('printNomeAssinaturaContratante').textContent = cliente ? cliente.nome : '';
-  document.getElementById('printNomeAssinaturaContratado').textContent = db.configuracoes.nome;
-}
-
-function gerarContrato() {
-  const eventoId = document.getElementById('contratoEvento').value;
-  if(!eventoId) {
-    showToast('Selecione um evento primeiro!', 'error');
-    return;
-  }
-  
-  carregarDadosContrato();
-  
-  // Mostrar assinaturas
-  if(assinaturas.contratante) {
-    document.getElementById('imgAssinaturaContratante').src = assinaturas.contratante;
-    document.getElementById('imgAssinaturaContratante').style.display = 'block';
-  } else {
-    document.getElementById('imgAssinaturaContratante').style.display = 'none';
-  }
-  
-  if(assinaturas.contratado) {
-    document.getElementById('imgAssinaturaContratado').src = assinaturas.contratado;
-    document.getElementById('imgAssinaturaContratado').style.display = 'block';
-  } else {
-    document.getElementById('imgAssinaturaContratado').style.display = 'none';
-  }
-  
-  const printArea = document.getElementById('contractPrintArea');
-  printArea.style.display = 'block';
-  printArea.scrollIntoView({ behavior: 'smooth' });
-  
-  showToast('Contrato gerado! Verifique as assinaturas antes de imprimir.');
-}
-
-function imprimirContrato() {
-  if(!document.getElementById('contratoEvento').value) {
-    showToast('Gere o contrato primeiro!', 'error');
-    return;
-  }
-  
-  window.print();
-}
-
-// ==================== CAIXA/FINANCEIRO COMPLETO ====================
-function mostrarAbaCaixa(aba) {
-  document.querySelectorAll('.aba-caixa').forEach(a => a.style.display = 'none');
-  document.getElementById(`aba${aba.charAt(0).toUpperCase() + aba.slice(1)}`).style.display = 'block';
-  
-  document.querySelectorAll('#caixa .tab').forEach(tab => {
-    tab.classList.remove('active');
-    if(tab.textContent.toLowerCase().includes(aba)) tab.classList.add('active');
-  });
-  
-  if(aba === 'extrato') filtrarExtrato();
-  if(aba === 'relatorio') gerarRelatorioPeriodo();
-}
-
-function salvarLancamento(e) {
-  e.preventDefault();
-  
-  const tipo = document.getElementById('caixaTipo').value;
-  const clienteId = document.getElementById('caixaCliente').value;
-  const eventoId = document.getElementById('caixaEvento').value;
-  
-  const lancamento = {
-    id: Date.now(),
-    tipo: tipo,
-    valor: parseFloat(document.getElementById('caixaValor').value) || 0,
-    descricao: document.getElementById('caixaDescricao').value,
-    clienteId: clienteId ? parseInt(clienteId) : null,
-    eventoId: eventoId ? parseInt(eventoId) : null,
-    data: document.getElementById('caixaData').value,
-    categoria: document.getElementById('caixaCategoria').value
-  };
-  
-  db.caixa.push(lancamento);
-  salvarDados();
-  
-  showToast('Lançamento salvo com sucesso!');
-  document.getElementById('formCaixa').reset();
-  atualizarDashboard();
-  
-  // Se for entrada, perguntar se quer emitir recibo
-  if(tipo === 'entrada' && confirm('Deseja emitir recibo para este pagamento?')) {
-    showTab('recibos');
-    if(clienteId) document.getElementById('reciboCliente').value = clienteId;
-    if(eventoId) {
-      setTimeout(() => {
-        document.getElementById('reciboEvento').value = eventoId;
-        document.getElementById('reciboValor').value = lancamento.valor;
-      }, 100);
-    }
-  }
-}
-
-function filtrarExtrato() {
-  const dataInicio = document.getElementById('extratoDataInicio').value;
-  const dataFim = document.getElementById('extratoDataFim').value;
-  const tipo = document.getElementById('extratoTipo').value;
-  
-  let lancamentos = [...db.caixa];
-  
-  if(dataInicio) {
-    lancamentos = lancamentos.filter(l => l.data >= dataInicio);
-  }
-  if(dataFim) {
-    lancamentos = lancamentos.filter(l => l.data <= dataFim);
-  }
-  if(tipo !== 'todos') {
-    lancamentos = lancamentos.filter(l => l.tipo === tipo);
-  }
-  
-  lancamentos.sort((a, b) => new Date(b.data) - new Date(a.data));
-  
-  const container = document.getElementById('listaCaixa');
-  
-  if(lancamentos.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">💰</div>
-        <p>Nenhum lançamento encontrado</p>
-      </div>
-    `;
-    return;
-  }
-  
-  // Calcular totais do período
-  const totalEntradas = lancamentos.filter(l => l.tipo === 'entrada').reduce((sum, l) => sum + l.valor, 0);
-  const totalSaidas = lancamentos.filter(l => l.tipo === 'saida').reduce((sum, l) => sum + l.valor, 0);
-  
-  container.innerHTML = `
-    <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
-      <div style="background: var(--success); color: white; padding: 10px 20px; border-radius: 8px;">
-        <strong>Entradas:</strong> R$ ${totalEntradas.toFixed(2)}
-      </div>
-      <div style="background: var(--danger); color: white; padding: 10px 20px; border-radius: 8px;">
-        <strong>Saídas:</strong> R$ ${totalSaidas.toFixed(2)}
-      </div>
-      <div style="background: var(--primary); color: white; padding: 10px 20px; border-radius: 8px;">
-        <strong>Saldo:</strong> R$ ${(totalEntradas - totalSaidas).toFixed(2)}
-      </div>
-    </div>
-    ${lancamentos.map(lanc => {
-      const isEntrada = lanc.tipo === 'entrada';
-      const cliente = lanc.clienteId ? db.clientes.find(c => c.id === lanc.clienteId) : null;
-      
-      return `
-        <div class="list-item" style="border-left-color: ${isEntrada ? 'var(--success)' : 'var(--danger)'}">
-          <div class="list-item-header">
-            <div>
-              <div class="list-item-title" style="color: ${isEntrada ? 'var(--success)' : 'var(--danger)'}">
-                ${isEntrada ? '↑' : '↓'} R$ ${lanc.valor.toFixed(2)}
-              </div>
-              <div class="list-item-meta">📅 ${formatarData(lanc.data)} | 📂 ${lanc.categoria}</div>
-              <div class="list-item-meta">📝 ${lanc.descricao}</div>
-              ${cliente ? `<div class="list-item-meta">👤 ${cliente.nome}</div>` : ''}
-            </div>
-          </div>
-          <div class="list-item-actions">
-            <button class="btn btn-sm btn-danger" onclick="excluirLancamento(${lanc.id})">🗑️ Excluir</button>
-          </div>
-        </div>
-      `;
-    }).join('')}
-  `;
-}
-
-function gerarRelatorioPeriodo() {
-  const periodo = document.getElementById('relPeriodo').value;
-  const hoje = new Date();
-  let dataInicio, dataFim;
-  
-  switch(periodo) {
-    case 'mes':
-      dataInicio = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
-      dataFim = hoje;
-      break;
-    case 'ultimo_mes':
-      dataInicio = new Date(hoje.getFullYear(), hoje.getMonth() - 1, 1);
-      dataFim = new Date(hoje.getFullYear(), hoje.getMonth(), 0);
-      break;
-    case 'trimestre':
-      dataInicio = new Date(hoje.getFullYear(), hoje.getMonth() - 3, 1);
-      dataFim = hoje;
-      break;
-    case 'semestre':
-      dataInicio = new Date(hoje.getFullYear(), hoje.getMonth() - 6, 1);
-      dataFim = hoje;
-      break;
-    case 'ano':
-      dataInicio = new Date(hoje.getFullYear(), 0, 1);
-      dataFim = hoje;
-      break;
-    case 'ano_passado':
-      dataInicio = new Date(hoje.getFullYear() - 1, 0, 1);
-      dataFim = new Date(hoje.getFullYear() - 1, 11, 31);
-      break;
-    case 'personalizado':
-      document.getElementById('grupoDataInicio').style.display = 'block';
-      document.getElementById('grupoDataFim').style.display = 'block';
-      dataInicio = new Date(document.getElementById('relDataInicio').value);
-      dataFim = new Date(document.getElementById('relDataFim').value);
-      break;
-  }
-  
-  if(periodo !== 'personalizado') {
-    document.getElementById('grupoDataInicio').style.display = 'none';
-    document.getElementById('grupoDataFim').style.display = 'none';
-  }
-  
-  const lancamentos = db.caixa.filter(l => {
-    const data = new Date(l.data);
-    return data >= dataInicio && data <= dataFim;
-  });
-  
-  const entradas = lancamentos.filter(l => l.tipo === 'entrada').reduce((sum, l) => sum + l.valor, 0);
-  const saidas = lancamentos.filter(l => l.tipo === 'saida').reduce((sum, l) => sum + l.valor, 0);
-  
-  document.getElementById('relMesEntradas').textContent = `R$ ${entradas.toFixed(2)}`;
-  document.getElementById('relMesSaidas').textContent = `R$ ${saidas.toFixed(2)}`;
-  document.getElementById('relMesLucro').textContent = `R$ ${(entradas - saidas).toFixed(2)}`;
-  
-  // Análise por categoria
-  const categorias = {};
-  lancamentos.forEach(l => {
-    if(!categorias[l.categoria]) categorias[l.categoria] = { entradas: 0, saidas: 0 };
-    categorias[l.categoria][l.tipo === 'entrada' ? 'entradas' : 'saidas'] += l.valor;
-  });
-  
-  const containerCat = document.getElementById('analiseCategoria');
-  if(Object.keys(categorias).length === 0) {
-    containerCat.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📊</div><p>Sem dados para o período</p></div>';
-  } else {
-    containerCat.innerHTML = Object.entries(categorias).map(([cat, vals]) => `
-      <div class="list-item">
-        <div class="list-item-header">
-          <div class="list-item-title">${cat}</div>
-          <div>
-            ${vals.entradas > 0 ? `<span style="color: var(--success); font-weight: bold;">+ R$ ${vals.entradas.toFixed(2)}</span>` : ''}
-            ${vals.saidas > 0 ? `<span style="color: var(--danger); font-weight: bold; margin-left: 10px;">- R$ ${vals.saidas.toFixed(2)}</span>` : ''}
-          </div>
-        </div>
-      </div>
-    `).join('');
-  }
-  
-  // Calcular ano também
-  const anoInicio = new Date(hoje.getFullYear(), 0, 1);
-  const lancamentosAno = db.caixa.filter(l => new Date(l.data) >= anoInicio);
-  const entradasAno = lancamentosAno.filter(l => l.tipo === 'entrada').reduce((sum, l) => sum + l.valor, 0);
-  document.getElementById('relAnoEntradas').textContent = `R$ ${entradasAno.toFixed(2)}`;
-  
-  // Mostrar resultado detalhado
-  document.getElementById('resultadoRelatorio').innerHTML = `
-    <div class="report-grid">
-      <div class="report-card">
-        <div class="report-card-title">Total de Lançamentos</div>
-        <div class="report-card-value">${lancamentos.length}</div>
-      </div>
-      <div class="report-card" style="border-left-color: var(--success);">
-        <div class="report-card-title">Média por Lançamento</div>
-        <div class="report-card-value">R$ ${lancamentos.length > 0 ? (entradas / lancamentos.filter(l => l.tipo === 'entrada').length || 1).toFixed(2) : '0.00'}</div>
-      </div>
-    </div>
-  `;
-}
-
-// ==================== DASHBOARD ATUALIZADO ====================
-function atualizarDashboard() {
-  const hoje = new Date();
-  const inicioMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
-  
-  // Dados do mês
-  const lancamentosMes = db.caixa.filter(l => new Date(l.data) >= inicioMes);
-  const entradasMes = lancamentosMes.filter(l => l.tipo === 'entrada').reduce((sum, l) => sum + l.valor, 0);
-  const saidasMes = lancamentosMes.filter(l => l.tipo === 'saida').reduce((sum, l) => sum + l.valor, 0);
-  
-  document.getElementById('mesEntradas').textContent = `R$ ${entradasMes.toFixed(2)}`;
-  document.getElementById('mesSaidas').textContent = `R$ ${saidasMes.toFixed(2)}`;
-  document.getElementById('mesLucro').textContent = `R$ ${(entradasMes - saidasMes).toFixed(2)}`;
-  
-  // Eventos do mês
-  const eventosMes = db.eventos.filter(e => {
-    const data = new Date(e.data);
-    return data.getMonth() === hoje.getMonth() && data.getFullYear() === hoje.getFullYear();
-  }).length;
-  document.getElementById('mesEventos').textContent = eventosMes;
-  
-  // Próximos eventos (30 dias)
-  const trintaDias = new Date(hoje);
-  trintaDias.setDate(trintaDias.getDate() + 30);
-  
-  const proximosEventos = db.eventos
-    .filter(e => {
-      const data = new Date(e.data);
-      return data >= hoje && data <= trintaDias && !e.concluido;
-    })
-    .sort((a, b) => new Date(a.data) - new Date(b.data));
-  
-  document.getElementById('contadorEventos').textContent = `${proximosEventos.length} eventos`;
-  
-  const container = document.getElementById('eventosAgendados');
-  if(proximosEventos.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">📅</div>
-        <p>Nenhum evento agendado para os próximos 30 dias</p>
-      </div>
-    `;
-  } else {
-    container.innerHTML = proximosEventos.slice(0, 5).map(evento => {
-      const data = new Date(evento.data);
-      const diffDays = Math.ceil((data - hoje) / (1000 * 60 * 60 * 24));
-      let badge = '';
-      if(diffDays === 0) badge = '<span class="badge badge-danger">HOJE</span>';
-      else if(diffDays === 1) badge = '<span class="badge badge-warning">AMANHÃ</span>';
-      else if(diffDays <= 7) badge = `<span class="badge badge-info">Em ${diffDays} dias</span>`;
-      
-      return `
-        <div class="list-item" onclick="showTab('eventos')" style="cursor: pointer;">
-          <div class="list-item-header">
-            <div>
-              <div class="list-item-title">${evento.tipo} - ${evento.clienteNome}</div>
-              <div class="list-item-meta">📅 ${formatarData(evento.data)} | ⏰ ${evento.horaInicio}</div>
-              <div class="list-item-meta">📍 ${evento.local}</div>
-            </div>
-            ${badge}
-          </div>
-        </div>
-      `;
-    }).join('');
-  }
-  
-  // Timeline de atividades recentes
-  const atividades = [
-    ...db.caixa.slice(-5).map(l => ({...l, tipo: 'caixa', data: l.data})),
-    ...db.eventos.slice(-5).map(e => ({...e, tipo: 'evento', data: e.dataCadastro})),
-    ...db.clientes.slice(-5).map(c => ({...c, tipo: 'cliente', data: c.dataCadastro}))
-  ].sort((a, b) => new Date(b.data) - new Date(a.data)).slice(0, 10);
-  
-  const timeline = document.getElementById('timelineAtividades');
-  if(atividades.length === 0) {
-    timeline.innerHTML = '<p style="text-align: center; color: var(--text-muted);">Nenhuma atividade recente</p>';
-  } else {
-    timeline.innerHTML = atividades.map(at => {
-      let icone, texto, cor;
-      if(at.tipo === 'caixa') {
-        icone = at.tipo === 'entrada' ? '💵' : '💸';
-        texto = `${at.tipo === 'entrada' ? 'Recebimento' : 'Pagamento'} de R$ ${at.valor.toFixed(2)}`;
-        cor = at.tipo === 'entrada' ? 'var(--success)' : 'var(--danger)';
-      } else if(at.tipo === 'evento') {
-        icone = '🎉';
-        texto = `Evento ${at.tipo} agendado para ${formatarData(at.data)}`;
-        cor = 'var(--primary)';
-      } else {
-        icone = '👤';
-        texto = `Cliente ${at.nome} cadastrado`;
-        cor = 'var(--info)';
-      }
-      
-      return `
-        <div class="timeline-item" style="border-left: 3px solid ${cor};">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span>${icone} ${texto}</span>
-            <small style="color: var(--text-muted);">${formatarData(at.data)}</small>
-          </div>
-        </div>
-      `;
-    }).join('');
-  }
-}
-
-// ==================== RELATÓRIOS ====================
-function mostrarAbaRelatorio(aba) {
-  document.querySelectorAll('.aba-relatorio').forEach(a => a.style.display = 'none');
-  document.getElementById(`rel${aba.charAt(0).toUpperCase() + aba.slice(1)}`).style.display = 'block';
-  
-  document.querySelectorAll('#relatorios .tab').forEach(tab => {
-    tab.classList.remove('active');
-    if(tab.textContent.toLowerCase().includes(aba)) tab.classList.add('active');
-  });
-  
-  if(aba === 'clientes') gerarTopClientes();
-}
-
-function gerarTopClientes() {
-  const clientesValor = db.clientes.map(c => {
-    const total = db.caixa
-      .filter(l => l.clienteId === c.id && l.tipo === 'entrada')
-      .reduce((sum, l) => sum + l.valor, 0);
-    return {...c, total};
-  }).sort((a, b) => b.total - a.total).slice(0, 10);
-  
-  const container = document.getElementById('topClientes');
-  if(clientesValor.length === 0 || clientesValor[0].total === 0) {
-    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">👑</div><p>Sem dados suficientes</p></div>';
-    return;
-  }
-  
-  container.innerHTML = clientesValor.map((c, i) => `
-    <div class="list-item" style="${i < 3 ? 'border-left-color: gold;' : ''}">
-      <div class="list-item-header">
-        <div>
-          <div class="list-item-title">${i + 1}º ${c.nome} ${i < 3 ? '👑' : ''}</div>
-          <div class="list-item-meta">${db.eventos.filter(e => e.clienteId === c.id).length} eventos</div>
-        </div>
-        <div class="stat-value" style="font-size: 20px;">R$ ${c.total.toFixed(2)}</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function gerarRelatorioEventos() {
-  const ano = parseInt(document.getElementById('relAnoEventos').value);
-  const eventosAno = db.eventos.filter(e => new Date(e.data).getFullYear() === ano);
-  
-  const porMes = {};
-  for(let i = 0; i < 12; i++) {
-    porMes[i] = { quantidade: 0, valor: 0 };
-  }
-  
-  eventosAno.forEach(e => {
-    const mes = new Date(e.data).getMonth();
-    porMes[mes].quantidade++;
-    porMes[mes].valor += e.valorTotal;
-  });
-  
-  const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-  
-  document.getElementById('relatorioEventos').innerHTML = `
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-      ${Object.entries(porMes).map(([mes, dados]) => `
-        <div class="report-card" style="${dados.quantidade > 0 ? 'border-left-color: var(--success);' : ''}">
-          <div class="report-card-title">${meses[mes]} ${ano}</div>
-          <div class="report-card-value">${dados.quantidade}</div>
-          <div class="report-card-subtitle">eventos | R$ ${dados.valor.toFixed(2)}</div>
-        </div>
-      `).join('')}
-    </div>
-    <div style="margin-top: 20px; text-align: center;">
-      <strong>Total no ano:</strong> ${eventosAno.length} eventos | 
-      <strong>Valor total:</strong> R$ ${eventosAno.reduce((sum, e) => sum + e.valorTotal, 0).toFixed(2)}
-    </div>
-  `;
-}
-
-// ==================== UTILITÁRIOS ====================
-function formatarData(dataString) {
-  if(!dataString) return '';
-  const data = new Date(dataString);
-  return data.toLocaleDateString('pt-BR');
-}
-
-function dataPorExtenso(dataString) {
-  if(!dataString) return '';
-  const data = new Date(dataString);
-  const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
-  return `${data.getDate()} de ${meses[data.getMonth()]} de ${data.getFullYear()}`;
-}
-
-function valorPorExtenso(valor) {
-  // Simplificado
-  return `${valor.toFixed(2).replace('.', ',')} reais`;
-}
-
-function showToast(mensagem, tipo = 'success') {
-  const toast = document.getElementById('toast');
-  toast.textContent = mensagem;
-  toast.className = `toast ${tipo} show`;
-  setTimeout(() => toast.classList.remove('show'), 3000);
-}
-
-// ==================== PERSISTÊNCIA ====================
-function salvarDados() {
-  localStorage.setItem('djpro_data_v2', JSON.stringify(db));
-}
-
-function carregarDados() {
-  const dados = localStorage.getItem('djpro_data_v2');
-  if(dados) {
-    db = JSON.parse(dados);
-    if(db.configuracoes.tema === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
-    if(db.configuracoes.cor) {
-      document.documentElement.setAttribute('data-color', db.configuracoes.cor);
-      document.querySelectorAll('.color-option').forEach(el => {
-        el.classList.remove('selected');
-        el.textContent = '';
-        if(el.dataset.color === db.configuracoes.cor) {
-          el.classList.add('selected');
-          el.textContent = '✓';
-        }
-      });
-    }
-  }
-}
-
-// ==================== CONFIGURAÇÕES ====================
-function toggleTheme() {
-  const html = document.documentElement;
-  const current = html.getAttribute('data-theme');
-  const novo = current === 'dark' ? 'light' : 'dark';
-  html.setAttribute('data-theme', novo);
-  db.configuracoes.tema = novo;
-  salvarDados();
-}
-
-function setColor(cor) {
-  document.documentElement.setAttribute('data-color', cor);
-  db.configuracoes.cor = cor;
-  salvarDados();
-  document.querySelectorAll('.color-option').forEach(el => {
-    el.classList.remove('selected');
-    el.textContent = '';
-  });
-  document.querySelector(`.color-option[data-color="${cor}"]`).classList.add('selected');
-  document.querySelector(`.color-option[data-color="${cor}"]`).textContent = '✓';
-}
-
-function salvarConfiguracoes() {
-  db.configuracoes.nome = document.getElementById('configNome').value;
-  db.configuracoes.documento = document.getElementById('configDocumento').value;
-  db.configuracoes.endereco = document.getElementById('configEndereco').value;
-  db.configuracoes.telefone = document.getElementById('configTelefone').value;
-  salvarDados();
-  showToast('Configurações salvas!');
-}
-
-function showModal(modal) {
-  document.getElementById(`modal${modal.charAt(0).toUpperCase() + modal.slice(1)}`).classList.add('active');
-  if(modal === 'config') {
-    document.getElementById('modalConfigNome').value = db.configuracoes.nome;
-    document.getElementById('modalConfigDocumento').value = db.configuracoes.documento;
-    document.getElementById('modalConfigEndereco').value = db.configuracoes.endereco;
-  }
-}
-
-function closeModal(modal) {
-  document.getElementById(`modal${modal.charAt(0).toUpperCase() + modal.slice(1)}`).classList.remove('active');
-}
-
-function salvarModalConfig() {
-  db.configuracoes.nome = document.getElementById('modalConfigNome').value;
-  db.configuracoes.documento = document.getElementById('modalConfigDocumento').value;
-  db.configuracoes.endereco = document.getElementById('modalConfigEndereco').value;
-  salvarDados();
-  closeModal('config');
-  showToast('Configurações salvas!');
-}
-
-// ==================== EXPORTAR/IMPORTAR ====================
-function exportarDados() {
-  const dataStr = JSON.stringify(db, null, 2);
-  const blob = new Blob([dataStr], {type: 'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `djpro_backup_${new Date().toISOString().split('T')[0]}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('Dados exportados!');
-}
-
-function importarDados(input) {
-  const file = input.files[0];
-  if(!file) return;
-  
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const dados = JSON.parse(e.target.result);
-      if(confirm('Isso substituirá todos os dados atuais. Deseja continuar?')) {
-        db = dados;
-        salvarDados();
-        location.reload();
-      }
-    } catch(err) {
-      showToast('Erro ao importar arquivo!', 'error');
-    }
-  };
-  reader.readAsText(file);
-}
-
-// ==================== LOGIN/PIN ====================
-function enterPin(num) {
-  if(currentPin.length < 4) {
-    currentPin += num;
-    atualizarPinDisplay();
-    if(currentPin.length === 4) verificarPin();
-  }
-}
-
-function clearPin() {
-  currentPin = currentPin.slice(0, -1);
-  atualizarPinDisplay();
-}
-
-function atualizarPinDisplay() {
-  const dots = document.querySelectorAll('.pin-dot');
-  dots.forEach((dot, index) => {
-    dot.classList.toggle('filled', index < currentPin.length);
-  });
-}
-
-function verificarPin() {
-  if(currentPin === db.configuracoes.pin) {
-    document.getElementById('loginScreen').style.display = 'none';
-    currentPin = '';
-    atualizarPinDisplay();
-  } else {
-    showToast('PIN incorreto!', 'error');
-    currentPin = '';
-    setTimeout(atualizarPinDisplay, 200);
-  }
-}
-
-function skipLogin() {
-  document.getElementById('loginScreen').style.display = 'none';
-}
-
-function alterarPin() {
-  const novoPin = prompt('Digite o novo PIN (4 dígitos):');
-  if(novoPin && novoPin.length === 4 && !isNaN(novoPin)) {
-    db.configuracoes.pin = novoPin;
-    salvarDados();
-    showToast('PIN alterado com sucesso!');
-  } else {
-    showToast('PIN inválido!', 'error');
-  }
-}
-
-function logout() {
-  document.getElementById('loginScreen').style.display = 'flex';
-  currentPin = '';
-  atualizarPinDisplay();
-}
-
-// ==================== FUNÇÕES AUXILIARES ====================
-function atualizarSelects() {
-  atualizarSelectClientes();
-  atualizarSelectContratos();
-  atualizarSelectRecibos();
-  atualizarSelectCaixa();
-}
-
-function atualizarSelectClientes() {
-  const selects = ['eventoCliente', 'reciboCliente', 'caixaCliente'];
-  selects.forEach(id => {
-    const select = document.getElementById(id);
-    if(select) {
-      const atual = select.value;
-      select.innerHTML = '<option value="">Selecione um cliente...</option>' +
-        db.clientes.sort((a, b) => a.nome.localeCompare(b.nome)).map(c => 
-          `<option value="${c.id}">${c.nome} ${c.documento ? '(' + c.documento + ')' : ''}</option>`
-        ).join('');
-      select.value = atual;
-    }
-  });
-}
-
-function atualizarSelectContratos() {
-  const select = document.getElementById('contratoEvento');
-  if(select) {
-    select.innerHTML = '<option value="">Selecione um evento...</option>' +
-      db.eventos
-        .filter(e => !e.concluido)
-        .sort((a, b) => new Date(a.data) - new Date(b.data))
-        .map(e => `<option value="${e.id}">${e.tipo} - ${e.clienteNome} (${formatarData(e.data)})</option>`).join('');
-  }
-}
-
-function atualizarSelectRecibos() {
-  const select = document.getElementById('reciboCliente');
-  if(select) {
-    select.innerHTML = '<option value="">Selecione um cliente...</option>' +
-      db.clientes.sort((a, b) => a.nome.localeCompare(b.nome)).map(c => 
-        `<option value="${c.id}">${c.nome}</option>`
-      ).join('');
-  }
-}
-
-function carregarEventosRecibo() {
-  const clienteId = document.getElementById('reciboCliente').value;
-  const select = document.getElementById('reciboEvento');
-  if(!clienteId) {
-    select.innerHTML = '<option value="">Selecione um evento...</option>';
-    return;
-  }
-  const eventos = db.eventos.filter(e => e.clienteId === parseInt(clienteId));
-  select.innerHTML = '<option value="">Selecione um evento...</option>' +
-    eventos.map(e => `<option value="${e.id}">${e.tipo} - ${formatarData(e.data)}</option>`).join('');
-}
-
-function atualizarSelectCaixa() {
-  const select = document.getElementById('caixaCliente');
-  if(select) {
-    select.innerHTML = '<option value="">Nenhum</option>' +
-      db.clientes.sort((a, b) => a.nome.localeCompare(b.nome)).map(c => 
-        `<option value="${c.id}">${c.nome}</option>`
-      ).join('');
-  }
-}
-
-function carregarEventosCaixa() {
-  const clienteId = document.getElementById('caixaCliente').value;
-  const select = document.getElementById('caixaEvento');
-  const grupo = document.getElementById('grupoEventoLancamento');
-  
-  if(!clienteId) {
-    grupo.style.display = 'none';
-    return;
-  }
-  
-  const eventos = db.eventos.filter(e => e.clienteId === parseInt(clienteId) && !e.concluido);
-  if(eventos.length === 0) {
-    grupo.style.display = 'none';
-    return;
-  }
-  
-  select.innerHTML = '<option value="">Nenhum</option>' +
-    eventos.map(e => `<option value="${e.id}">${e.tipo} - ${formatarData(e.data)}</option>`).join('');
-  grupo.style.display = 'block';
-}
-
-function toggleClienteLancamento() {
-  const tipo = document.getElementById('caixaTipo').value;
-  const grupo = document.getElementById('grupoClienteLancamento');
-  grupo.style.display = tipo === 'entrada' ? 'block' : 'none';
-  if(tipo !== 'entrada') {
-    document.getElementById('caixaCliente').value = '';
-    document.getElementById('grupoEventoLancamento').style.display = 'none';
-  }
-}
-
-function adicionarPagamento(eventoId) {
-  const evento = db.eventos.find(e => e.id === eventoId);
-  if(!evento) return;
-  
-  const valor = prompt(`Valor do pagamento para ${evento.tipo} de ${evento.clienteNome}:\nSaldo restante: R$ ${(evento.valorTotal - evento.valorEntrada).toFixed(2)}`);
-  if(!valor || isNaN(valor) || valor <= 0) return;
-  
-  const forma = prompt('Forma de pagamento (Dinheiro, Pix, Cartão, etc):', 'Pix');
-  
-  const lancamento = {
-    id: Date.now(),
-    tipo: 'entrada',
-    valor: parseFloat(valor),
-    descricao: `Pagamento - ${evento.tipo} de ${evento.clienteNome}`,
-    clienteId: evento.clienteId,
-    eventoId: eventoId,
-    data: new Date().toISOString().split('T')[0],
-    categoria: 'Evento'
-  };
-  
-  db.caixa.push(lancamento);
-  
-  const recibo = {
-    id: Date.now(),
-    clienteId: evento.clienteId,
-    eventoId: eventoId,
-    clienteNome: evento.clienteNome,
-    valor: parseFloat(valor),
-    data: new Date().toISOString().split('T')[0],
-    formaPagamento: forma || 'Não especificado',
-    referente: `Pagamento - ${evento.tipo}`
-  };
-  db.recibos.push(recibo);
-  
-  salvarDados();
-  showToast('Pagamento registrado!');
-  atualizarListaEventos(filtroEventosAtual);
-  atualizarDashboard();
-}
-
-function gerarContratoEvento(eventoId) {
-  showTab('contratos');
-  document.getElementById('contratoEvento').value = eventoId;
-  carregarDadosContrato();
-  gerarContrato();
-}
-
-function novoEventoCliente(clienteId) {
-  showTab('eventos');
-  document.getElementById('eventoCliente').value = clienteId;
-  document.getElementById('eventoTipo').focus();
-}
-
-// ==================== EXCLUSÕES ====================
-function excluirCliente(id) {
-  if(!confirm('Deseja excluir este cliente? Todos os eventos associados também serão excluídos.')) return;
-  
-  db.clientes = db.clientes.filter(c => c.id !== id);
-  db.eventos = db.eventos.filter(e => e.clienteId !== id);
-  db.caixa = db.caixa.filter(l => l.clienteId !== id);
-  db.recibos = db.recibos.filter(r => r.clienteId !== id);
-  
-  salvarDados();
-  atualizarListaClientes();
-  atualizarSelects();
-  atualizarDashboard();
-  showToast('Cliente excluído!');
-}
-
-function excluirEvento(id) {
-  if(!confirm('Deseja excluir este evento?')) return;
-  
-  db.eventos = db.eventos.filter(e => e.id !== id);
-  db.caixa = db.caixa.filter(l => l.eventoId !== id);
-  db.recibos = db.recibos.filter(r => r.eventoId !== id);
-  
-  salvarDados();
-  atualizarListaEventos(filtroEventosAtual);
-  atualizarDashboard();
-  showToast('Evento excluído!');
-}
-
-function excluirLancamento(id) {
-  if(!confirm('Deseja excluir este lançamento?')) return;
-  db.caixa = db.caixa.filter(l => l.id !== id);
-  salvarDados();
-  filtrarExtrato();
-  atualizarDashboard();
-  showToast('Lançamento excluído!');
-}
-
-function editarCliente(id) {
-  const cliente = db.clientes.find(c => c.id === id);
-  if(!cliente) return;
-  
-  showTab('clientes');
-  
-  document.getElementById('clienteNome').value = cliente.nome;
-  document.getElementById('clienteDocumento').value = cliente.documento;
-  document.getElementById('clienteCep').value = cliente.cep || '';
-  document.getElementById('clienteRua').value = cliente.rua || '';
-  document.getElementById('clienteNumero').value = cliente.numero || '';
-  document.getElementById('clienteComplemento').value = cliente.complemento || '';
-  document.getElementById('clienteBairro').value = cliente.bairro || '';
-  document.getElementById('clienteCidade').value = cliente.cidade || '';
-  document.getElementById('clienteEstado').value = cliente.estado || '';
-  document.getElementById('clienteTelefone').value = cliente.telefone || '';
-  document.getElementById('clienteEmail').value = cliente.email || '';
-  document.getElementById('clienteNascimento').value = cliente.nascimento || '';
-  document.getElementById('clienteObservacoes').value = cliente.observacoes || '';
-  
-  // Remover cliente antigo
-  db.clientes = db.clientes.filter(c => c.id !== id);
-  
-  showToast('Editando cliente. Salve para confirmar as alterações.');
-}
-
-function salvarRecibo(e) {
-  e.preventDefault();
-  
-  const clienteId = parseInt(document.getElementById('reciboCliente').value);
-  const cliente = db.clientes.find(c => c.id === clienteId);
-  const eventoId = parseInt(document.getElementById('reciboEvento').value);
-  
-  const recibo = {
-    id: Date.now(),
-    clienteId: clienteId,
-    eventoId: eventoId,
-    clienteNome: cliente ? cliente.nome : '',
-    valor: parseFloat(document.getElementById('reciboValor').value) || 0,
-    data: document.getElementById('reciboData').value,
-    formaPagamento: document.getElementById('reciboFormaPagamento').value,
-    referente: document.getElementById('reciboReferente').value
-  };
-  
-  db.recibos.push(recibo);
-  
-  // Criar lançamento automático
-  const lancamento = {
-    id: Date.now(),
-    tipo: 'entrada',
-    valor: recibo.valor,
-    descricao: `Recibo: ${recibo.referente} - ${cliente.nome}`,
-    clienteId: clienteId,
-    eventoId: eventoId,
-    data: recibo.data,
-    categoria: 'Evento'
-  };
-  db.caixa.push(lancamento);
-  
-  salvarDados();
-  showToast('Recibo emitido com sucesso!');
-  document.getElementById('formRecibo').reset();
-  atualizarDashboard();
-  
-  if(confirm('Deseja imprimir o recibo agora?')) {
-    imprimirRecibo(recibo.id);
-  }
-}
-
-function atualizarListaRecibos() {
-  const container = document.getElementById('listaRecibos');
-  
-  if(db.recibos.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">🧾</div>
-        <p>Nenhum recibo emitido</p>
-      </div>
-    `;
-    return;
-  }
-  
-  const recibosOrdenados = [...db.recibos].sort((a, b) => new Date(b.data) - new Date(a.data));
-  
-  container.innerHTML = recibosOrdenados.map(recibo => `
-    <div class="list-item">
-      <div class="list-item-header">
-        <div>
-          <div class="list-item-title">R$ ${recibo.valor.toFixed(2)} - ${recibo.clienteNome}</div>
-          <div class="list-item-meta">📅 ${formatarData(recibo.data)} | 💳 ${recibo.formaPagamento}</div>
-          <div class="list-item-meta">📝 ${recibo.referente}</div>
-        </div>
-      </div>
-      <div class="list-item-actions">
-        <button class="btn btn-sm" onclick="imprimirRecibo(${recibo.id})">🖨️ Imprimir</button>
-        <button class="btn btn-sm btn-danger" onclick="excluirRecibo(${recibo.id})">🗑️ Excluir</button>
-      </div>
-    </div>
-  `).join('');
-}
-
-function excluirRecibo(id) {
-  if(!confirm('Deseja excluir este recibo?')) return;
-  db.recibos = db.recibos.filter(r => r.id !== id);
-  salvarDados();
-  atualizarListaRecibos();
-  atualizarDashboard();
-  showToast('Recibo excluído!');
 }
 
-function imprimirRecibo(id) {
-  const recibo = db.recibos.find(r => r.id === id);
-  if(!recibo) return;
-  
-  const printWindow = window.open('', '_blank');
-  printWindow.document.write(`
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <title>Recibo ${recibo.id}</title>
-      <style>
-        body { 
-          font-family: 'Segoe UI', Arial, sans-serif; 
-          padding: 40px; 
-          max-width: 800px; 
-          margin: 0 auto; 
-          background: #f5f5f5;
-        }
-        .recibo {
-          background: white;
-          padding: 40px;
-          border-radius: 8px;
-          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .header { 
-          text-align: center; 
-          border-bottom: 3px solid var(--primary, #0b76d1); 
-          padding-bottom: 20px; 
-          margin-bottom: 30px; 
-        }
-        .header h1 { color: var(--primary, #0b76d1); margin: 0; font-size: 32px; }
-        .header p { color: #666; margin: 5px 0; }
-        .valor-box { 
-          background: #f8f9fa; 
-          padding: 20px; 
-          border-radius: 8px; 
-          text-align: center; 
-          margin: 30px 0;
-          border: 2px solid #dee2e6;
-        }
-        .valor { 
-          font-size: 36px; 
-          font-weight: bold; 
-          color: var(--success, #28a745);
-        }
-        .info-row { margin: 15px 0; padding: 10px 0; border-bottom: 1px solid #eee; }
-        .info-label { font-weight: bold; color: #666; display: inline-block; width: 150px; }
-        .assinatura { 
-          margin-top: 60px; 
-          text-align: center; 
-          page-break-inside: avoid;
-        }
-        .linha-assinatura {
-          border-top: 1px solid #333;
-          width: 300px;
-          margin: 0 auto;
-          padding-top: 10px;
-        }
-        @media print { 
-          body { background: white; padding: 0; }
-          .recibo { box-shadow: none; }
-        }
-      </style>
-    </head>
-    <body>
-      <div class="recibo">
-        <div class="header">
-          <h1>🎧 ${db.configuracoes.nome}</h1>
-          <p>${db.configuracoes.endereco || ''}</p>
-          <p>CNPJ: ${db.configuracoes.documento || ''}</p>
-          <h2 style="margin-top: 20px; color: #333;">RECIBO DE PAGAMENTO</h2>
-          <p style="font-size: 14px; color: #999;">Nº ${recibo.id}</p>
-        </div>
-        
-        <div class="valor-box">
-          <div style="font-size: 14px; color: #666; margin-bottom: 10px;">VALOR RECEBIDO</div>
-          <div class="valor">R$ ${recibo.valor.toFixed(2)}</div>
-        </div>
-        
-        <div class="info-row">
-          <span class="info-label">Recebemos de:</span>
-          <span style="font-size: 18px; font-weight: 600;">${recibo.clienteNome}</span>
-        </div>
-        
-        <div class="info-row">
-          <span class="info-label">Referente a:</span>
-          <span>${recibo.referente}</span>
-        </div>
-        
-        <div class="info-row">
-          <span class="info-label">Forma de pagamento:</span>
-          <span>${recibo.formaPagamento}</span>
-        </div>
-        
-        <div class="info-row">
-          <span class="info-label">Data do pagamento:</span>
-          <span>${formatarData(recibo.data)}</span>
-        </div>
-        
-        <div class="info-row">
-          <span class="info-label">Data de emissão:</span>
-          <span>${formatarData(new Date().toISOString())}</span>
-        </div>
-        
-        <div class="assinatura">
-          <div class="linha-assinatura"></div>
-          <p style="margin-top: 10px; font-weight: bold;">${db.configuracoes.nome}</p>
-          <p style="font-size: 12px; color: #666;">CNPJ: ${db.configuracoes.documento || ''}</p>
-        </div>
-        
-        <div style="margin-top: 40px; text-align: center; font-size: 11px; color: #999; border-top: 1px solid #eee; padding-top: 20px;">
-          <p>Documento gerado eletronicamente pelo sistema DJ Pro</p>
-          <p>Este recibo não possui valor fiscal.</p>
-        </div>
-      </div>
-    </body>
-    </html>
-  `);
-  printWindow.document.close();
-  setTimeout(() => printWindow.print(), 500);
+// NAVEGAÇÃO
+function showTab(t,b){
+document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+document.getElementById(t).classList.add('active');
+document.querySelectorAll('nav button').forEach(bt=>bt.classList.remove('active'));
+if(b)b.classList.add('active');
+if(t=='eventos')atualizaSel();
+if(t=='contratos')atualizaCt();
+if(t=='caixa')atualizaCx();
+}
+
+// CLIENTES
+function salvarCli(e){
+e.preventDefault();
+const id=Date.now();
+const c={id,n:document.getElementById('cNome').value,d:document.getElementById('cDoc').value,t:document.getElementById('cTel').value,m:document.getElementById('cMail').value,cep:document.getElementById('cCep').value,r:document.getElementById('cRua').value,n:document.getElementById('cNum').value,b:document.getElementById('cBai').value,ci:document.getElementById('cCid').value,uf:document.getElementById('cUF').value};
+db.c.push(c);
+salva();
+toast('Cliente salvo!');
+e.target.reset();
+atualizaCli();
+atualizaSel();
+}
+
+function buscaCep(){
+const v=document.getElementById('cCep').value.replace(/\D/g,'');
+if(v.length!=8)return;
+fetch(`https://viacep.com.br/ws/${v}/json/`).then(r=>r.json()).then(d=>{
+if(!d.erro){
+document.getElementById('cRua').value=d.logradouro;
+document.getElementById('cBai').value=d.bairro;
+document.getElementById('cCid').value=d.localidade;
+document.getElementById('cUF').value=d.uf;
+}
+});
+}
+
+function atualizaCli(){
+const f=document.getElementById('buscaCli').value.toLowerCase();
+const cs=f?db.c.filter(c=>c.n.toLowerCase().includes(f)||c.d.includes(f)):db.c;
+document.getElementById('totCli').textContent=db.c.length;
+document.getElementById('listCli').innerHTML=cs.length?cs.map(c=>{
+const rec=db.x.filter(l=>l.c==c.id&&l.t=='e').reduce((s,l)=>s+l.v,0);
+const ev=db.e.filter(e=>e.cl==c.id).length;
+return`<div class="list-item"><div class="list-item-title">${c.n}</div><div class="list-item-meta">${c.d} | ${c.t}</div><div style="margin-top:5px"><span class="badge">${ev} evt</span> <span class="badge badge-s">R$ ${rec.toFixed(2)}</span></div><div style="margin-top:10px;display:flex;gap:5px"><button class="btn btn-w" onclick="delCli(${c.id})" style="padding:5px 10px;font-size:12px">🗑️</button></div></div>`;
+}).join(''):'<div class="empty-state"><div>👤</div><p>Nenhum cliente</p></div>';
+}
+
+function delCli(id){
+if(!confirm('Excluir?'))return;
+db.c=db.c.filter(c=>c.id!=id);
+db.e=db.e.filter(e=>e.cl!=id);
+db.x=db.x.filter(l=>l.c!=id);
+salva();
+atualizaTudo();
+}
+
+// EVENTOS
+function salvarEvt(e){
+e.preventDefault();
+const cl=parseInt(document.getElementById('eCli').value);
+const cli=db.c.find(c=>c.id==cl);
+const evt={id:Date.now(),cl,cli:cli.n,tipo:document.getElementById('eTipo').value,dt:document.getElementById('eData').value,ini:document.getElementById('eIni').value,fim:document.getElementById('eFim').value,loc:document.getElementById('eLoc').value,v:parseFloat(document.getElementById('eVal').value)||0,e:parseFloat(document.getElementById('eEnt').value)||0,conc:false};
+db.e.push(evt);
+if(evt.e>0){
+db.x.push({id:Date.now(),t:'e',v:evt.e,desc:`Sinal ${evt.tipo}`,c:cl,ev:evt.id,dt:evt.dt,cat:'Evento'});
+}
+salva();
+toast('Evento salvo!');
+e.target.reset();
+atualizaEvt();
+atualizaTudo();
+}
+
+function calcSaldo(){
+const v=parseFloat(document.getElementById('eVal').value)||0;
+const e=parseFloat(document.getElementById('eEnt').value)||0;
+document.getElementById('eSal').value=`R$ ${(v-e).toFixed(2)}`;
+}
+
+function filtEvt(f,b){
+document.querySelectorAll('#eventos .tab').forEach(t=>t.classList.remove('active'));
+b.classList.add('active');
+atualizaEvt(f);
+}
+
+function atualizaEvt(filt='todos'){
+const hoje=new Date();hoje.setHours(0,0,0,0);
+let evs=db.e.filter(ev=>{
+const d=new Date(ev.dt);
+if(filt=='conc')return ev.conc||d<hoje;
+if(filt=='hoje')return ev.dt==hoje.toISOString().split('T')[0];
+if(filt=='sem'){const s=new Date(hoje);s.setDate(s.getDate()+7);return d>=hoje&&d<=s&&!ev.conc;}
+return!ev.conc;
+});
+evs.sort((a,b)=>new Date(a.dt)-new Date(b.dt));
+document.getElementById('listEvt2').innerHTML=evs.length?evs.map(e=>{
+const d=new Date(e.dt);
+const dias=Math.ceil((d-hoje)/(1000*60*60*24));
+let st=dias<0?'Conc':dias==0?'HOJE!':`Em ${dias}d`;
+let cl=dias<0?'badge-d':dias==0?'badge-w':'badge-s';
+const rec=db.x.filter(l=>l.ev==e.id&&l.t=='e').reduce((s,l)=>s+l.v,0);
+const pct=e.v>0?(rec/e.v*100):0;
+return`<div class="list-item"><div class="list-item-title">${e.tipo} - ${e.cli}</div><div class="list-item-meta">📅 ${fmt(e.dt)} ⏰ ${e.ini}</div><div style="margin-top:5px"><span class="badge ${cl}">${st}</span> <span class="badge badge-s">${pct.toFixed(0)}%</span></div><div style="margin-top:10px;display:flex;gap:5px"><button class="btn btn-s" onclick="addPag(${e.id})" style="padding:5px 10px;font-size:12px">💵</button><button class="btn" onclick="verCt(${e.id})" style="padding:5px 10px;font-size:12px">📄</button><button class="btn btn-d" onclick="delEvt(${e.id})" style="padding:5px 10px;font-size:12px">🗑️</button></div></div>`;
+}).join(''):'<div class="empty-state"><div>📅</div><p>Nenhum evento</p></div>';
+document.getElementById('listEvt').innerHTML=evs.slice(0,5).map(e=>`<div class="list-item" onclick="showTab('eventos',document.querySelectorAll('nav button')[1])" style="cursor:pointer"><div class="list-item-title">${e.tipo} - ${e.cli}</div><div class="list-item-meta">📅 ${fmt(e.dt)}</div></div>`).join('')||'<div class="empty-state"><div>📅</div><p>Sem eventos</p></div>';
+}
+
+function delEvt(id){
+if(!confirm('Excluir?'))return;
+db.e=db.e.filter(e=>e.id!=id);
+db.x=db.x.filter(l=>l.ev!=id);
+salva();
+atualizaEvt();
+atualizaTudo();
+}
+
+function addPag(id){
+const e=db.e.find(ev=>ev.id==id);
+const v=prompt(`Valor (saldo: R$ ${(e.v-e.e).toFixed(2)}):`);
+if(!v||isNaN(v))return;
+db.x.push({id:Date.now(),t:'e',v:parseFloat(v),desc:`Pag ${e.tipo}`,c:e.cl,ev:id,dt:new Date().toISOString().split('T')[0],cat:'Evento'});
+salva();
+toast('Pagamento registrado!');
+atualizaEvt();
+atualizaTudo();
+}
+
+// CONTRATOS
+function atualizaCt(){
+const s=document.getElementById('ctEvt');
+s.innerHTML='<option value="">Selecione...</option>'+db.e.filter(e=>!e.conc).map(e=>`<option value="${e.id}">${e.tipo} - ${e.cli} (${fmt(e.dt)})</option>`).join('');
+}
+
+function carregaCt(){
+const id=document.getElementById('ctEvt').value;
+if(!id)return;
+const e=db.e.find(ev=>ev.id==id);
+const c=db.c.find(cl=>cl.id==e.cl);
+document.getElementById('pId').textContent=e.id;
+document.getElementById('pData').textContent=fmt(document.getElementById('ctData').value);
+document.getElementById('pCNome').textContent=c.n;
+document.getElementById('pCDoc').textContent=c.d;
+document.getElementById('pCEnd').textContent=`${c.r||''}, ${c.n||''} - ${c.b||''}, ${c.ci||''}-${c.uf||''}`;
+document.getElementById('pDNome').textContent=db.cfg.n;
+document.getElementById('pDDoc').textContent=db.cfg.doc||'00.000.000/0000-00';
+document.getElementById('pDEnd').textContent=db.cfg.end||'';
+document.getElementById('pTipo').textContent=e.tipo;
+document.getElementById('pDtEvt').textContent=fmt(e.dt);
+document.getElementById('pIni').textContent=e.ini;
+document.getElementById('pFim').textContent=e.fim;
+document.getElementById('pLoc').textContent=e.loc;
+document.getElementById('pVal').textContent=e.v.toFixed(2);
+document.getElementById('pEnt').textContent=e.e.toFixed(2);
+document.getElementById('pSal').textContent=(e.v-e.e).toFixed(2);
+document.getElementById('pCid').textContent=document.getElementById('ctCid').value||c.ci||'';
+document.getElementById('pDataEx').textContent=dataEx(document.getElementById('ctData').value);
+document.getElementById('pCAss').textContent=c.n;
+document.getElementById('pDAss').textContent=db.cfg.n;
+}
+
+function limpAss(t){pads[t].clear();ass[t]=null;document.getElementById('stAss'+(t=='c'?'C':'D')).className='badge badge-d';document.getElementById('stAss'+(t=='c'?'C':'D')).textContent='✗ '+(t=='c'?'Cliente':'DJ');}
+
+function salvaAss(t){
+if(!pads[t]||pads[t].isEmpty()){toast('Faça a assinatura!','e');return;}
+ass[t]=pads[t].toData();
+document.getElementById('stAss'+(t=='c'?'C':'D')).className='badge badge-s';
+document.getElementById('stAss'+(t=='c'?'C':'D')).textContent='✓ '+(t=='c'?'Cliente':'DJ');
+toast('Assinatura salva!');
+}
+
+function geraCt(){
+if(!document.getElementById('ctEvt').value){toast('Selecione evento!','e');return;}
+carregaCt();
+document.getElementById('imgC').style.display=ass.c?'block':'none';
+document.getElementById('imgD').style.display=ass.d?'block':'none';
+if(ass.c)document.getElementById('imgC').src=ass.c;
+if(ass.d)document.getElementById('imgD').src=ass.d;
+document.getElementById('contractPrintArea').style.display='block';
+document.getElementById('contractPrintArea').scrollIntoView();
+toast(ass.c&&ass.d?'Contrato pronto!':'Atenção: Faltam assinaturas!','w');
+}
+
+function impCt(){
+if(document.getElementById('contractPrintArea').style.display=='none')geraCt();
+setTimeout(()=>window.print(),300);
+}
+
+function verCt(id){
+showTab('contratos',document.querySelectorAll('nav button')[2]);
+document.getElementById('ctEvt').value=id;
+carregaCt();
+}
+
+// CAIXA
+function salvaCx(e){
+e.preventDefault();
+const t=document.getElementById('xTipo').value;
+db.x.push({id:Date.now(),t,v:parseFloat(document.getElementById('xVal').value)||0,desc:document.getElementById('xDesc').value,dt:document.getElementById('xData').value,cat:document.getElementById('xCat').value});
+salva();
+toast('Lançado!');
+e.target.reset();
+atualizaTudo();
+}
+
+function showAba(a,b){
+['lan','ext','rel'].forEach(x=>document.getElementById('aba'+x.charAt(0).toUpperCase()+x.slice(1)).style.display='none');
+document.getElementById('aba'+a.charAt(0).toUpperCase()+a.slice(1)).style.display='block';
+document.querySelectorAll('#caixa .tab').forEach(t=>t.classList.remove('active'));
+b.classList.add('active');
+if(a=='ext')atualizaCx();
+if(a=='rel')atualizaRel();
+}
+
+function atualizaCx(){
+const xs=[...db.x].sort((a,b)=>new Date(b.dt)-new Date(a.dt));
+const ent=xs.filter(l=>l.t=='e').reduce((s,l)=>s+l.v,0);
+const sai=xs.filter(l=>l.t=='s').reduce((s,l)=>s+l.v,0);
+document.getElementById('listCx').innerHTML=`<div style="display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap"><div class="badge badge-s" style="padding:10px">Entradas: R$ ${ent.toFixed(2)}</div><div class="badge badge-d" style="padding:10px">Saídas: R$ ${sai.toFixed(2)}</div><div class="badge" style="padding:10px;background:var(--p);color:#fff">Saldo: R$ ${(ent-sai).toFixed(2)}</div></div>`+xs.map(l=>`<div class="list-item" style="border-left-color:${l.t=='e'?'var(--s)':'var(--d)'}"><div style="color:${l.t=='e'?'var(--s)':'var(--d)'};font-weight:bold">${l.t=='e'?'↑':'↓'} R$ ${l.v.toFixed(2)}</div><div class="list-item-meta">${fmt(l.dt)} | ${l.cat}</div><div class="list-item-meta">${l.desc}</div></div>`).join('');
+}
+
+function atualizaRel(){
+const hoje=new Date();
+const im=new Date(hoje.getFullYear(),hoje.getMonth(),1);
+const lm=db.x.filter(l=>new Date(l.dt)>=im);
+document.getElementById('rEnt').textContent='R$ '+lm.filter(l=>l.t=='e').reduce((s,l)=>s+l.v,0).toFixed(2);
+document.getElementById('rSai').textContent='R$ '+lm.filter(l=>l.t=='s').reduce((s,l)=>s+l.v,0).toFixed(2);
+document.getElementById('rLuc').textContent='R$ '+(lm.filter(l=>l.t=='e').reduce((s,l)=>s+l.v,0)-lm.filter(l=>l.t=='s').reduce((s,l)=>s+l.v,0)).toFixed(2);
+}
+
+// GERAL
+function atualizaTudo(){
+const hoje=new Date();
+const im=new Date(hoje.getFullYear(),hoje.getMonth(),1);
+const lm=db.x.filter(l=>new Date(l.dt)>=im);
+document.getElementById('mEnt').textContent='R$ '+lm.filter(l=>l.t=='e').reduce((s,l)=>s+l.v,0).toFixed(2);
+document.getElementById('mSai').textContent='R$ '+lm.filter(l=>l.t=='s').reduce((s,l)=>s+l.v,0).toFixed(2);
+document.getElementById('mLuc').textContent='R$ '+(lm.filter(l=>l.t=='e').reduce((s,l)=>s+l.v,0)-lm.filter(l=>l.t=='s').reduce((s,l)=>s+l.v,0)).toFixed(2);
+document.getElementById('mEvt').textContent=db.e.filter(e=>{const d=new Date(e.dt);return d.getMonth()==hoje.getMonth()&&d.getFullYear()==hoje.getFullYear()}).length;
+document.getElementById('tRec').textContent='R$ '+db.x.filter(l=>l.t=='e').reduce((s,l)=>s+l.v,0).toFixed(2);
+document.getElementById('tAre').textContent='R$ '+db.e.reduce((s,e)=>s+(e.v-e.e),0).toFixed(2);
+document.getElementById('tCli').textContent=db.c.length;
+document.getElementById('tEvt').textContent=db.e.length;
+atualizaCli();
+atualizaEvt();
+atualizaSel();
+}
+
+function atualizaSel(){
+const s=document.getElementById('eCli');
+if(!s)return;
+s.innerHTML='<option value="">Selecione...</option>'+db.c.map(c=>`<option value="${c.id}">${c.n}</option>`).join('');
+}
+
+function buscar(v){
+if(v.length<2)return;
+const r=[...db.c.filter(c=>c.n.toLowerCase().includes(v.toLowerCase())).map(c=>({t:'c',n:c.n,id:c.id})),...db.e.filter(e=>e.cli.toLowerCase().includes(v.toLowerCase())).map(e=>({t:'e',n:e.tipo+' - '+e.cli,id:e.id}))];
+alert('Resultados: '+r.map(x=>x.n).join(', '));
+}
+
+function filtrarCli(v){
+atualizaCli();
+}
+
+function toggleTheme(){
+const h=document.documentElement;
+const c=h.getAttribute('data-theme');
+const n=c=='dark'?'light':'dark';
+h.setAttribute('data-theme',n);
+db.cfg.t=n;
+salva();
+}
+
+function fmt(d){
+if(!d)return'';
+return new Date(d).toLocaleDateString('pt-BR');
+}
+
+function dataEx(d){
+if(!d)return'';
+const x=new Date(d);
+const m=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+return x.getDate()+' de '+m[x.getMonth()]+' de '+x.getFullYear();
+}
+
+function salva(){
+localStorage.setItem('djpro',JSON.stringify(db));
+}
+
+function toast(m,e='s'){
+const t=document.getElementById('toast');
+t.textContent=m;
+t.className='toast '+(e=='e'?'e':'')+' show';
+setTimeout(()=>t.classList.remove('show'),2500);
 }
 </script>
 
