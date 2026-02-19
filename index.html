@@ -4,3687 +4,1680 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <meta name="theme-color" content="#0b76d1"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="apple-mobile-web-app-title" content="DJ Pro"/>
-<meta name="description" content="Sistema profissional de gestão para DJs"/>
-<title>DJ Pro - Sistema de Gestão</title>
-
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%230b76d1' width='100' height='100' rx='20'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle'%3E🎧%3C/text%3E%3C/svg%3E"/>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%230b76d1' width='100' height='100' rx='20'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle'%3E🎧%3C/text%3E%3C/svg%3E"/>
-
+<title>DJ Brow - Sistema Completo de Gestão</title>
 <style>
-  :root {
-    --primary: #0b76d1;
-    --primary-dark: #0056b3;
-    --secondary: #6c757d;
-    --success: #28a745;
-    --danger: #dc3545;
-    --warning: #ffc107;
-    --info: #17a2b8;
-    --bg: #f8f9fa;
-    --card: #ffffff;
-    --text: #212529;
-    --text-muted: #6c757d;
-    --border: #dee2e6;
-    --shadow: 0 4px 20px rgba(0,0,0,0.08);
-    --radius: 16px;
-    --header-height: 70px;
-    --bottom-nav-height: 70px;
-  }
-
-  [data-theme="dark"] {
-    --bg: #0f1419;
-    --card: #1a1d29;
-    --text: #e4e6eb;
-    --text-muted: #b0b3b8;
-    --border: #3e4042;
-    --shadow: 0 4px 20px rgba(0,0,0,0.4);
-  }
-
-  [data-color="purple"] { --primary: #6f42c1; --primary-dark: #5a32a3; }
-  [data-color="green"] { --primary: #28a745; --primary-dark: #1e7e34; }
-  [data-color="red"] { --primary: #dc3545; --primary-dark: #bd2130; }
-  [data-color="orange"] { --primary: #fd7e14; --primary-dark: #e56b0a; }
-  [data-color="pink"] { --primary: #e83e8c; --primary-dark: #d91a72; }
-  [data-color="black"] { --primary: #343a40; --primary-dark: #1d2124; }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  
-  html { scroll-behavior: smooth; }
-  
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-    padding-bottom: calc(var(--bottom-nav-height) + 20px);
-    min-height: 100vh;
-  }
-
-  .app-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: var(--header-height);
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    z-index: 1000;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    will-change: transform;
-  }
-  
-  .app-header h1 {
-    font-size: 22px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .header-actions {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .header-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    border: none;
-    background: rgba(255,255,255,0.2);
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    backdrop-filter: blur(10px);
-  }
-  
-  .header-btn:hover { background: rgba(255,255,255,0.3); transform: scale(1.05); }
-
-  .main-content {
-    margin-top: var(--header-height);
-    padding: 20px;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    contain: layout style paint;
-  }
-
-  .card {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 24px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border);
-    animation: slideUp 0.4s ease;
-    contain: content;
-  }
-  
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .card-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 14px 18px;
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    background: var(--card);
-    color: var(--text);
-    font-size: 16px;
-    transition: all 0.2s;
-  }
-  
-  .form-control:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(11, 118, 209, 0.1);
-    outline: none;
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 14px 24px;
-    border-radius: 12px;
-    border: none;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: var(--primary);
-    color: white;
-    text-decoration: none;
-    will-change: transform;
-  }
-  
-  .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(11, 118, 209, 0.3);
-  }
-  
-  .btn-success { background: var(--success); }
-  .btn-danger { background: var(--danger); }
-  .btn-warning { background: var(--warning); color: #000; }
-  .btn-secondary { background: var(--secondary); }
-  .btn-outline {
-    background: transparent;
-    border: 2px solid var(--primary);
-    color: var(--primary);
-  }
-  .btn-outline:hover { background: var(--primary); color: white; }
-  .btn-lg { padding: 18px 32px; font-size: 17px; width: 100%; }
-  .btn-sm { padding: 10px 16px; font-size: 13px; }
-
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: var(--bottom-nav-height);
-    background: var(--card);
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 999;
-    padding-bottom: env(safe-area-inset-bottom);
-    will-change: transform;
-  }
-  
-  .nav-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    padding: 10px;
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 500;
-    transition: all 0.2s;
-    cursor: pointer;
-    background: none;
-    border: none;
-  }
-  
-  .nav-item .icon { font-size: 24px; transition: transform 0.2s; }
-  .nav-item.active { color: var(--primary); }
-  .nav-item.active .icon { transform: translateY(-4px); }
-
-  .section { display: none; animation: fadeIn 0.3s ease; }
-  .section.active { display: block; }
-  
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin-bottom: 20px;
-  }
-  
-  .stat-card {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: white;
-    padding: 20px;
-    border-radius: var(--radius);
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.2s;
-    will-change: transform;
-  }
-  
-  .stat-card:hover { transform: translateY(-5px); }
-  .stat-value { font-size: 28px; font-weight: 800; margin-bottom: 5px; }
-  .stat-label { font-size: 12px; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; }
-
-  .list-item {
-    background: var(--bg);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 12px;
-    border-left: 4px solid var(--primary);
-    transition: all 0.2s;
-    contain: layout style;
-  }
-  
-  .list-item:hover { transform: translateX(5px); box-shadow: var(--shadow); }
-  
-  .list-item-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    margin-bottom: 10px;
-  }
-  
-  .list-item-title { font-size: 17px; font-weight: 700; color: var(--text); }
-  .list-item-meta { font-size: 14px; color: var(--text-muted); margin-top: 5px; }
-  .list-item-actions { display: flex; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
-
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-  
-  .badge-success { background: #d4edda; color: #155724; }
-  .badge-warning { background: #fff3cd; color: #856404; }
-  .badge-danger { background: #f8d7da; color: #721c24; }
-  .badge-info { background: #d1ecf1; color: #0c5460; }
-
-  /* ÁREA DO CONTRATO - Apenas esta parte aparece na impressão */
-  #contractPrintArea {
-    background: white !important;
-    color: black !important;
-    padding: 40px !important;
-    font-family: 'Times New Roman', Times, serif !important;
-    line-height: 1.8 !important;
-    font-size: 14px !important;
-    max-width: 800px !important;
-    margin: 0 auto !important;
-    display: none;
-    box-shadow: none !important;
-    border: none !important;
-  }
-
-  #contractPrintArea * {
-    color: black !important;
-    background: white !important;
-    box-shadow: none !important;
-    border-color: #333 !important;
-  }
-
-  #contractPrintArea h2 {
-    color: black !important;
-    text-align: center !important;
-    margin-bottom: 30px !important;
-    font-size: 20px !important;
-    font-weight: bold !important;
-    text-transform: uppercase !important;
-    border-bottom: 2px solid black !important;
-    padding-bottom: 10px !important;
-  }
-
-  #contractPrintArea p {
-    margin-bottom: 15px !important;
-    text-align: justify !important;
-    color: black !important;
-    font-size: 14px !important;
-    line-height: 1.8 !important;
-  }
-
-  #contractPrintArea strong {
-    color: black !important;
-    font-weight: bold !important;
-  }
-
-  /* CONTAINER DAS ASSINATURAS - CRÍTICO PARA IMPRESSÃO */
-  #contractPrintArea .assinaturas-container {
-    margin-top: 60px !important;
-    display: flex !important;
-    justify-content: space-between !important;
-    gap: 60px !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    width: 100% !important;
-  }
-
-  #contractPrintArea .assinatura-box {
-    flex: 1 !important;
-    text-align: center !important;
-    min-width: 250px !important;
-  }
-
-  #contractPrintArea .assinatura-linha {
-    border-top: 1px solid black !important;
-    border-bottom: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    height: 80px !important;
-    margin-bottom: 10px !important;
-    position: relative !important;
-    display: flex !important;
-    align-items: flex-end !important;
-    justify-content: center !important;
-    background: white !important;
-  }
-
-  #contractPrintArea .assinatura-img {
-    max-height: 75px !important;
-    max-width: 90% !important;
-    position: absolute !important;
-    bottom: 5px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    object-fit: contain !important;
-  }
-
-  #contractPrintArea .assinatura-label {
-    font-size: 12px !important;
-    font-weight: bold !important;
-    text-transform: uppercase !important;
-    margin-top: 5px !important;
-    color: black !important;
-  }
-
-  #contractPrintArea .assinatura-nome {
-    font-size: 11px !important;
-    color: #333 !important;
-    margin-top: 3px !important;
-    font-style: italic !important;
-  }
-
-  /* Controles do contrato - NÃO aparecem na impressão */
-  .contract-controls {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
-  }
-
-  .signature-pad-container {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: var(--shadow);
-  }
-
-  .signature-pad {
-    background: white;
-    border: 2px solid #333;
-    border-radius: 8px;
-    width: 100%;
-    height: 200px;
-    touch-action: none;
-    cursor: crosshair;
-    display: block;
-  }
-
-  /* CSS CRÍTICO PARA IMPRESSÃO - SIMPLIFICADO */
-  @media print {
-    @page { size: A4; margin: 20mm; }
-    
-    * { visibility: hidden !important; }
-    
-    html, body {
-      background: white !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      height: auto !important;
-      overflow: visible !important;
-    }
-    
-    #contractPrintArea,
-    #contractPrintArea * {
-      visibility: visible !important;
-      display: block !important;
-      color: black !important;
-      background: white !important;
-    }
-    
-    #contractPrintArea {
-      display: block !important;
-      position: static !important;
-      width: 100% !important;
-      max-width: 100% !important;
-      padding: 0 !important;
-      margin: 0 !important;
-    }
-    
-    #contractPrintArea .assinaturas-container {
-      display: flex !important;
-      flex-direction: row !important;
-      justify-content: space-between !important;
-      margin-top: 80px !important;
-      gap: 80px !important;
-      page-break-inside: avoid !important;
-    }
-    
-    #contractPrintArea .assinatura-box {
-      display: block !important;
-      flex: 1 !important;
-      text-align: center !important;
-    }
-    
-    #contractPrintArea .assinatura-linha {
-      display: flex !important;
-      border-top: 1px solid black !important;
-      height: 80px !important;
-      position: relative !important;
-      align-items: flex-end !important;
-      justify-content: center !important;
-    }
-    
-    #contractPrintArea .assinatura-img {
-      display: block !important;
-      position: absolute !important;
-      bottom: 5px !important;
-      max-height: 70px !important;
-    }
-    
-    .app-header, .bottom-nav, .contract-controls,
-    .signature-pad-container, .btn, .card:not(#contractPrintArea),
-    .section:not(#contrato), #contrato > *:not(#contractPrintArea),
-    .search-container, .quick-actions, .financial-summary,
-    .tabs, .toast, .modal-overlay {
-      display: none !important;
-      visibility: hidden !important;
-    }
-  }
-
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.6);
-    z-index: 2000;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    backdrop-filter: blur(5px);
-  }
-  
-  .modal-overlay.active { display: flex; }
-  
-  .modal-content {
-    background: var(--card);
-    border-radius: var(--radius);
-    width: 100%;
-    max-width: 600px;
-    max-height: 90vh;
-    overflow-y: auto;
-    animation: modalSlide 0.3s ease;
-  }
-  
-  @keyframes modalSlide {
-    from { transform: translateY(50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-  
-  .modal-header {
-    padding: 24px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .modal-header h3 { font-size: 20px; font-weight: 700; color: var(--primary); }
-  
-  .modal-close {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: none;
-    background: var(--bg);
-    color: var(--text);
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .modal-body { padding: 24px; }
-  .modal-footer {
-    padding: 20px 24px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-  }
-
-  .login-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    z-index: 3000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-  }
-  
-  .login-logo { font-size: 80px; margin-bottom: 20px; }
-  .login-title { color: white; font-size: 28px; font-weight: 700; margin-bottom: 10px; }
-  .login-subtitle { color: rgba(255,255,255,0.8); margin-bottom: 40px; text-align: center; }
-  
-  .pin-display { display: flex; gap: 15px; margin-bottom: 30px; }
-  
-  .pin-dot {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
-    transition: all 0.2s;
-  }
-  
-  .pin-dot.filled { background: white; transform: scale(1.2); }
-  
-  .pin-pad {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .pin-btn {
-    aspect-ratio: 1;
-    border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.3);
-    background: transparent;
-    color: white;
-    font-size: 24px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .pin-btn:hover { background: rgba(255,255,255,0.1); border-color: white; }
-
-  .profile-header {
-    text-align: center;
-    padding: 30px;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: white;
-    border-radius: var(--radius);
-    margin-bottom: 20px;
-  }
-  
-  .profile-avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 50px;
-    margin: 0 auto 15px;
-    border: 4px solid rgba(255,255,255,0.3);
-  }
-  
-  .profile-name { font-size: 24px; font-weight: 700; margin-bottom: 5px; }
-  .profile-role { opacity: 0.9; font-size: 14px; }
-
-  .color-picker { display: flex; gap: 10px; flex-wrap: wrap; }
-  
-  .color-option {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    cursor: pointer;
-    border: 3px solid transparent;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 20px;
-  }
-  
-  .color-option:hover { transform: scale(1.1); }
-  .color-option.selected { border-color: var(--text); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-
-  .toast {
-    position: fixed;
-    bottom: 100px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: var(--success);
-    color: white;
-    padding: 16px 32px;
-    border-radius: 50px;
-    font-weight: 600;
-    z-index: 4000;
-    opacity: 0;
-    transition: all 0.3s;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    will-change: transform, opacity;
-  }
-  
-  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-  .toast.error { background: var(--danger); }
-  .toast.warning { background: var(--warning); color: #000; }
-
-  .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
-  .empty-state-icon { font-size: 64px; margin-bottom: 20px; opacity: 0.5; }
-
-  .section-group {
-    background: var(--bg);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-    border: 1px solid var(--border);
-  }
-
-  .section-group-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .progress-bar {
-    width: 100%;
-    height: 20px;
-    background: var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 10px;
-  }
-
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--success), var(--primary));
-    transition: width 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 12px;
-    font-weight: 600;
-  }
-
-  .payment-history {
-    background: var(--bg);
-    border-radius: 8px;
-    padding: 15px;
-    margin-top: 15px;
-  }
-
-  .payment-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .payment-item:last-child { border-bottom: none; }
-
-  .financial-summary {
-    background: linear-gradient(135deg, var(--success) 0%, var(--primary) 100%);
-    color: white;
-    padding: 20px;
-    border-radius: var(--radius);
-    margin-bottom: 20px;
-  }
-
-  .financial-summary h3 {
-    font-size: 16px;
-    margin-bottom: 15px;
-    opacity: 0.9;
-  }
-
-  .financial-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-  }
-
-  .financial-item {
-    background: rgba(255,255,255,0.2);
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-  }
-
-  .financial-value {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 5px;
-  }
-
-  .financial-label {
-    font-size: 12px;
-    opacity: 0.9;
-    text-transform: uppercase;
-  }
-
-  .search-container {
-    position: relative;
-    margin-bottom: 20px;
-  }
-
-  .search-input {
-    width: 100%;
-    padding: 16px 20px 16px 50px;
-    border: 2px solid var(--border);
-    border-radius: 50px;
-    font-size: 16px;
-    background: var(--card);
-    color: var(--text);
-    transition: all 0.3s;
-  }
-
-  .search-input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(11, 118, 209, 0.1);
-    outline: none;
-  }
-
-  .search-icon {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 20px;
-    color: var(--text-muted);
-  }
-
-  .search-results {
-    background: var(--card);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    max-height: 400px;
-    overflow-y: auto;
-    margin-top: 10px;
-    display: none;
-  }
-
-  .search-result-item {
-    padding: 15px 20px;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .search-result-item:hover {
-    background: var(--bg);
-    padding-left: 25px;
-  }
-
-  .search-result-item:last-child { border-bottom: none; }
-
-  .report-filters {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin-bottom: 20px;
-  }
-
-  .report-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-bottom: 20px;
-  }
-
-  .report-card {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 20px;
-    border-left: 4px solid var(--primary);
-    box-shadow: var(--shadow);
-  }
-
-  .report-card-title {
-    font-size: 14px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-
-  .report-card-value {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 5px;
-  }
-
-  .report-card-subtitle {
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-
-  .chart-container {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
-    height: 300px;
-    position: relative;
-  }
-
-  .tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    overflow-x: auto;
-    padding-bottom: 5px;
-  }
-
-  .tab {
-    padding: 10px 20px;
-    border-radius: 25px;
-    border: 2px solid var(--border);
-    background: var(--card);
-    color: var(--text);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-    font-weight: 600;
-  }
-
-  .tab.active {
-    background: var(--primary);
-    color: white;
-    border-color: var(--primary);
-  }
-
-  .event-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-  }
-
-  .event-status.agendado {
-    background: #d1ecf1;
-    color: #0c5460;
-  }
-
-  .event-status.hoje {
-    background: #f8d7da;
-    color: #721c24;
-    animation: pulse 2s infinite;
-  }
-
-  .event-status.proximo {
-    background: #fff3cd;
-    color: #856404;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-  }
-
-  .quick-actions {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin-bottom: 20px;
-  }
-
-  .quick-action-btn {
-    background: var(--card);
-    border: 2px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .quick-action-btn:hover {
-    border-color: var(--primary);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow);
-  }
-
-  .quick-action-icon {
-    font-size: 32px;
-    margin-bottom: 10px;
-  }
-
-  .quick-action-text {
-    font-weight: 600;
-    color: var(--text);
-  }
-
-  .timeline {
-    position: relative;
-    padding-left: 30px;
-  }
-
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 10px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--border);
-  }
-
-  .timeline-item {
-    position: relative;
-    margin-bottom: 20px;
-    padding: 15px;
-    background: var(--bg);
-    border-radius: 12px;
-  }
-
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -24px;
-    top: 20px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--primary);
-    border: 2px solid var(--card);
-  }
-
-  /* Virtual list para performance */
-  .virtual-list {
-    max-height: 600px;
-    overflow-y: auto;
-    position: relative;
-  }
-
-  .virtual-list-item {
-    position: absolute;
-    width: 100%;
-    left: 0;
-  }
-
-  @media (min-width: 1024px) {
-    .main-content { max-width: 1200px; }
-    .bottom-nav { display: none; }
-    body { padding-bottom: 20px; }
-    .stats-grid { grid-template-columns: repeat(4, 1fr); }
-  }
-
-  @media (max-width: 480px) {
-    :root { --radius: 12px; }
-    .card { padding: 20px; }
-    .stat-value { font-size: 24px; }
-    .btn { padding: 12px 20px; }
-    .form-row { grid-template-columns: 1fr; }
-    #contractPrintArea { padding: 20px; }
-    .quick-actions { grid-template-columns: 1fr; }
-  }
-
-  @supports (padding-top: env(safe-area-inset-top)) {
-    .app-header {
-      padding-top: env(safe-area-inset-top);
-      height: calc(var(--header-height) + env(safe-area-inset-top));
-    }
-    .main-content { margin-top: calc(var(--header-height) + env(safe-area-inset-top)); }
-  }
-
-  /* Otimizações de acessibilidade */
-  @media (prefers-reduced-motion: reduce) {
-    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-  }
+:root{--primary:#0b76d1;--primary-dark:#0056b3;--success:#28a745;--danger:#dc3545;--warning:#ffc107;--info:#17a2b8;--bg:#f8f9fa;--card:#fff;--text:#212529;--text-muted:#6c757d;--border:#dee2e6;--shadow:0 4px 20px rgba(0,0,0,0.08);--radius:12px}
+[data-theme="dark"]{--bg:#0f1419;--card:#1a1d29;--text:#e4e6eb;--text-muted:#b0b3b8;--border:#3e4042;--shadow:0 4px 20px rgba(0,0,0,0.4)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:80px;min-height:100vh}
+.app-header{position:fixed;top:0;left:0;right:0;height:60px;background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 15px;z-index:1000;box-shadow:var(--shadow)}
+.app-header h1{font-size:20px;font-weight:700;display:flex;align-items:center;gap:8px}
+.header-actions{display:flex;gap:8px}
+.header-btn{width:40px;height:40px;border-radius:10px;border:none;background:rgba(255,255,255,0.2);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.header-btn:hover{background:rgba(255,255,255,0.3);transform:scale(1.05)}
+.main-content{margin-top:60px;padding:15px;max-width:1200px;margin-left:auto;margin-right:auto}
+.card{background:var(--card);border-radius:var(--radius);padding:20px;margin-bottom:15px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-title{font-size:18px;font-weight:700;color:var(--primary);margin-bottom:15px;display:flex;align-items:center;gap:8px}
+.form-group{margin-bottom:15px}
+.form-label{display:block;font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px}
+.form-control{width:100%;padding:12px 15px;border:2px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);font-size:15px;transition:all 0.2s}
+.form-control:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(11,118,209,0.1);outline:none}
+.form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 20px;border-radius:10px;border:none;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;background:var(--primary);color:#fff}
+.btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(11,118,209,0.3)}
+.btn-success{background:var(--success)}
+.btn-danger{background:var(--danger)}
+.btn-warning{background:var(--warning);color:#000}
+.btn-secondary{background:var(--secondary)}
+.btn-sm{padding:8px 14px;font-size:13px}
+.btn-lg{padding:14px 24px;font-size:16px;width:100%}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:var(--card);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;z-index:999;padding-bottom:env(safe-area-inset-bottom)}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px;color:var(--text-muted);text-decoration:none;font-size:11px;font-weight:500;transition:all 0.2s;cursor:pointer;background:none;border:none}
+.nav-item .icon{font-size:22px;transition:transform 0.2s}
+.nav-item.active{color:var(--primary)}
+.nav-item.active .icon{transform:translateY(-3px)}
+.section{display:none}
+.section.active{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:15px}
+.stat-card{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);color:#fff;padding:15px;border-radius:var(--radius);text-align:center;cursor:pointer;transition:transform 0.2s}
+.stat-card:hover{transform:translateY(-3px)}
+.stat-value{font-size:24px;font-weight:800;margin-bottom:3px}
+.stat-label{font-size:11px;opacity:0.9;text-transform:uppercase}
+.list-item{background:var(--bg);border-radius:10px;padding:15px;margin-bottom:10px;border-left:4px solid var(--primary);transition:all 0.2s}
+.list-item:hover{transform:translateX(5px);box-shadow:var(--shadow)}
+.list-item-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:8px}
+.list-item-title{font-size:16px;font-weight:700;color:var(--text)}
+.list-item-meta{font-size:13px;color:var(--text-muted);margin-top:4px}
+.list-item-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase}
+.badge-success{background:#d4edda;color:#155724}
+.badge-warning{background:#fff3cd;color:#856404}
+.badge-danger{background:#f8d7da;color:#721c24}
+.badge-info{background:#d1ecf1;color:#0c5460}
+.tabs{display:flex;gap:8px;margin-bottom:15px;overflow-x:auto;padding-bottom:5px}
+.tab{padding:8px 16px;border-radius:20px;border:2px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;white-space:nowrap;transition:all 0.2s;font-weight:600;font-size:13px}
+.tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.search-container{position:relative;margin-bottom:15px}
+.search-input{width:100%;padding:12px 15px 12px 45px;border:2px solid var(--border);border-radius:50px;font-size:15px;background:var(--card);color:var(--text)}
+.search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--text-muted)}
+.quick-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:15px}
+.quick-action-btn{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:15px;text-align:center;cursor:pointer;transition:all 0.2s}
+.quick-action-btn:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:var(--shadow)}
+.quick-action-icon{font-size:28px;margin-bottom:6px}
+.quick-action-text{font-weight:600;font-size:13px;color:var(--text)}
+.financial-summary{background:linear-gradient(135deg,var(--success) 0%,var(--primary) 100%);color:#fff;padding:15px;border-radius:var(--radius);margin-bottom:15px}
+.financial-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.financial-item{background:rgba(255,255,255,0.2);padding:12px;border-radius:8px;text-align:center}
+.financial-value{font-size:20px;font-weight:700;margin-bottom:3px}
+.financial-label{font-size:10px;opacity:0.9;text-transform:uppercase}
+.empty-state{text-align:center;padding:40px 20px;color:var(--text-muted)}
+.empty-state-icon{font-size:48px;margin-bottom:15px;opacity:0.5}
+.progress-bar{width:100%;height:18px;background:var(--border);border-radius:9px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--success),var(--primary));transition:width 0.3s;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:600}
+.event-status{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.event-status.agendado{background:#d1ecf1;color:#0c5460}
+.event-status.hoje{background:#f8d7da;color:#721c24;animation:pulse 2s infinite}
+.event-status.proximo{background:#fff3cd;color:#856404}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.7}}
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(5px)}
+.modal-overlay.active{display:flex}
+.modal-content{background:var(--card);border-radius:var(--radius);width:100%;max-width:600px;max-height:90vh;overflow-y:auto}
+.modal-header{padding:20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.modal-header h3{font-size:18px;font-weight:700;color:var(--primary)}
+.modal-close{width:36px;height:36px;border-radius:50%;border:none;background:var(--bg);color:var(--text);font-size:20px;cursor:pointer}
+.modal-body{padding:20px}
+.modal-footer{padding:15px 20px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--success);color:#fff;padding:14px 28px;border-radius:50px;font-weight:600;z-index:4000;opacity:0;transition:all 0.3s;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.error{background:var(--danger)}
+.toast.warning{background:var(--warning);color:#000}
+.signature-pad{background:#fff;border:2px solid #333;border-radius:8px;width:100%;height:150px;touch-action:none;cursor:crosshair;display:block}
+.contract-preview{display:none;margin-top:20px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:20px;font-family:'Times New Roman',Times,serif;line-height:1.6;color:#000}
+.contract-preview h2{text-align:center;font-size:18px;margin-bottom:15px;border-bottom:2px solid #000;padding-bottom:10px}
+.contract-preview h3{font-size:14px;margin-top:20px;margin-bottom:8px;border-bottom:1px solid #ccc;padding-bottom:4px}
+.contract-preview p{margin-bottom:10px;text-align:justify;font-size:12px}
+.contract-preview .assinaturas{margin-top:30px;display:flex;justify-content:space-between;gap:20px}
+.contract-preview .assinatura-box{flex:1;text-align:center}
+.contract-preview .linha-assinatura{border-top:1px solid #000;padding-top:5px;margin-top:40px;font-size:11px;font-weight:600}
+.contract-preview .testemunha-info{font-size:10px;line-height:1.2;margin:3px 0;text-align:left;padding-left:15px}
+@media print{
+@page{margin:15mm}
+*{visibility:hidden}
+body{background:#fff;padding:0;margin:0}
+.contract-preview,.contract-preview *{visibility:visible;display:block;color:#000!important;background:#fff!important}
+.contract-preview{position:absolute;left:0;top:0;width:100%;margin:0;padding:0;border:none;box-shadow:none;display:block!important}
+.app-header,.bottom-nav,.btn,.card:not(.contract-container),footer,.modal-overlay,.toast{display:none!important}
+}
+@media(min-width:768px){
+.main-content{max-width:900px;margin:60px auto 0}
+.bottom-nav{display:none}
+body{padding-bottom:20px}
+.stats-grid{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:480px){
+.form-row{grid-template-columns:1fr}
+.stats-grid{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
 
-<!-- TELA DE LOGIN/PIN -->
-<div id="loginScreen" class="login-screen" style="display: none;">
-  <div class="login-logo">🎧</div>
-  <div class="login-title" id="loginTitle">DJ Pro</div>
-  <div class="login-subtitle" id="loginSubtitle">Digite seu PIN para acessar</div>
-  
-  <div class="pin-display" id="pinDisplay">
-    <div class="pin-dot"></div>
-    <div class="pin-dot"></div>
-    <div class="pin-dot"></div>
-    <div class="pin-dot"></div>
-  </div>
-  
-  <div class="pin-pad">
-    <button class="pin-btn" onclick="Auth.enterPin(1)">1</button>
-    <button class="pin-btn" onclick="Auth.enterPin(2)">2</button>
-    <button class="pin-btn" onclick="Auth.enterPin(3)">3</button>
-    <button class="pin-btn" onclick="Auth.enterPin(4)">4</button>
-    <button class="pin-btn" onclick="Auth.enterPin(5)">5</button>
-    <button class="pin-btn" onclick="Auth.enterPin(6)">6</button>
-    <button class="pin-btn" onclick="Auth.enterPin(7)">7</button>
-    <button class="pin-btn" onclick="Auth.enterPin(8)">8</button>
-    <button class="pin-btn" onclick="Auth.enterPin(9)">9</button>
-    <button class="pin-btn" onclick="Auth.clearPin()">⌫</button>
-    <button class="pin-btn" onclick="Auth.enterPin(0)">0</button>
-    <button class="pin-btn" onclick="Auth.skipLogin()">✓</button>
-  </div>
-</div>
-
-<!-- HEADER -->
 <header class="app-header">
-  <h1>🎧 <span id="appTitle">DJ Pro</span></h1>
-  <div class="header-actions">
-    <button class="header-btn" onclick="UI.showModal('config')" title="Configurações">⚙️</button>
-    <button class="header-btn" onclick="Theme.toggle()" title="Tema">🌓</button>
-  </div>
+<h1>🎧 DJ Brow</h1>
+<div class="header-actions">
+<button class="header-btn" onclick="UI.toggleTheme()" title="Tema">🌓</button>
+</div>
 </header>
 
-<!-- CONTEÚDO PRINCIPAL -->
 <main class="main-content">
 
 <!-- DASHBOARD -->
 <section id="dashboard" class="section active">
-  <div class="search-container">
-    <span class="search-icon">🔍</span>
-    <input type="text" class="search-input" id="globalSearch" placeholder="Buscar cliente por nome, CPF, telefone..." autocomplete="off">
-    <div class="search-results" id="searchResults"></div>
-  </div>
+<div class="search-container">
+<span class="search-icon">🔍</span>
+<input type="text" class="search-input" id="globalSearch" placeholder="Buscar cliente, evento, CPF..." autocomplete="off">
+</div>
 
-  <div class="quick-actions">
-    <div class="quick-action-btn" onclick="Router.navigate('clientes')">
-      <div class="quick-action-icon">👤</div>
-      <div class="quick-action-text">Novo Cliente</div>
-    </div>
-    <div class="quick-action-btn" onclick="Router.navigate('eventos')">
-      <div class="quick-action-icon">🎉</div>
-      <div class="quick-action-text">Novo Evento</div>
-    </div>
-    <div class="quick-action-btn" onclick="Router.navigate('caixa')">
-      <div class="quick-action-icon">💵</div>
-      <div class="quick-action-text">Lançamento</div>
-    </div>
-    <div class="quick-action-btn" onclick="Router.navigate('relatorios')">
-      <div class="quick-action-icon">📊</div>
-      <div class="quick-action-text">Relatórios</div>
-    </div>
-  </div>
+<div class="quick-actions">
+<div class="quick-action-btn" onclick="Router.navigate('clientes')">
+<div class="quick-action-icon">👤</div>
+<div class="quick-action-text">Novo Cliente</div>
+</div>
+<div class="quick-action-btn" onclick="Router.navigate('eventos')">
+<div class="quick-action-icon">🎉</div>
+<div class="quick-action-text">Novo Evento</div>
+</div>
+<div class="quick-action-btn" onclick="Router.navigate('financeiro')">
+<div class="quick-action-icon">💵</div>
+<div class="quick-action-text">Lançamento</div>
+</div>
+<div class="quick-action-btn" onclick="Router.navigate('contrato')">
+<div class="quick-action-icon">📄</div>
+<div class="quick-action-text">Contrato</div>
+</div>
+</div>
 
-  <div class="financial-summary">
-    <h3>📈 Resumo do Mês Atual</h3>
-    <div class="financial-grid">
-      <div class="financial-item">
-        <div class="financial-value" id="mesEntradas">R$ 0</div>
-        <div class="financial-label">Entradas</div>
-      </div>
-      <div class="financial-item">
-        <div class="financial-value" id="mesSaidas">R$ 0</div>
-        <div class="financial-label">Saídas</div>
-      </div>
-      <div class="financial-item">
-        <div class="financial-value" id="mesLucro">R$ 0</div>
-        <div class="financial-label">Lucro Líquido</div>
-      </div>
-      <div class="financial-item">
-        <div class="financial-value" id="mesEventos">0</div>
-        <div class="financial-label">Eventos</div>
-      </div>
-    </div>
-  </div>
+<div class="financial-summary">
+<h3 style="font-size:14px;margin-bottom:12px;opacity:0.9">📈 Resumo do Mês</h3>
+<div class="financial-grid">
+<div class="financial-item">
+<div class="financial-value" id="mesEntradas">R$ 0,00</div>
+<div class="financial-label">Entradas</div>
+</div>
+<div class="financial-item">
+<div class="financial-value" id="mesSaidas">R$ 0,00</div>
+<div class="financial-label">Saídas</div>
+</div>
+<div class="financial-item">
+<div class="financial-value" id="mesLucro">R$ 0,00</div>
+<div class="financial-label">Lucro</div>
+</div>
+<div class="financial-item">
+<div class="financial-value" id="mesEventos">0</div>
+<div class="financial-label">Eventos</div>
+</div>
+</div>
+</div>
 
-  <div class="card">
-    <div class="card-title">📅 Próximos Eventos (30 dias)
-      <span style="margin-left: auto; font-size: 14px; color: var(--text-muted);" id="contadorEventos"></span>
-    </div>
-    <div id="eventosAgendados">
-      <div class="empty-state">
-        <div class="empty-state-icon">📅</div>
-        <p>Nenhum evento agendado para os próximos 30 dias</p>
-      </div>
-    </div>
-  </div>
+<div class="card">
+<div class="card-title">📅 Próximos Eventos <span id="contadorEventos" style="margin-left:auto;font-size:13px;color:var(--text-muted)">0</span></div>
+<div id="listaEventosDashboard"></div>
+</div>
 
-  <div class="card">
-    <div class="card-title">🕐 Atividades Recentes</div>
-    <div class="timeline" id="timelineAtividades"></div>
-  </div>
+<div class="card">
+<div class="card-title">💰 A Receber</div>
+<div id="listaAReceber"></div>
+</div>
 </section>
 
 <!-- CLIENTES -->
 <section id="clientes" class="section">
-  <div class="search-container">
-    <span class="search-icon">🔍</span>
-    <input type="text" class="search-input" id="buscaClientes" placeholder="Buscar por nome, CPF/CNPJ, telefone..." autocomplete="off">
-  </div>
+<div class="card">
+<div class="card-title">👤 Cadastrar Cliente</div>
+<form id="formCliente" onsubmit="Clientes.salvar(event)">
+<input type="hidden" id="clienteId">
+<div class="form-row">
+<div class="form-group" style="flex:2">
+<label class="form-label">Nome Completo *</label>
+<input type="text" class="form-control" id="cli_nome" required placeholder="Nome completo">
+</div>
+<div class="form-group">
+<label class="form-label">CPF *</label>
+<input type="text" class="form-control" id="cli_cpf" required placeholder="000.000.000-00" maxlength="14">
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">RG</label>
+<input type="text" class="form-control" id="cli_rg" placeholder="00.000.000-0" maxlength="12">
+</div>
+<div class="form-group">
+<label class="form-label">Telefone *</label>
+<input type="text" class="form-control" id="cli_tel" required placeholder="(00) 00000-0000" maxlength="15">
+</div>
+<div class="form-group">
+<label class="form-label">E-mail</label>
+<input type="email" class="form-control" id="cli_email" placeholder="email@exemplo.com">
+</div>
+</div>
+<div class="form-row">
+<div class="form-group" style="flex:1">
+<label class="form-label">CEP</label>
+<input type="text" class="form-control" id="cli_cep" placeholder="00000-000" maxlength="9" onblur="Clientes.buscarCep()">
+</div>
+<div class="form-group" style="flex:3">
+<label class="form-label">Rua/Avenida</label>
+<input type="text" class="form-control" id="cli_end" placeholder="Endereço">
+</div>
+<div class="form-group" style="flex:1">
+<label class="form-label">Número</label>
+<input type="text" class="form-control" id="cli_numero" placeholder="Nº">
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">Bairro</label>
+<input type="text" class="form-control" id="cli_bairro" placeholder="Bairro">
+</div>
+<div class="form-group">
+<label class="form-label">Cidade</label>
+<input type="text" class="form-control" id="cli_cidade" placeholder="Cidade">
+</div>
+<div class="form-group">
+<label class="form-label">UF</label>
+<input type="text" class="form-control" id="cli_uf" placeholder="UF" maxlength="2">
+</div>
+</div>
+<button type="submit" class="btn btn-lg">💾 Salvar Cliente</button>
+</form>
+</div>
 
-  <div class="card">
-    <div class="card-title">👥 Novo Cliente</div>
-    <form id="formCliente" onsubmit="Clientes.salvar(event)">
-      <input type="hidden" id="clienteId">
-      <div class="form-row">
-        <div class="form-group" style="flex: 2;">
-          <label class="form-label">Nome Completo *</label>
-          <input type="text" class="form-control" id="clienteNome" required placeholder="Nome completo">
-        </div>
-        <div class="form-group">
-          <label class="form-label">CPF/CNPJ *</label>
-          <input type="text" class="form-control" id="clienteDocumento" required placeholder="000.000.000-00">
-        </div>
-      </div>
-      
-      <div class="section-group-title">📍 Endereço</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">CEP</label>
-          <input type="text" class="form-control" id="clienteCep" placeholder="00000-000">
-        </div>
-        <div class="form-group" style="flex: 2;">
-          <label class="form-label">Rua</label>
-          <input type="text" class="form-control" id="clienteRua">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Número</label>
-          <input type="text" class="form-control" id="clienteNumero">
-        </div>
-      </div>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Complemento</label>
-          <input type="text" class="form-control" id="clienteComplemento">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Bairro</label>
-          <input type="text" class="form-control" id="clienteBairro">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Cidade</label>
-          <input type="text" class="form-control" id="clienteCidade">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Estado</label>
-          <input type="text" class="form-control" id="clienteEstado" maxlength="2">
-        </div>
-      </div>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Telefone *</label>
-          <input type="tel" class="form-control" id="clienteTelefone" required placeholder="(00) 00000-0000">
-        </div>
-        <div class="form-group">
-          <label class="form-label">E-mail</label>
-          <input type="email" class="form-control" id="clienteEmail">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Nascimento</label>
-          <input type="date" class="form-control" id="clienteNascimento">
-        </div>
-      </div>
-      
-      <button type="submit" class="btn btn-lg">💾 Salvar Cliente</button>
-    </form>
-  </div>
-
-  <div class="card">
-    <div class="card-title">📋 Clientes (<span id="totalClientes">0</span>)</div>
-    <div id="listaClientes" class="virtual-list">
-      <div class="empty-state">
-        <div class="empty-state-icon">👤</div>
-        <p>Nenhum cliente cadastrado</p>
-      </div>
-    </div>
-  </div>
+<div class="card">
+<div class="card-title">📋 Clientes (<span id="totalClientes">0</span>)</div>
+<div id="listaClientes"></div>
+</div>
 </section>
 
 <!-- EVENTOS -->
 <section id="eventos" class="section">
-  <div class="tabs" id="eventosTabs">
-    <div class="tab active" data-filter="todos">Todos</div>
-    <div class="tab" data-filter="agendados">Agendados</div>
-    <div class="tab" data-filter="hoje">Hoje</div>
-    <div class="tab" data-filter="semana">Esta Semana</div>
-    <div class="tab" data-filter="concluidos">Concluídos</div>
-  </div>
+<div class="tabs" id="tabsEventos">
+<div class="tab active" data-filtro="todos">Todos</div>
+<div class="tab" data-filtro="agendados">Agendados</div>
+<div class="tab" data-filtro="hoje">Hoje</div>
+<div class="tab" data-filtro="semana">Semana</div>
+<div class="tab" data-filtro="concluidos">Concluídos</div>
+</div>
 
-  <div class="card">
-    <div class="card-title">🎉 Novo Evento</div>
-    <form id="formEvento" onsubmit="Eventos.salvar(event)">
-      <input type="hidden" id="eventoId">
-      <div class="form-group">
-        <label class="form-label">Cliente *</label>
-        <select class="form-control" id="eventoCliente" required>
-          <option value="">Selecione...</option>
-        </select>
-      </div>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Tipo *</label>
-          <select class="form-control" id="eventoTipo" required>
-            <option value="Casamento">Casamento</option>
-            <option value="Aniversário">Aniversário</option>
-            <option value="Corporativo">Corporativo</option>
-            <option value="Debutante">Debutante</option>
-            <option value="Formatura">Formatura</option>
-            <option value="Outro">Outro</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Data *</label>
-          <input type="date" class="form-control" id="eventoData" required>
-        </div>
-      </div>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Início *</label>
-          <input type="time" class="form-control" id="eventoHoraInicio" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Término *</label>
-          <input type="time" class="form-control" id="eventoHoraFim" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Convidados</label>
-          <input type="number" class="form-control" id="eventoConvidados">
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label">Local *</label>
-        <input type="text" class="form-control" id="eventoLocal" required>
-      </div>
-      
-      <div class="section-group-title">💰 Valores</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Total (R$) *</label>
-          <input type="number" step="0.01" class="form-control" id="eventoValorTotal" required onchange="Eventos.calcularSaldo()">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Entrada (R$)</label>
-          <input type="number" step="0.01" class="form-control" id="eventoValorEntrada" onchange="Eventos.calcularSaldo()">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Saldo</label>
-          <input type="text" class="form-control" id="eventoSaldo" readonly style="background: var(--bg); font-weight: bold;">
-        </div>
-      </div>
-      
-      <button type="submit" class="btn btn-lg">💾 Salvar Evento</button>
-    </form>
-  </div>
+<div class="card">
+<div class="card-title">🎉 Novo Evento</div>
+<form id="formEvento" onsubmit="Eventos.salvar(event)">
+<input type="hidden" id="eventoId">
+<div class="form-group">
+<label class="form-label">Cliente *</label>
+<select class="form-control" id="evt_cliente_id" required>
+<option value="">Selecione o cliente...</option>
+</select>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">Tipo de Evento *</label>
+<select class="form-control" id="evt_tipo" required>
+<option value="Casamento">Casamento</option>
+<option value="Aniversário">Aniversário</option>
+<option value="Corporativo">Corporativo</option>
+<option value="Debutante">Debutante</option>
+<option value="Formatura">Formatura</option>
+<option value="Outro">Outro</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">Data *</label>
+<input type="date" class="form-control" id="evt_data" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">Início *</label>
+<input type="time" class="form-control" id="evt_inicio" required>
+</div>
+<div class="form-group">
+<label class="form-label">Término *</label>
+<input type="time" class="form-control" id="evt_termino" required onchange="Eventos.calcularDuracao()">
+</div>
+<div class="form-group">
+<label class="form-label">Duração (horas)</label>
+<input type="text" class="form-control" id="evt_duracao" readonly placeholder="Auto">
+</div>
+</div>
+<div class="form-group">
+<label class="form-label">Local do Evento *</label>
+<input type="text" class="form-control" id="evt_local" required placeholder="Endereço completo do evento">
+</div>
+<div class="form-group">
+<label class="form-label">Serviços e Equipamentos *</label>
+<textarea class="form-control" id="evt_servicos" rows="3" required placeholder="Ex: Som para 200 pessoas, 04 Moving Heads, Máquina de fumaça, Iluminação de pista, DJ profissional..."></textarea>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">Valor Total (R$) *</label>
+<input type="text" class="form-control" id="evt_valor" required placeholder="0,00" oninput="Financeiro.mascaraValor(this)" onchange="Eventos.calcularSaldo()">
+</div>
+<div class="form-group">
+<label class="form-label">Entrada/Sinal (R$)</label>
+<input type="text" class="form-control" id="evt_entrada" placeholder="0,00" oninput="Financeiro.mascaraValor(this)" onchange="Eventos.calcularSaldo()">
+</div>
+<div class="form-group">
+<label class="form-label">Saldo Devedor</label>
+<input type="text" class="form-control" id="evt_saldo" readonly style="background:var(--bg);font-weight:700;color:var(--danger)">
+</div>
+</div>
+<div class="form-group">
+<label class="form-label">Forma de Pagamento</label>
+<input type="text" class="form-control" id="evt_pagamento" placeholder="Ex: 50% na reserva e 50% no dia do evento">
+</div>
+<button type="submit" class="btn btn-lg">💾 Salvar Evento</button>
+</form>
+</div>
 
-  <div class="card">
-    <div class="card-title">📋 Eventos</div>
-    <div id="listaEventos" class="virtual-list">
-      <div class="empty-state">
-        <div class="empty-state-icon">📅</div>
-        <p>Nenhum evento</p>
-      </div>
-    </div>
-  </div>
+<div class="card">
+<div class="card-title">📋 Eventos</div>
+<div id="listaEventos"></div>
+</div>
 </section>
 
-<!-- CONTRATOS -->
-<section id="contratos" class="section">
-  <div class="contract-controls">
-    <div class="card-title">📄 Gerar Contrato</div>
-    
-    <div class="form-group">
-      <label class="form-label">Evento *</label>
-      <select class="form-control" id="contratoEvento" onchange="Contratos.carregarDados()">
-        <option value="">Selecione...</option>
-      </select>
-    </div>
-    
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Data Contrato</label>
-        <input type="date" class="form-control" id="contratoData">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Cidade</label>
-        <input type="text" class="form-control" id="contratoCidade" placeholder="Cidade do contrato">
-      </div>
-    </div>
-    
-    <div class="form-group">
-      <label class="form-label">Cláusulas Adicionais</label>
-      <textarea class="form-control" id="contratoClausulas" rows="3"></textarea>
-    </div>
+<!-- FINANCEIRO -->
+<section id="financeiro" class="section">
+<div class="tabs" id="tabsFinanceiro">
+<div class="tab active" data-aba="lancamento">Lançamento</div>
+<div class="tab" data-aba="extrato">Extrato</div>
+<div class="tab" data-aba="relatorios">Relatórios</div>
+</div>
 
-    <div class="form-row" style="margin-bottom: 20px;">
-      <div class="form-group">
-        <label class="form-label">Status Assinaturas</label>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <span id="statusAssinaturaContratante" class="badge badge-danger">✗ Cliente não assinou</span>
-          <span id="statusAssinaturaContratado" class="badge badge-danger">✗ DJ não assinou</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Assinatura do CLIENTE</label>
-        <div class="signature-pad-container">
-          <canvas id="assinaturaContratante" class="signature-pad"></canvas>
-          <div style="margin-top: 10px; display: flex; gap: 10px;">
-            <button type="button" class="btn btn-sm btn-secondary" onclick="Assinaturas.limpar('contratante')">🗑️ Limpar</button>
-            <button type="button" class="btn btn-sm btn-success" onclick="Assinaturas.salvar('contratante')">✓ Confirmar</button>
-          </div>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label">Assinatura do DJ</label>
-        <div class="signature-pad-container">
-          <canvas id="assinaturaContratado" class="signature-pad"></canvas>
-          <div style="margin-top: 10px; display: flex; gap: 10px;">
-            <button type="button" class="btn btn-sm btn-secondary" onclick="Assinaturas.limpar('contratado')">🗑️ Limpar</button>
-            <button type="button" class="btn btn-sm btn-success" onclick="Assinaturas.salvar('contratado')">✓ Confirmar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div style="display: flex; gap: 10px; margin-top: 20px;">
-      <button class="btn btn-success btn-lg" onclick="Contratos.visualizar()" style="flex: 1;">👁️ Visualizar</button>
-      <button class="btn btn-primary btn-lg" onclick="Contratos.imprimir()" style="flex: 1;">🖨️ Imprimir PDF</button>
-    </div>
-  </div>
+<div id="abaLancamento" class="aba-financeiro">
+<div class="card">
+<div class="card-title">💵 Novo Lançamento</div>
+<form id="formLancamento" onsubmit="Financeiro.salvar(event)">
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">Tipo *</label>
+<select class="form-control" id="fin_tipo" required onchange="Financeiro.toggleCliente()">
+<option value="entrada">Entrada (Recebimento)</option>
+<option value="saida">Saída (Despesa)</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">Valor (R$) *</label>
+<input type="text" class="form-control" id="fin_valor" required placeholder="0,00" oninput="Financeiro.mascaraValor(this)">
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">Data *</label>
+<input type="date" class="form-control" id="fin_data" required>
+</div>
+<div class="form-group">
+<label class="form-label">Categoria *</label>
+<select class="form-control" id="fin_categoria" required>
+<option value="Evento">Evento</option>
+<option value="Equipamento">Equipamento</option>
+<option value="Marketing">Marketing</option>
+<option value="Transporte">Transporte</option>
+<option value="Alimentação">Alimentação</option>
+<option value="Outros">Outros</option>
+</select>
+</div>
+</div>
+<div class="form-group" id="grupoClienteLancamento">
+<label class="form-label">Cliente (opcional)</label>
+<select class="form-control" id="fin_cliente_id" onchange="Financeiro.carregarEventos()">
+<option value="">Nenhum</option>
+</select>
+</div>
+<div class="form-group" id="grupoEventoLancamento" style="display:none">
+<label class="form-label">Evento (opcional)</label>
+<select class="form-control" id="fin_evento_id">
+<option value="">Nenhum</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">Descrição *</label>
+<input type="text" class="form-control" id="fin_descricao" required placeholder="Ex: Sinal do evento de Casamento">
+</div>
+<button type="submit" class="btn btn-lg">💾 Salvar Lançamento</button>
+</form>
+</div>
+</div>
 
-  <div id="contractPrintArea">
-    <h2>CONTRATO DE PRESTAÇÃO DE SERVIÇOS</h2>
-    
-    <p style="text-align: center; margin-bottom: 30px;">
-      <strong>CONTRATO Nº <span id="printContratoNumero"></span></strong><br>
-      <span id="printDataContrato"></span>
-    </p>
-    
-    <p><strong>CONTRATANTE:</strong> <span id="printContratanteNome"></span>, CPF/CNPJ nº <span id="printContratanteDocumento"></span>, residente à <span id="printContratanteEndereco"></span>.</p>
-    
-    <p><strong>CONTRATADO:</strong> <span id="printContratadoNome"></span>, CNPJ nº <span id="printContratadoDocumento"></span>, com sede na <span id="printContratadoEndereco"></span>.</p>
-    
-    <p style="margin-top: 20px;"><strong>CLÁUSULA 1ª - DO OBJETO</strong></p>
-    <p>Prestação de serviços de discotecagem para <strong><span id="printEventoTipo"></span></strong>, no dia <strong><span id="printEventoData"></span></strong>, das <strong><span id="printEventoHoraInicio"></span></strong> às <strong><span id="printEventoHoraFim"></span></strong>, no local <strong><span id="printEventoLocal"></span></strong>.</p>
-    
-    <p><strong>CLÁUSULA 2ª - DO VALOR</strong></p>
-    <p>Valor total: <strong>R$ <span id="printValorTotal"></span></strong> (<span id="printValorExtenso"></span>).</p>
-    <p>Entrada: R$ <span id="printValorEntrada"></span> | Saldo: R$ <span id="printValorSaldo"></span></p>
-    
-    <p id="printClausulasAdicionais" style="display: none; margin-top: 20px;"><strong>CLÁUSULAS ADICIONAIS:</strong><br><span id="printClausulasTexto"></span></p>
-    
-    <p style="margin-top: 30px; text-align: center;">Por estarem justos e contratados, firmam o presente.</p>
-    
-    <p style="text-align: center;"><span id="printCidadeContrato"></span>, <span id="printDataExtenso"></span>.</p>
-    
-    <div class="assinaturas-container">
-      <div class="assinatura-box">
-        <div class="assinatura-linha">
-          <img id="imgAssinaturaContratante" class="assinatura-img" style="display: none;" alt="">
-        </div>
-        <div class="assinatura-label">ASSINATURA DO CONTRATANTE</div>
-        <div class="assinatura-nome" id="printNomeAssinaturaContratante"></div>
-      </div>
-      
-      <div class="assinatura-box">
-        <div class="assinatura-linha">
-          <img id="imgAssinaturaContratado" class="assinatura-img" style="display: none;" alt="">
-        </div>
-        <div class="assinatura-label">ASSINATURA DO CONTRATADO</div>
-        <div class="assinatura-nome" id="printNomeAssinaturaContratado"></div>
-      </div>
-    </div>
-    
-    <div style="margin-top: 40px; text-align: center; font-size: 11px; color: #666; border-top: 1px solid #ccc; padding-top: 20px;">
-      <p>Documento gerado eletronicamente - DJ Pro Sistema de Gestão</p>
-    </div>
-  </div>
+<div id="abaExtrato" class="aba-financeiro" style="display:none">
+<div class="card">
+<div class="card-title">📋 Extrato</div>
+<div class="form-row" style="margin-bottom:15px">
+<div class="form-group">
+<label class="form-label">De</label>
+<input type="date" class="form-control" id="ext_data_inicio" onchange="Financeiro.filtrarExtrato()">
+</div>
+<div class="form-group">
+<label class="form-label">Até</label>
+<input type="date" class="form-control" id="ext_data_fim" onchange="Financeiro.filtrarExtrato()">
+</div>
+<div class="form-group">
+<label class="form-label">Tipo</label>
+<select class="form-control" id="ext_tipo" onchange="Financeiro.filtrarExtrato()">
+<option value="todos">Todos</option>
+<option value="entrada">Entradas</option>
+<option value="saida">Saídas</option>
+</select>
+</div>
+</div>
+<div id="listaExtrato"></div>
+</div>
+</div>
+
+<div id="abaRelatorios" class="aba-financeiro" style="display:none">
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-value" id="rel_total_entradas">R$ 0,00</div>
+<div class="stat-label">Total Entradas</div>
+</div>
+<div class="stat-card" style="background:linear-gradient(135deg,var(--danger) 0%,#c82333 100%)">
+<div class="stat-value" id="rel_total_saidas">R$ 0,00</div>
+<div class="stat-label">Total Saídas</div>
+</div>
+<div class="stat-card" style="background:linear-gradient(135deg,var(--success) 0%,#1e7e34 100%)">
+<div class="stat-value" id="rel_lucro">R$ 0,00</div>
+<div class="stat-label">Lucro Líquido</div>
+</div>
+<div class="stat-card" style="background:linear-gradient(135deg,var(--info) 0%,#117a8b 100%)">
+<div class="stat-value" id="rel_ticket_medio">R$ 0,00</div>
+<div class="stat-label">Ticket Médio</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">🏆 Top Clientes</div>
+<div id="listaTopClientes"></div>
+</div>
+</div>
 </section>
 
-<!-- RECIBOS -->
-<section id="recibos" class="section">
-  <div class="card">
-    <div class="card-title">🧾 Emitir Recibo</div>
-    <form id="formRecibo" onsubmit="Recibos.salvar(event)">
-      <div class="form-group">
-        <label class="form-label">Cliente *</label>
-        <select class="form-control" id="reciboCliente" required onchange="Recibos.carregarEventos()">
-          <option value="">Selecione...</option>
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label">Evento *</label>
-        <select class="form-control" id="reciboEvento" required>
-          <option value="">Selecione...</option>
-        </select>
-      </div>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Valor (R$) *</label>
-          <input type="number" step="0.01" class="form-control" id="reciboValor" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Data *</label>
-          <input type="date" class="form-control" id="reciboData" required>
-        </div>
-      </div>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Forma Pagamento *</label>
-          <select class="form-control" id="reciboFormaPagamento" required>
-            <option value="Dinheiro">Dinheiro</option>
-            <option value="Pix">Pix</option>
-            <option value="Cartão Crédito">Cartão Crédito</option>
-            <option value="Cartão Débito">Cartão Débito</option>
-            <option value="Transferência">Transferência</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Referente a *</label>
-          <input type="text" class="form-control" id="reciboReferente" required placeholder="Ex: Sinal, Pagamento parcial">
-        </div>
-      </div>
-      
-      <button type="submit" class="btn btn-lg">💾 Salvar Recibo</button>
-    </form>
-  </div>
+<!-- CONTRATO -->
+<section id="contrato" class="section">
+<div class="card">
+<div class="card-title">📄 Gerar Contrato</div>
+<div class="form-group">
+<label class="form-label">Selecionar Evento *</label>
+<select class="form-control" id="contr_evento_id" onchange="Contrato.carregarDados()" required>
+<option value="">Selecione...</option>
+</select>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">Data do Contrato</label>
+<input type="date" class="form-control" id="contr_data">
+</div>
+<div class="form-group">
+<label class="form-label">Local de Assinatura</label>
+<input type="text" class="form-control" id="contr_local" placeholder="Ex: Quintana/SP">
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">Testemunha 1 - Nome</label>
+<input type="text" class="form-control" id="contr_test1_nome" placeholder="Nome completo">
+</div>
+<div class="form-group">
+<label class="form-label">Testemunha 1 - CPF/RG</label>
+<input type="text" class="form-control" id="contr_test1_doc" placeholder="Documento">
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">Testemunha 2 - Nome</label>
+<input type="text" class="form-control" id="contr_test2_nome" placeholder="Nome completo">
+</div>
+<div class="form-group">
+<label class="form-label">Testemunha 2 - CPF/RG</label>
+<input type="text" class="form-control" id="contr_test2_doc" placeholder="Documento">
+</div>
+</div>
 
-  <div class="card">
-    <div class="card-title">📋 Histórico</div>
-    <div id="listaRecibos" class="virtual-list">
-      <div class="empty-state">
-        <div class="empty-state-icon">🧾</div>
-        <p>Nenhum recibo</p>
-      </div>
-    </div>
-  </div>
-</section>
+<div style="margin:15px 0">
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+<span id="statusAssCliente" class="badge badge-danger">✗ Cliente não assinou</span>
+<span id="statusAssDJ" class="badge badge-danger">✗ DJ não assinou</span>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">Assinatura do CLIENTE</label>
+<canvas id="canvasAssCliente" class="signature-pad"></canvas>
+<div style="display:flex;gap:8px;margin-top:8px">
+<button type="button" class="btn btn-sm btn-secondary" onclick="Assinatura.limpar('cliente')">🗑️ Limpar</button>
+<button type="button" class="btn btn-sm btn-success" onclick="Assinatura.salvar('cliente')">✓ Confirmar</button>
+</div>
+</div>
+<div class="form-group">
+<label class="form-label">Assinatura do DJ (Marcelo)</label>
+<canvas id="canvasAssDJ" class="signature-pad"></canvas>
+<div style="display:flex;gap:8px;margin-top:8px">
+<button type="button" class="btn btn-sm btn-secondary" onclick="Assinatura.limpar('dj')">🗑️ Limpar</button>
+<button type="button" class="btn btn-sm btn-success" onclick="Assinatura.salvar('dj')">✓ Confirmar</button>
+</div>
+</div>
+</div>
+</div>
 
-<!-- CAIXA -->
-<section id="caixa" class="section">
-  <div class="tabs" id="caixaTabs">
-    <div class="tab active" data-aba="lancamento">Lançamento</div>
-    <div class="tab" data-aba="extrato">Extrato</div>
-    <div class="tab" data-aba="relatorio">Relatórios</div>
-  </div>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<button class="btn btn-success" onclick="Contrato.visualizar()">👁️ Visualizar</button>
+<button class="btn btn-primary" onclick="Contrato.imprimir()">🖨️ Imprimir PDF</button>
+<button class="btn btn-secondary" onclick="Contrato.compartilharWhatsApp()">📱 WhatsApp</button>
+<button class="btn btn-secondary" onclick="Contrato.enviarEmail()">📧 Email</button>
+</div>
+</div>
 
-  <div id="abaLancamento" class="aba-caixa">
-    <div class="card">
-      <div class="card-title">💵 Novo Lançamento</div>
-      <form id="formCaixa" onsubmit="Caixa.salvar(event)">
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Tipo *</label>
-            <select class="form-control" id="caixaTipo" required onchange="Caixa.toggleCliente()">
-              <option value="entrada">Entrada</option>
-              <option value="saida">Saída</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Valor (R$) *</label>
-            <input type="number" step="0.01" class="form-control" id="caixaValor" required>
-          </div>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Data *</label>
-            <input type="date" class="form-control" id="caixaData" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Categoria *</label>
-            <select class="form-control" id="caixaCategoria" required>
-              <option value="Evento">Evento</option>
-              <option value="Equipamento">Equipamento</option>
-              <option value="Marketing">Marketing</option>
-              <option value="Transporte">Transporte</option>
-              <option value="Outros">Outros</option>
-            </select>
-          </div>
-        </div>
-        
-        <div class="form-group" id="grupoClienteLancamento">
-          <label class="form-label">Cliente</label>
-          <select class="form-control" id="caixaCliente" onchange="Caixa.carregarEventos()">
-            <option value="">Nenhum</option>
-          </select>
-        </div>
-        
-        <div class="form-group" id="grupoEventoLancamento" style="display: none;">
-          <label class="form-label">Evento</label>
-          <select class="form-control" id="caixaEvento">
-            <option value="">Nenhum</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">Descrição *</label>
-          <input type="text" class="form-control" id="caixaDescricao" required>
-        </div>
-        
-        <button type="submit" class="btn btn-lg">💾 Salvar</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="abaExtrato" class="aba-caixa" style="display: none;">
-    <div class="card">
-      <div class="card-title">📋 Extrato</div>
-      <div class="report-filters">
-        <div class="form-group">
-          <label class="form-label">De</label>
-          <input type="date" class="form-control" id="extratoDataInicio">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Até</label>
-          <input type="date" class="form-control" id="extratoDataFim">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Tipo</label>
-          <select class="form-control" id="extratoTipo">
-            <option value="todos">Todos</option>
-            <option value="entrada">Entradas</option>
-            <option value="saida">Saídas</option>
-          </select>
-        </div>
-      </div>
-      <div id="listaCaixa" class="virtual-list"></div>
-    </div>
-  </div>
-
-  <div id="abaRelatorio" class="aba-caixa" style="display: none;">
-    <div class="report-grid">
-      <div class="report-card">
-        <div class="report-card-title">Este Mês</div>
-        <div class="report-card-value" id="relMesEntradas">R$ 0</div>
-        <div class="report-card-subtitle">Entradas</div>
-      </div>
-      <div class="report-card" style="border-left-color: var(--danger);">
-        <div class="report-card-title">Este Mês</div>
-        <div class="report-card-value" id="relMesSaidas">R$ 0</div>
-        <div class="report-card-subtitle">Saídas</div>
-      </div>
-      <div class="report-card" style="border-left-color: var(--success);">
-        <div class="report-card-title">Este Mês</div>
-        <div class="report-card-value" id="relMesLucro">R$ 0</div>
-        <div class="report-card-subtitle">Lucro</div>
-      </div>
-      <div class="report-card" style="border-left-color: var(--info);">
-        <div class="report-card-title">Este Ano</div>
-        <div class="report-card-value" id="relAnoEntradas">R$ 0</div>
-        <div class="report-card-subtitle">Total</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">📊 Relatório por Período</div>
-      <div class="report-filters">
-        <div class="form-group">
-          <label class="form-label">Período</label>
-          <select class="form-control" id="relPeriodo" onchange="Relatorios.togglePeriodo()">
-            <option value="mes">Este Mês</option>
-            <option value="ultimo_mes">Mês Passado</option>
-            <option value="trimestre">3 Meses</option>
-            <option value="semestre">6 Meses</option>
-            <option value="ano">Este Ano</option>
-            <option value="personalizado">Personalizado</option>
-          </select>
-        </div>
-        <div class="form-group" id="grupoDataInicio" style="display: none;">
-          <label class="form-label">Início</label>
-          <input type="date" class="form-control" id="relDataInicio">
-        </div>
-        <div class="form-group" id="grupoDataFim" style="display: none;">
-          <label class="form-label">Fim</label>
-          <input type="date" class="form-control" id="relDataFim">
-        </div>
-      </div>
-      <div id="resultadoRelatorio"></div>
-      <div id="analiseCategoria"></div>
-    </div>
-  </div>
-</section>
-
-<!-- RELATÓRIOS -->
-<section id="relatorios" class="section">
-  <div class="tabs" id="relatoriosTabs">
-    <div class="tab active" data-aba="financeiro">Financeiro</div>
-    <div class="tab" data-aba="clientes">Clientes</div>
-    <div class="tab" data-aba="eventos">Eventos</div>
-  </div>
-
-  <div id="relFinanceiro" class="aba-relatorio">
-    <div class="report-grid">
-      <div class="report-card">
-        <div class="report-card-title">A Receber</div>
-        <div class="report-card-value" id="totalAReceber">R$ 0</div>
-      </div>
-      <div class="report-card" style="border-left-color: var(--success);">
-        <div class="report-card-title">Recebido</div>
-        <div class="report-card-value" id="totalRecebidoGeral">R$ 0</div>
-      </div>
-      <div class="report-card" style="border-left-color: var(--warning);">
-        <div class="report-card-title">Ticket Médio</div>
-        <div class="report-card-value" id="ticketMedio">R$ 0</div>
-      </div>
-      <div class="report-card" style="border-left-color: var(--info);">
-        <div class="report-card-title">Clientes Ativos</div>
-        <div class="report-card-value" id="clientesAtivos">0</div>
-      </div>
-    </div>
-  </div>
-
-  <div id="relClientes" class="aba-relatorio" style="display: none;">
-    <div class="card">
-      <div class="card-title">🏆 Top Clientes</div>
-      <div id="topClientes" class="virtual-list"></div>
-    </div>
-  </div>
-
-  <div id="relEventos" class="aba-relatorio" style="display: none;">
-    <div class="card">
-      <div class="card-title">📅 Eventos por Ano</div>
-      <div class="report-filters">
-        <div class="form-group">
-          <label class="form-label">Ano</label>
-          <select class="form-control" id="relAnoEventos">
-            <option value="2024">2024</option>
-            <option value="2025">2025</option>
-            <option value="2026">2026</option>
-          </select>
-        </div>
-      </div>
-      <div id="relatorioEventos"></div>
-    </div>
-  </div>
-</section>
-
-<!-- PERFIL -->
-<section id="perfil" class="section">
-  <div class="profile-header">
-    <div class="profile-avatar">🎧</div>
-    <div class="profile-name" id="profileName">DJ Pro</div>
-    <div class="profile-role">Administrador</div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">⚙️ Configurações</div>
-    
-    <div class="section-group">
-      <div class="section-group-title">🏢 Empresa</div>
-      <div class="form-group">
-        <label class="form-label">Nome</label>
-        <input type="text" class="form-control" id="configNome">
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">CNPJ</label>
-          <input type="text" class="form-control" id="configDocumento">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Telefone</label>
-          <input type="text" class="form-control" id="configTelefone">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Endereço</label>
-        <textarea class="form-control" id="configEndereco" rows="2"></textarea>
-      </div>
-    </div>
-    
-    <div class="section-group">
-      <div class="section-group-title">🎨 Aparência</div>
-      <button class="btn btn-secondary" onclick="Theme.toggle()" style="width: 100%; margin-bottom: 10px;">
-        Alternar Tema
-      </button>
-      <div class="color-picker" id="colorPicker">
-        <div class="color-option selected" style="background: #0b76d1;" data-color="blue">✓</div>
-        <div class="color-option" style="background: #6f42c1;" data-color="purple"></div>
-        <div class="color-option" style="background: #28a745;" data-color="green"></div>
-        <div class="color-option" style="background: #dc3545;" data-color="red"></div>
-        <div class="color-option" style="background: #fd7e14;" data-color="orange"></div>
-        <div class="color-option" style="background: #e83e8c;" data-color="pink"></div>
-      </div>
-    </div>
-    
-    <div class="section-group">
-      <div class="section-group-title">🔒 Segurança</div>
-      <button class="btn btn-secondary" onclick="Auth.alterarPin()" style="width: 100%; margin-bottom: 10px;">
-        Alterar PIN
-      </button>
-      <button class="btn btn-danger" onclick="Auth.logout()" style="width: 100%;">
-        Sair
-      </button>
-    </div>
-    
-    <div class="section-group">
-      <div class="section-group-title">💾 Dados</div>
-      <button class="btn btn-success" onclick="Data.exportar()" style="width: 100%; margin-bottom: 10px;">
-        📥 Exportar
-      </button>
-      <button class="btn btn-warning" onclick="document.getElementById('importFile').click()" style="width: 100%;">
-        📤 Importar
-      </button>
-      <input type="file" id="importFile" style="display: none;" accept=".json" onchange="Data.importar(this)">
-    </div>
-    
-    <button class="btn btn-lg" onclick="Config.salvar()">💾 Salvar</button>
-  </div>
+<div class="card contract-container" id="contractContainer" style="display:none">
+<div class="card-title">Prévia do Contrato</div>
+<div id="contractPreview" class="contract-preview"></div>
+</div>
 </section>
 
 </main>
 
-<!-- NAVEGAÇÃO -->
 <nav class="bottom-nav">
-  <button class="nav-item active" onclick="Router.navigate('dashboard')" data-tab="dashboard">
-    <span class="icon">📊</span>
-    <span>Início</span>
-  </button>
-  <button class="nav-item" onclick="Router.navigate('clientes')" data-tab="clientes">
-    <span class="icon">👥</span>
-    <span>Clientes</span>
-  </button>
-  <button class="nav-item" onclick="Router.navigate('eventos')" data-tab="eventos">
-    <span class="icon">🎉</span>
-    <span>Eventos</span>
-  </button>
-  <button class="nav-item" onclick="Router.navigate('caixa')" data-tab="caixa">
-    <span class="icon">💰</span>
-    <span>Caixa</span>
-  </button>
-  <button class="nav-item" onclick="Router.navigate('perfil')" data-tab="perfil">
-    <span class="icon">⚙️</span>
-    <span>Perfil</span>
-  </button>
+<button class="nav-item active" onclick="Router.navigate('dashboard')" data-tab="dashboard">
+<span class="icon">📊</span>
+<span>Início</span>
+</button>
+<button class="nav-item" onclick="Router.navigate('clientes')" data-tab="clientes">
+<span class="icon">👥</span>
+<span>Clientes</span>
+</button>
+<button class="nav-item" onclick="Router.navigate('eventos')" data-tab="eventos">
+<span class="icon">🎉</span>
+<span>Eventos</span>
+</button>
+<button class="nav-item" onclick="Router.navigate('financeiro')" data-tab="financeiro">
+<span class="icon">💰</span>
+<span>Caixa</span>
+</button>
+<button class="nav-item" onclick="Router.navigate('contrato')" data-tab="contrato">
+<span class="icon">📄</span>
+<span>Contrato</span>
+</button>
 </nav>
 
-<!-- MODAL -->
-<div id="modalConfig" class="modal-overlay">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>⚙️ Configurações Rápidas</h3>
-      <button class="modal-close" onclick="UI.closeModal('config')">×</button>
-    </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label class="form-label">Nome</label>
-        <input type="text" class="form-control" id="modalConfigNome">
-      </div>
-      <div class="form-group">
-        <label class="form-label">CNPJ</label>
-        <input type="text" class="form-control" id="modalConfigDocumento">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Endereço</label>
-        <textarea class="form-control" id="modalConfigEndereco" rows="2"></textarea>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="UI.closeModal('config')">Cancelar</button>
-      <button class="btn" onclick="Config.salvarModal()">Salvar</button>
-    </div>
-  </div>
-</div>
-
-<!-- TOAST -->
 <div id="toast" class="toast"></div>
 
 <script>
-// ==================== ARQUITETURA MODULAR OTIMIZADA ====================
-
-// Módulo de Cache e Performance
-const Cache = {
-  elements: new Map(),
-  data: new Map(),
-  maxAge: 5 * 60 * 1000, // 5 minutos
-  
-  getElement(id) {
-    if (!this.elements.has(id)) {
-      const el = document.getElementById(id);
-      if (el) this.elements.set(id, el);
-      return el;
-    }
-    return this.elements.get(id);
-  },
-  
-  getData(key, getter) {
-    if (this.data.has(key)) {
-      const { value, timestamp } = this.data.get(key);
-      if (Date.now() - timestamp < this.maxAge) return value;
-    }
-    const value = getter();
-    this.data.set(key, { value, timestamp: Date.now() });
-    return value;
-  },
-  
-  invalidate(key) {
-    this.data.delete(key);
-  },
-  
-  clear() {
-    this.elements.clear();
-    this.data.clear();
-  }
-};
-
-// Módulo de Debounce/Throttle
-const Utils = {
-  debounce(fn, delay) {
-    let timeout;
-    return function(...args) {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => fn.apply(this, args), delay);
-    };
-  },
-  
-  throttle(fn, limit) {
-    let inThrottle;
-    return function(...args) {
-      if (!inThrottle) {
-        fn.apply(this, args);
-        inThrottle = true;
-        setTimeout(() => inThrottle = false, limit);
-      }
-    };
-  },
-  
-  formatarData(d) {
-    if (!d) return '';
-    return new Date(d).toLocaleDateString('pt-BR');
-  },
-  
-  dataPorExtenso(d) {
-    if (!d) return '';
-    const data = new Date(d);
-    const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
-    return `${data.getDate()} de ${meses[data.getMonth()]} de ${data.getFullYear()}`;
-  },
-  
-  valorPorExtenso(v) {
-    return `${v.toFixed(2).replace('.', ',')} reais`;
-  },
-  
-  formatarMoeda(valor) {
-    return `R$ ${valor.toFixed(2)}`;
-  }
-};
-
-// Módulo de IndexedDB para dados grandes
+// ==================== ESTADO E UTILITÁRIOS ====================
 const DB = {
-  db: null,
-  name: 'DJProDB',
-  version: 1,
-  
-  async init() {
-    return new Promise((resolve, reject) => {
-      const request = indexedDB.open(this.name, this.version);
-      
-      request.onerror = () => reject(request.error);
-      request.onsuccess = () => {
-        this.db = request.result;
-        resolve(this.db);
-      };
-      
-      request.onupgradeneeded = (event) => {
-        const db = event.target.result;
-        if (!db.objectStoreNames.contains('dados')) {
-          db.createObjectStore('dados', { keyPath: 'id' });
-        }
-      };
-    });
-  },
-  
-  async save(key, data) {
-    if (!this.db) await this.init();
-    return new Promise((resolve, reject) => {
-      const tx = this.db.transaction(['dados'], 'readwrite');
-      const store = tx.objectStore('dados');
-      const request = store.put({ id: key, data, timestamp: Date.now() });
-      request.onsuccess = () => resolve();
-      request.onerror = () => reject(request.error);
-    });
-  },
-  
-  async get(key) {
-    if (!this.db) await this.init();
-    return new Promise((resolve, reject) => {
-      const tx = this.db.transaction(['dados'], 'readonly');
-      const store = tx.objectStore('dados');
-      const request = store.get(key);
-      request.onsuccess = () => resolve(request.result?.data);
-      request.onerror = () => reject(request.error);
-    });
-  }
+dados: {
+clientes: [],
+eventos: [],
+lancamentos: [],
+assinaturas: {cliente:null,dj:null},
+config:{tema:'light'}
+},
+carregar(){
+const salvo = localStorage.getItem('djbrow_sistema');
+if(salvo) this.dados = JSON.parse(salvo);
+},
+salvar(){
+localStorage.setItem('djbrow_sistema',JSON.stringify(this.dados));
+}
 };
 
-// Estado Global Otimizado
-const State = {
-  data: {
-    clientes: [],
-    eventos: [],
-    recibos: [],
-    caixa: [],
-    configuracoes: {
-      nome: 'DJ Pro',
-      documento: '',
-      endereco: '',
-      telefone: '',
-      tema: 'light',
-      cor: 'blue',
-      pin: '1234'
-    }
-  },
-  
-  assinaturas: {
-    contratante: null,
-    contratado: null
-  },
-  
-  filtros: {
-    eventos: 'todos'
-  },
-  
-  // Getters otimizados com cache
-  get clientes() { return this.data.clientes; },
-  get eventos() { return this.data.eventos; },
-  get recibos() { return this.data.recibos; },
-  get caixa() { return this.data.caixa; },
-  get config() { return this.data.configuracoes; },
-  
-  // Setters com persistência assíncrona
-  setClientes(v) { 
-    this.data.clientes = v; 
-    this.persist();
-    Cache.invalidate('clientes');
-  },
-  setEventos(v) { 
-    this.data.eventos = v; 
-    this.persist();
-    Cache.invalidate('eventos');
-  },
-  setRecibos(v) { 
-    this.data.recibos = v; 
-    this.persist();
-  },
-  setCaixa(v) { 
-    this.data.caixa = v; 
-    this.persist();
-  },
-  setConfig(v) { 
-    this.data.configuracoes = v; 
-    this.persist();
-  },
-  
-  async persist() {
-    // Salva no IndexedDB em background
-    try {
-      await DB.save('main', this.data);
-      // Backup no localStorage apenas para configurações pequenas
-      localStorage.setItem('djpro_config', JSON.stringify(this.data.configuracoes));
-    } catch (e) {
-      console.error('Erro ao persistir:', e);
-    }
-  },
-  
-  async load() {
-    try {
-      const data = await DB.get('main');
-      if (data) {
-        this.data = data;
-      } else {
-        // Migração do localStorage antigo
-        const old = localStorage.getItem('djpro_data_v2');
-        if (old) {
-          this.data = JSON.parse(old);
-          await this.persist();
-          localStorage.removeItem('djpro_data_v2');
-        }
-      }
-      
-      const config = localStorage.getItem('djpro_config');
-      if (config) this.data.configuracoes = JSON.parse(config);
-    } catch (e) {
-      console.error('Erro ao carregar:', e);
-    }
-  }
+const Utils = {
+formatarData(d){
+if(!d) return '';
+return new Date(d).toLocaleDateString('pt-BR');
+},
+dataExtenso(d){
+if(!d) return '';
+const data = new Date(d);
+const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+return `${data.getDate()} de ${meses[data.getMonth()]} de ${data.getFullYear()}`;
+},
+formatarMoeda(v){
+return 'R$ ' + parseFloat(v).toFixed(2).replace('.',',');
+},
+parseMoeda(v){
+return parseFloat(v.replace(/[R$\s.]/g,'').replace(',','.')) || 0;
+},
+mascaraCPF(v){
+v=v.replace(/\D/g,'');
+v=v.replace(/(\d{3})(\d)/,'$1.$2');
+v=v.replace(/(\d{3})(\d)/,'$1.$2');
+v=v.replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+return v;
+},
+mascaraRG(v){
+v=v.replace(/\D/g,'');
+v=v.replace(/(\d{2})(\d)/,'$1.$2');
+v=v.replace(/(\d{3})(\d)/,'$1.$2');
+v=v.replace(/(\d{3})(\d{1})$/,'$1-$2');
+return v;
+},
+mascaraTel(v){
+v=v.replace(/\D/g,'');
+v=v.replace(/(\d{2})(\d)/,'($1) $2');
+v=v.replace(/(\d{5})(\d)/,'$1-$2');
+return v;
+},
+mascaraCEP(v){
+v=v.replace(/\D/g,'');
+v=v.replace(/(\d{5})(\d)/,'$1-$2');
+return v;
+},
+debounce(fn,ms){
+let timeout;
+return function(...args){
+clearTimeout(timeout);
+timeout=setTimeout(()=>fn.apply(this,args),ms);
+}
+}
 };
 
-// Módulo de UI
+// ==================== UI E NAVEGAÇÃO ====================
 const UI = {
-  showToast(msg, type = 'success') {
-    const toast = Cache.getElement('toast');
-    if (!toast) return;
-    toast.textContent = msg;
-    toast.className = `toast ${type} show`;
-    setTimeout(() => toast.classList.remove('show'), 3000);
-  },
-  
-  showModal(name) {
-    const modal = Cache.getElement(`modal${name.charAt(0).toUpperCase() + name.slice(1)}`);
-    if (modal) modal.classList.add('active');
-  },
-  
-  closeModal(name) {
-    const modal = Cache.getElement(`modal${name.charAt(0).toUpperCase() + name.slice(1)}`);
-    if (modal) modal.classList.remove('active');
-  },
-  
-  // Virtual List Renderer
-  renderVirtualList(containerId, items, renderFn, itemHeight = 100) {
-    const container = Cache.getElement(containerId);
-    if (!container) return;
-    
-    if (items.length === 0) {
-      container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><p>Nenhum item</p></div>';
-      return;
-    }
-    
-    // Limita a 50 itens visíveis por vez para performance
-    const visibleCount = Math.min(items.length, 50);
-    const html = items.slice(0, visibleCount).map(renderFn).join('');
-    
-    if (items.length > 50) {
-      container.innerHTML = html + `<div style="text-align: center; padding: 20px; color: var(--text-muted);">+ ${items.length - 50} itens (use filtros)</div>`;
-    } else {
-      container.innerHTML = html;
-    }
-  }
+toast(msg,tipo='success'){
+const t=document.getElementById('toast');
+t.textContent=msg;
+t.className=`toast ${tipo} show`;
+setTimeout(()=>t.classList.remove('show'),3000);
+},
+toggleTheme(){
+const html=document.documentElement;
+const atual=html.getAttribute('data-theme');
+const novo=atual==='dark'?'light':'dark';
+html.setAttribute('data-theme',novo);
+DB.dados.config.tema=novo;
+DB.salvar();
+}
 };
 
-// Módulo de Tema
-const Theme = {
-  init() {
-    const config = State.config;
-    if (config.tema === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
-    if (config.cor) {
-      document.documentElement.setAttribute('data-color', config.cor);
-      this.updateColorPicker(config.cor);
-    }
-  },
-  
-  toggle() {
-    const html = document.documentElement;
-    const atual = html.getAttribute('data-theme');
-    const novo = atual === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', novo);
-    State.config.tema = novo;
-    State.setConfig(State.config);
-  },
-  
-  setColor(cor) {
-    document.documentElement.setAttribute('data-color', cor);
-    State.config.cor = cor;
-    State.setConfig(State.config);
-    this.updateColorPicker(cor);
-  },
-  
-  updateColorPicker(selected) {
-    document.querySelectorAll('.color-option').forEach(el => {
-      el.classList.remove('selected');
-      el.textContent = '';
-      if (el.dataset.color === selected) {
-        el.classList.add('selected');
-        el.textContent = '✓';
-      }
-    });
-  }
-};
-
-// Módulo de Autenticação
-const Auth = {
-  currentPin: '',
-  
-  init() {
-    if (State.config.pin) {
-      Cache.getElement('loginScreen').style.display = 'flex';
-    }
-  },
-  
-  enterPin(n) {
-    if (this.currentPin.length < 4) {
-      this.currentPin += n;
-      this.updateDisplay();
-      if (this.currentPin.length === 4) this.checkPin();
-    }
-  },
-  
-  clearPin() {
-    this.currentPin = this.currentPin.slice(0, -1);
-    this.updateDisplay();
-  },
-  
-  updateDisplay() {
-    document.querySelectorAll('.pin-dot').forEach((d, i) => {
-      d.classList.toggle('filled', i < this.currentPin.length);
-    });
-  },
-  
-  checkPin() {
-    if (this.currentPin === State.config.pin) {
-      Cache.getElement('loginScreen').style.display = 'none';
-      this.currentPin = '';
-      this.updateDisplay();
-    } else {
-      UI.showToast('PIN incorreto!', 'error');
-      this.currentPin = '';
-      setTimeout(() => this.updateDisplay(), 200);
-    }
-  },
-  
-  skipLogin() {
-    Cache.getElement('loginScreen').style.display = 'none';
-  },
-  
-  logout() {
-    this.currentPin = '';
-    Cache.getElement('loginScreen').style.display = 'flex';
-  },
-  
-  alterarPin() {
-    const novo = prompt('Novo PIN (4 dígitos):');
-    if (novo?.length === 4 && !isNaN(novo)) {
-      State.config.pin = novo;
-      State.setConfig(State.config);
-      UI.showToast('PIN alterado!');
-    } else {
-      UI.showToast('PIN inválido!', 'error');
-    }
-  }
-};
-
-// Módulo de Navegação
 const Router = {
-  currentTab: 'dashboard',
-  
-  navigate(tab) {
-    // Atualiza seções
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    const section = Cache.getElement(tab);
-    if (section) section.classList.add('active');
-    
-    // Atualiza navegação
-    document.querySelectorAll('.nav-item').forEach(item => {
-      item.classList.toggle('active', item.dataset.tab === tab);
-    });
-    
-    this.currentTab = tab;
-    window.scrollTo(0, 0);
-    
-    // Carrega dados específicos da aba
-    this.loadTabData(tab);
-  },
-  
-  loadTabData(tab) {
-    switch(tab) {
-      case 'eventos':
-        Selects.atualizarClientes();
-        Eventos.filtrar(State.filtros.eventos);
-        break;
-      case 'contratos':
-        Selects.atualizarEventos();
-        break;
-      case 'recibos':
-        Selects.atualizarRecibos();
-        break;
-      case 'caixa':
-        Selects.atualizarCaixa();
-        Caixa.filtrarExtrato();
-        break;
-      case 'relatorios':
-        Relatorios.gerar();
-        break;
-      case 'dashboard':
-        Dashboard.atualizar();
-        break;
-    }
-  }
+atual:'dashboard',
+navigate(pagina){
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+document.getElementById(pagina).classList.add('active');
+document.querySelectorAll('.nav-item').forEach(n=>{
+n.classList.toggle('active',n.dataset.tab===pagina);
+});
+this.atual=pagina;
+window.scrollTo(0,0);
+
+// Carrega dados específicos
+if(pagina==='clientes'){
+Clientes.atualizarLista();
+document.getElementById('cli_cpf').addEventListener('input',(e)=>e.target.value=Utils.mascaraCPF(e.target.value));
+document.getElementById('cli_rg').addEventListener('input',(e)=>e.target.value=Utils.mascaraRG(e.target.value));
+document.getElementById('cli_tel').addEventListener('input',(e)=>e.target.value=Utils.mascaraTel(e.target.value));
+document.getElementById('cli_cep').addEventListener('input',(e)=>e.target.value=Utils.mascaraCEP(e.target.value));
+}
+if(pagina==='eventos'){
+Eventos.atualizarSelectClientes();
+Eventos.filtrar('todos');
+document.getElementById('evt_valor').addEventListener('input',(e)=>Financeiro.mascaraValor(e.target.value));
+document.getElementById('evt_entrada').addEventListener('input',(e)=>Financeiro.mascaraValor(e.target.value));
+}
+if(pagina==='financeiro'){
+Financeiro.atualizarSelects();
+Financeiro.filtrarExtrato();
+document.getElementById('fin_valor').addEventListener('input',(e)=>Financeiro.mascaraValor(e.target.value));
+}
+if(pagina==='contrato'){
+Contrato.atualizarSelectEventos();
+Assinatura.init();
+}
+if(pagina==='dashboard'){
+Dashboard.atualizar();
+}
+}
 };
 
-// Módulo de Selects (evita recriação)
-const Selects = {
-  atualizarClientes() {
-    const selects = ['eventoCliente', 'reciboCliente', 'caixaCliente'];
-    const options = State.clientes
-      .sort((a, b) => a.nome.localeCompare(b.nome))
-      .map(c => `<option value="${c.id}">${c.nome}</option>`)
-      .join('');
-    
-    selects.forEach(id => {
-      const sel = Cache.getElement(id);
-      if (sel) {
-        const val = sel.value;
-        sel.innerHTML = '<option value="">Selecione...</option>' + options;
-        sel.value = val;
-      }
-    });
-  },
-  
-  atualizarEventos() {
-    const sel = Cache.getElement('contratoEvento');
-    if (!sel) return;
-    sel.innerHTML = '<option value="">Selecione...</option>' +
-      State.eventos
-        .filter(e => !e.concluido)
-        .sort((a, b) => new Date(a.data) - new Date(b.data))
-        .map(e => `<option value="${e.id}">${e.tipo} - ${e.clienteNome} (${Utils.formatarData(e.data)})</option>`)
-        .join('');
-  },
-  
-  atualizarRecibos() {
-    const sel = Cache.getElement('reciboCliente');
-    if (!sel) return;
-    sel.innerHTML = '<option value="">Selecione...</option>' +
-      State.clientes.sort((a, b) => a.nome.localeCompare(b.nome))
-        .map(c => `<option value="${c.id}">${c.nome}</option>`)
-        .join('');
-  },
-  
-  atualizarCaixa() {
-    const sel = Cache.getElement('caixaCliente');
-    if (!sel) return;
-    sel.innerHTML = '<option value="">Nenhum</option>' +
-      State.clientes.sort((a, b) => a.nome.localeCompare(b.nome))
-        .map(c => `<option value="${c.id}">${c.nome}</option>`)
-        .join('');
-  }
-};
-
-// Módulo de Dashboard
-const Dashboard = {
-  atualizar() {
-    const hoje = new Date();
-    const inicioMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
-    
-    // Calcula métricas
-    const lancMes = State.caixa.filter(l => new Date(l.data) >= inicioMes);
-    const entradas = lancMes.filter(l => l.tipo === 'entrada').reduce((s, l) => s + l.valor, 0);
-    const saidas = lancMes.filter(l => l.tipo === 'saida').reduce((s, l) => s + l.valor, 0);
-    
-    // Atualiza DOM
-    const els = {
-      mesEntradas: Utils.formatarMoeda(entradas),
-      mesSaidas: Utils.formatarMoeda(saidas),
-      mesLucro: Utils.formatarMoeda(entradas - saidas),
-      mesEventos: State.eventos.filter(e => {
-        const d = new Date(e.data);
-        return d.getMonth() === hoje.getMonth() && d.getFullYear() === hoje.getFullYear();
-      }).length
-    };
-    
-    Object.entries(els).forEach(([id, val]) => {
-      const el = Cache.getElement(id);
-      if (el) el.textContent = val;
-    });
-    
-    this.atualizarEventosProximos();
-    this.atualizarTimeline();
-  },
-  
-  atualizarEventosProximos() {
-    const hoje = new Date();
-    const trintaDias = new Date(hoje);
-    trintaDias.setDate(trintaDias.getDate() + 30);
-    
-    const proximos = State.eventos
-      .filter(e => {
-        const d = new Date(e.data);
-        return d >= hoje && d <= trintaDias && !e.concluido;
-      })
-      .sort((a, b) => new Date(a.data) - new Date(b.data))
-      .slice(0, 5);
-    
-    const container = Cache.getElement('eventosAgendados');
-    const contador = Cache.getElement('contadorEventos');
-    
-    if (contador) contador.textContent = `${proximos.length} eventos`;
-    
-    if (!container) return;
-    
-    if (proximos.length === 0) {
-      container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📅</div><p>Nenhum evento agendado</p></div>';
-      return;
-    }
-    
-    container.innerHTML = proximos.map(e => {
-      const d = new Date(e.data);
-      const dias = Math.ceil((d - hoje) / (1000 * 60 * 60 * 24));
-      let badge = dias === 0 ? '<span class="badge badge-danger">HOJE</span>' : 
-                  dias === 1 ? '<span class="badge badge-warning">AMANHÃ</span>' : 
-                  `<span class="badge badge-info">Em ${dias} dias</span>`;
-      
-      return `
-        <div class="list-item" onclick="Router.navigate('eventos')" style="cursor: pointer;">
-          <div class="list-item-header">
-            <div>
-              <div class="list-item-title">${e.tipo} - ${e.clienteNome}</div>
-              <div class="list-item-meta">📅 ${Utils.formatarData(e.data)} | ⏰ ${e.horaInicio}</div>
-            </div>
-            ${badge}
-          </div>
-        </div>
-      `;
-    }).join('');
-  },
-  
-  atualizarTimeline() {
-    const atividades = [
-      ...State.caixa.slice(-5).map(l => ({...l, tipo: 'caixa'})),
-      ...State.eventos.slice(-5).map(e => ({...e, tipo: 'evento'})),
-      ...State.clientes.slice(-5).map(c => ({...c, tipo: 'cliente'}))
-    ].sort((a, b) => new Date(b.data || b.dataCadastro) - new Date(a.data || a.dataCadastro))
-     .slice(0, 10);
-    
-    const container = Cache.getElement('timelineAtividades');
-    if (!container) return;
-    
-    container.innerHTML = atividades.map(a => {
-      let icone, texto, cor;
-      if (a.tipo === 'caixa') {
-        icone = a.tipo === 'entrada' ? '💵' : '💸';
-        texto = `${a.tipo === 'entrada' ? 'Recebimento' : 'Pagamento'} R$ ${a.valor.toFixed(2)}`;
-        cor = a.tipo === 'entrada' ? 'var(--success)' : 'var(--danger)';
-      } else if (a.tipo === 'evento') {
-        icone = '🎉';
-        texto = `Evento ${a.tipo} agendado`;
-        cor = 'var(--primary)';
-      } else {
-        icone = '👤';
-        texto = `Cliente ${a.nome} cadastrado`;
-        cor = 'var(--info)';
-      }
-      return `
-        <div class="timeline-item" style="border-left: 3px solid ${cor};">
-          <div style="display: flex; justify-content: space-between;">
-            <span>${icone} ${texto}</span>
-            <small style="color: var(--text-muted);">${Utils.formatarData(a.data || a.dataCadastro)}</small>
-          </div>
-        </div>
-      `;
-    }).join('');
-  }
-};
-
-// Módulo de Clientes
+// ==================== CLIENTES ====================
 const Clientes = {
-  init() {
-    this.atualizarLista();
-    
-    // Debounce na busca
-    const searchInput = Cache.getElement('buscaClientes');
-    if (searchInput) {
-      searchInput.addEventListener('input', Utils.debounce(() => this.filtrar(), 300));
-    }
-    
-    // Auto-complete CEP
-    const cepInput = Cache.getElement('clienteCep');
-    if (cepInput) {
-      cepInput.addEventListener('blur', () => this.buscarCep());
-    }
-  },
-  
-  async buscarCep() {
-    const cep = Cache.getElement('clienteCep')?.value.replace(/\D/g, '');
-    if (cep?.length !== 8) return;
-    
-    try {
-      const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-      const data = await res.json();
-      if (!data.erro) {
-        Cache.getElement('clienteRua').value = data.logradouro || '';
-        Cache.getElement('clienteBairro').value = data.bairro || '';
-        Cache.getElement('clienteCidade').value = data.localidade || '';
-        Cache.getElement('clienteEstado').value = data.uf || '';
-      }
-    } catch (e) {
-      console.error('Erro CEP:', e);
-    }
-  },
-  
-  salvar(e) {
-    e.preventDefault();
-    const id = Cache.getElement('clienteId')?.value;
-    
-    const cliente = {
-      id: id ? parseInt(id) : Date.now(),
-      nome: Cache.getElement('clienteNome').value,
-      documento: Cache.getElement('clienteDocumento').value,
-      cep: Cache.getElement('clienteCep').value,
-      rua: Cache.getElement('clienteRua').value,
-      numero: Cache.getElement('clienteNumero').value,
-      complemento: Cache.getElement('clienteComplemento').value,
-      bairro: Cache.getElement('clienteBairro').value,
-      cidade: Cache.getElement('clienteCidade').value,
-      estado: Cache.getElement('clienteEstado').value,
-      telefone: Cache.getElement('clienteTelefone').value,
-      email: Cache.getElement('clienteEmail').value,
-      nascimento: Cache.getElement('clienteNascimento').value,
-      dataCadastro: new Date().toISOString()
-    };
-    
-    // Remove duplicado se existir
-    State.setClientes([
-      ...State.clientes.filter(c => c.id !== cliente.id),
-      cliente
-    ]);
-    
-    UI.showToast('Cliente salvo!');
-    e.target.reset();
-    Cache.getElement('clienteId').value = '';
-    this.atualizarLista();
-    Selects.atualizarClientes();
-  },
-  
-  atualizarLista(filtro = '') {
-    const totalEl = Cache.getElement('totalClientes');
-    if (totalEl) totalEl.textContent = State.clientes.length;
-    
-    let clientes = State.clientes;
-    if (filtro) {
-      const t = filtro.toLowerCase();
-      clientes = clientes.filter(c => 
-        c.nome.toLowerCase().includes(t) ||
-        (c.documento?.includes(t)) ||
-        (c.telefone?.includes(t))
-      );
-    }
-    
-    UI.renderVirtualList('listaClientes', clientes, c => {
-      const recebido = State.caixa
-        .filter(l => l.clienteId === c.id && l.tipo === 'entrada')
-        .reduce((s, l) => s + l.valor, 0);
-      const eventos = State.eventos.filter(e => e.clienteId === c.id).length;
-      
-      return `
-        <div class="list-item">
-          <div class="list-item-header">
-            <div>
-              <div class="list-item-title">${c.nome}</div>
-              <div class="list-item-meta">🆔 ${c.documento || 'Sem doc'} | 📱 ${c.telefone || 'Sem tel'}</div>
-              <div class="list-item-meta" style="margin-top: 8px;">
-                <span class="badge badge-info">${eventos} eventos</span>
-                <span class="badge badge-success">${Utils.formatarMoeda(recebido)}</span>
-              </div>
-            </div>
-          </div>
-          <div class="list-item-actions">
-            <button class="btn btn-sm btn-secondary" onclick="Clientes.editar(${c.id})">✏️</button>
-            <button class="btn btn-sm" onclick="Eventos.novo(${c.id})">🎉</button>
-            <button class="btn btn-sm btn-danger" onclick="Clientes.excluir(${c.id})">🗑️</button>
-          </div>
-        </div>
-      `;
-    });
-  },
-  
-  filtrar() {
-    const termo = Cache.getElement('buscaClientes')?.value || '';
-    this.atualizarLista(termo);
-  },
-  
-  editar(id) {
-    const c = State.clientes.find(cli => cli.id === id);
-    if (!c) return;
-    
-    Router.navigate('clientes');
-    Cache.getElement('clienteId').value = c.id;
-    Cache.getElement('clienteNome').value = c.nome;
-    Cache.getElement('clienteDocumento').value = c.documento;
-    Cache.getElement('clienteCep').value = c.cep || '';
-    Cache.getElement('clienteRua').value = c.rua || '';
-    Cache.getElement('clienteNumero').value = c.numero || '';
-    Cache.getElement('clienteComplemento').value = c.complemento || '';
-    Cache.getElement('clienteBairro').value = c.bairro || '';
-    Cache.getElement('clienteCidade').value = c.cidade || '';
-    Cache.getElement('clienteEstado').value = c.estado || '';
-    Cache.getElement('clienteTelefone').value = c.telefone || '';
-    Cache.getElement('clienteEmail').value = c.email || '';
-    Cache.getElement('clienteNascimento').value = c.nascimento || '';
-  },
-  
-  excluir(id) {
-    if (!confirm('Excluir cliente e todos os dados relacionados?')) return;
-    
-    State.setClientes(State.clientes.filter(c => c.id !== id));
-    State.setEventos(State.eventos.filter(e => e.clienteId !== id));
-    State.setCaixa(State.caixa.filter(l => l.clienteId !== id));
-    State.setRecibos(State.recibos.filter(r => r.clienteId !== id));
-    
-    this.atualizarLista();
-    Selects.atualizarClientes();
-    Dashboard.atualizar();
-    UI.showToast('Cliente excluído!');
-  }
+async buscarCep(){
+const cep=document.getElementById('cli_cep').value.replace(/\D/g,'');
+if(cep.length!==8)return;
+try{
+const res=await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+const data=await res.json();
+if(!data.erro){
+document.getElementById('cli_end').value=data.logradouro||'';
+document.getElementById('cli_bairro').value=data.bairro||'';
+document.getElementById('cli_cidade').value=data.localidade||'';
+document.getElementById('cli_uf').value=data.uf||'';
+document.getElementById('cli_numero').focus();
+}
+}catch(e){console.error('CEP error',e);}
+},
+
+salvar(e){
+e.preventDefault();
+const id=document.getElementById('clienteId').value;
+const cliente={
+id:id?parseInt(id):Date.now(),
+nome:document.getElementById('cli_nome').value,
+cpf:document.getElementById('cli_cpf').value,
+rg:document.getElementById('cli_rg').value,
+telefone:document.getElementById('cli_tel').value,
+email:document.getElementById('cli_email').value,
+cep:document.getElementById('cli_cep').value,
+endereco:document.getElementById('cli_end').value,
+numero:document.getElementById('cli_numero').value,
+bairro:document.getElementById('cli_bairro').value,
+cidade:document.getElementById('cli_cidade').value,
+uf:document.getElementById('cli_uf').value,
+dataCadastro:new Date().toISOString()
 };
 
-// Módulo de Eventos
+// Remove duplicado e adiciona
+DB.dados.clientes=DB.dados.clientes.filter(c=>c.id!==cliente.id);
+DB.dados.clientes.push(cliente);
+DB.salvar();
+
+UI.toast('Cliente salvo com sucesso!');
+e.target.reset();
+document.getElementById('clienteId').value='';
+this.atualizarLista();
+},
+
+atualizarLista(){
+const container=document.getElementById('listaClientes');
+document.getElementById('totalClientes').textContent=DB.dados.clientes.length;
+
+if(DB.dados.clientes.length===0){
+container.innerHTML='<div class="empty-state"><div class="empty-state-icon">👤</div><p>Nenhum cliente cadastrado</p></div>';
+return;
+}
+
+container.innerHTML=DB.dados.clientes.sort((a,b)=>a.nome.localeCompare(b.nome)).map(c=>{
+const totalEventos=DB.dados.eventos.filter(e=>e.clienteId===c.id).length;
+const totalRecebido=DB.dados.lancamentos.filter(l=>l.clienteId===c.id&&l.tipo==='entrada').reduce((s,l)=>s+l.valor,0);
+return`
+<div class="list-item">
+<div class="list-item-header">
+<div>
+<div class="list-item-title">${c.nome}</div>
+<div class="list-item-meta">📱 ${c.telefone} | 📍 ${c.cidade}/${c.uf}</div>
+<div style="margin-top:5px">
+<span class="badge badge-info">${totalEventos} eventos</span>
+<span class="badge badge-success">${Utils.formatarMoeda(totalRecebido)}</span>
+</div>
+</div>
+</div>
+<div class="list-item-actions">
+<button class="btn btn-sm btn-secondary" onclick="Clientes.editar(${c.id})">✏️</button>
+<button class="btn btn-sm" onclick="Eventos.novoComCliente(${c.id})">🎉 Novo Evento</button>
+<button class="btn btn-sm btn-danger" onclick="Clientes.excluir(${c.id})">🗑️</button>
+</div>
+</div>
+`;
+}).join('');
+},
+
+editar(id){
+const c=DB.dados.clientes.find(x=>x.id===id);
+if(!c)return;
+document.getElementById('clienteId').value=c.id;
+document.getElementById('cli_nome').value=c.nome;
+document.getElementById('cli_cpf').value=c.cpf;
+document.getElementById('cli_rg').value=c.rg||'';
+document.getElementById('cli_tel').value=c.telefone;
+document.getElementById('cli_email').value=c.email||'';
+document.getElementById('cli_cep').value=c.cep||'';
+document.getElementById('cli_end').value=c.endereco||'';
+document.getElementById('cli_numero').value=c.numero||'';
+document.getElementById('cli_bairro').value=c.bairro||'';
+document.getElementById('cli_cidade').value=c.cidade||'';
+document.getElementById('cli_uf').value=c.uf||'';
+window.scrollTo(0,0);
+},
+
+excluir(id){
+if(!confirm('Excluir cliente e todos seus eventos?'))return;
+DB.dados.clientes=DB.dados.clientes.filter(c=>c.id!==id);
+DB.dados.eventos=DB.dados.eventos.filter(e=>e.clienteId!==id);
+DB.dados.lancamentos=DB.dados.lancamentos.filter(l=>l.clienteId!==id);
+DB.salvar();
+this.atualizarLista();
+UI.toast('Cliente excluído!');
+}
+};
+
+// ==================== EVENTOS ====================
 const Eventos = {
-  init() {
-    // Tabs
-    document.getElementById('eventosTabs')?.addEventListener('click', (e) => {
-      if (e.target.classList.contains('tab')) {
-        document.querySelectorAll('#eventosTabs .tab').forEach(t => t.classList.remove('active'));
-        e.target.classList.add('active');
-        this.filtrar(e.target.dataset.filter);
-      }
-    });
-  },
-  
-  calcularSaldo() {
-    const total = parseFloat(Cache.getElement('eventoValorTotal')?.value) || 0;
-    const entrada = parseFloat(Cache.getElement('eventoValorEntrada')?.value) || 0;
-    const saldoEl = Cache.getElement('eventoSaldo');
-    if (saldoEl) saldoEl.value = Utils.formatarMoeda(total - entrada);
-  },
-  
-  salvar(e) {
-    e.preventDefault();
-    const id = Cache.getElement('eventoId')?.value;
-    const clienteId = parseInt(Cache.getElement('eventoCliente').value);
-    const cliente = State.clientes.find(c => c.id === clienteId);
-    
-    const evento = {
-      id: id ? parseInt(id) : Date.now(),
-      clienteId: clienteId,
-      clienteNome: cliente?.nome || '',
-      tipo: Cache.getElement('eventoTipo').value,
-      data: Cache.getElement('eventoData').value,
-      horaInicio: Cache.getElement('eventoHoraInicio').value,
-      horaFim: Cache.getElement('eventoHoraFim').value,
-      local: Cache.getElement('eventoLocal').value,
-      convidados: Cache.getElement('eventoConvidados').value,
-      valorTotal: parseFloat(Cache.getElement('eventoValorTotal').value) || 0,
-      valorEntrada: parseFloat(Cache.getElement('eventoValorEntrada').value) || 0,
-      concluido: false,
-      dataCadastro: new Date().toISOString()
-    };
-    
-    // Atualiza ou adiciona
-    const existentes = State.eventos.filter(ev => ev.id !== evento.id);
-    State.setEventos([...existentes, evento]);
-    
-    // Se tem entrada, cria lançamento e recibo
-    if (evento.valorEntrada > 0) {
-      const caixaId = Date.now();
-      State.setCaixa([
-        ...State.caixa,
-        {
-          id: caixaId,
-          tipo: 'entrada',
-          valor: evento.valorEntrada,
-          descricao: `Sinal - ${evento.tipo}`,
-          clienteId: clienteId,
-          eventoId: evento.id,
-          data: new Date().toISOString().split('T')[0],
-          categoria: 'Evento'
-        }
-      ]);
-      
-      State.setRecibos([
-        ...State.recibos,
-        {
-          id: Date.now(),
-          clienteId: clienteId,
-          eventoId: evento.id,
-          clienteNome: cliente.nome,
-          valor: evento.valorEntrada,
-          data: new Date().toISOString().split('T')[0],
-          formaPagamento: 'Não especificado',
-          referente: 'Sinal'
-        }
-      ]);
-    }
-    
-    UI.showToast('Evento salvo!');
-    e.target.reset();
-    Cache.getElement('eventoId').value = '';
-    this.filtrar(State.filtros.eventos);
-    Dashboard.atualizar();
-  },
-  
-  filtrar(filtro = 'todos') {
-    State.filtros.eventos = filtro;
-    const hoje = new Date();
-    hoje.setHours(0, 0, 0, 0);
-    
-    let eventos = State.eventos.filter(e => {
-      if (filtro === 'concluidos') return e.concluido || new Date(e.data) < hoje;
-      if (filtro === 'agendados') return !e.concluido && new Date(e.data) >= hoje;
-      if (filtro === 'hoje') return e.data === hoje.toISOString().split('T')[0];
-      if (filtro === 'semana') {
-        const semana = new Date(hoje);
-        semana.setDate(semana.getDate() + 7);
-        return new Date(e.data) >= hoje && new Date(e.data) <= semana;
-      }
-      return !e.concluido;
-    });
-    
-    eventos.sort((a, b) => new Date(a.data) - new Date(b.data));
-    
-    UI.renderVirtualList('listaEventos', eventos, e => {
-      const data = new Date(e.data);
-      const dias = Math.ceil((data - hoje) / (1000 * 60 * 60 * 24));
-      let status = dias < 0 ? 'Concluído' : dias === 0 ? 'HOJE!' : dias === 1 ? 'Amanhã' : `Em ${dias} dias`;
-      let badgeClass = dias < 0 ? '' : dias === 0 ? 'hoje' : dias <= 7 ? 'proximo' : 'agendado';
-      
-      const recebido = State.caixa
-        .filter(l => l.eventoId === e.id && l.tipo === 'entrada')
-        .reduce((s, l) => s + l.valor, 0);
-      const pct = e.valorTotal > 0 ? (recebido / e.valorTotal * 100) : 0;
-      
-      return `
-        <div class="list-item" style="${dias < 0 ? 'opacity: 0.7;' : ''}">
-          <div class="list-item-header">
-            <div>
-              <div class="list-item-title">${e.tipo} - ${e.clienteNome}</div>
-              <div class="list-item-meta">📅 ${Utils.formatarData(e.data)} | ⏰ ${e.horaInicio}</div>
-              <div class="list-item-meta" style="margin-top: 8px;">
-                ${dias >= 0 ? `<span class="event-status ${badgeClass}">${status}</span>` : '<span class="badge badge-secondary">Concluído</span>'}
-                <span class="badge ${pct >= 100 ? 'badge-success' : 'badge-warning'}">${Utils.formatarMoeda(recebido)} / ${Utils.formatarMoeda(e.valorTotal)}</span>
-              </div>
-              <div class="progress-bar"><div class="progress-fill" style="width: ${Math.min(pct, 100)}%">${pct.toFixed(0)}%</div></div>
-            </div>
-          </div>
-          <div class="list-item-actions">
-            ${dias >= 0 ? `
-              <button class="btn btn-sm btn-secondary" onclick="Caixa.adicionarPagamento(${e.id})">💵</button>
-              <button class="btn btn-sm" onclick="Contratos.gerarDoEvento(${e.id})">📄</button>
-              <button class="btn btn-sm btn-success" onclick="Eventos.concluir(${e.id})">✓</button>
-            ` : `<button class="btn btn-sm btn-secondary" onclick="Eventos.reativar(${e.id})">↩</button>`}
-            <button class="btn btn-sm btn-danger" onclick="Eventos.excluir(${e.id})">🗑️</button>
-          </div>
-        </div>
-      `;
-    });
-  },
-  
-  concluir(id) {
-    const e = State.eventos.find(ev => ev.id === id);
-    if (e) {
-      e.concluido = true;
-      State.setEventos([...State.eventos]);
-      this.filtrar(State.filtros.eventos);
-      Dashboard.atualizar();
-      UI.showToast('Evento concluído!');
-    }
-  },
-  
-  reativar(id) {
-    const e = State.eventos.find(ev => ev.id === id);
-    if (e) {
-      e.concluido = false;
-      State.setEventos([...State.eventos]);
-      this.filtrar(State.filtros.eventos);
-      Dashboard.atualizar();
-      UI.showToast('Evento reativado!');
-    }
-  },
-  
-  excluir(id) {
-    if (!confirm('Excluir evento?')) return;
-    State.setEventos(State.eventos.filter(e => e.id !== id));
-    State.setCaixa(State.caixa.filter(l => l.eventoId !== id));
-    State.setRecibos(State.recibos.filter(r => r.eventoId !== id));
-    this.filtrar(State.filtros.eventos);
-    Dashboard.atualizar();
-    UI.showToast('Evento excluído!');
-  },
-  
-  novo(clienteId) {
-    Router.navigate('eventos');
-    const sel = Cache.getElement('eventoCliente');
-    if (sel) sel.value = clienteId;
-  }
+init(){
+document.getElementById('tabsEventos').addEventListener('click',(e)=>{
+if(e.target.classList.contains('tab')){
+document.querySelectorAll('#tabsEventos .tab').forEach(t=>t.classList.remove('active'));
+e.target.classList.add('active');
+this.filtrar(e.target.dataset.filtro);
+}
+});
+},
+
+atualizarSelectClientes(){
+const sel=document.getElementById('evt_cliente_id');
+const opts=DB.dados.clientes.sort((a,b)=>a.nome.localeCompare(b.nome)).map(c=>`<option value="${c.id}">${c.nome} - ${c.cidade}</option>`).join('');
+sel.innerHTML='<option value="">Selecione o cliente...</option>'+opts;
+},
+
+calcularDuracao(){
+const inicio=document.getElementById('evt_inicio').value;
+const termino=document.getElementById('evt_termino').value;
+if(!inicio||!termino)return;
+
+const [h1,m1]=inicio.split(':').map(Number);
+const [h2,m2]=termino.split(':').map(Number);
+let min1=h1*60+m1;
+let min2=h2*60+m2;
+
+if(min2<=min1)min2+=24*60;
+const duracao=(min2-min1)/60;
+
+document.getElementById('evt_duracao').value=duracao.toFixed(1).replace('.',',');
+},
+
+calcularSaldo(){
+const total=Utils.parseMoeda(document.getElementById('evt_valor').value)||0;
+const entrada=Utils.parseMoeda(document.getElementById('evt_entrada').value)||0;
+const saldo=total-entrada;
+document.getElementById('evt_saldo').value=Utils.formatarMoeda(saldo);
+},
+
+salvar(e){
+e.preventDefault();
+const id=document.getElementById('eventoId').value;
+const clienteId=parseInt(document.getElementById('evt_cliente_id').value);
+const cliente=DB.dados.clientes.find(c=>c.id===clienteId);
+
+const evento={
+id:id?parseInt(id):Date.now(),
+clienteId:clienteId,
+clienteNome:cliente.nome,
+tipo:document.getElementById('evt_tipo').value,
+data:document.getElementById('evt_data').value,
+inicio:document.getElementById('evt_inicio').value,
+termino:document.getElementById('evt_termino').value,
+duracao:document.getElementById('evt_duracao').value,
+local:document.getElementById('evt_local').value,
+servicos:document.getElementById('evt_servicos').value,
+valorTotal:Utils.parseMoeda(document.getElementById('evt_valor').value),
+valorEntrada:Utils.parseMoeda(document.getElementById('evt_entrada').value)||0,
+formaPagamento:document.getElementById('evt_pagamento').value,
+concluido:false,
+dataCadastro:new Date().toISOString()
 };
 
-// Módulo de Assinaturas
-const Assinaturas = {
-  pads: {},
-  
-  init() {
-    const canvasContratante = Cache.getElement('assinaturaContratante');
-    const canvasContratado = Cache.getElement('assinaturaContratado');
-    
-    if (canvasContratante) this.pads.contratante = this.createPad(canvasContratante);
-    if (canvasContratado) this.pads.contratado = this.createPad(canvasContratado);
-  },
-  
-  createPad(canvas) {
-    const ctx = canvas.getContext('2d');
-    let isDrawing = false;
-    let lastX = 0;
-    let lastY = 0;
-    
-    const resize = () => {
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
-      ctx.strokeStyle = '#000000';
-      ctx.lineWidth = 2;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-    };
-    
-    setTimeout(resize, 100);
-    window.addEventListener('resize', Utils.throttle(resize, 200));
-    
-    const getPos = (e) => {
-      const rect = canvas.getBoundingClientRect();
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      return {
-        x: clientX - rect.left,
-        y: clientY - rect.top
-      };
-    };
-    
-    const start = (e) => {
-      isDrawing = true;
-      const pos = getPos(e);
-      lastX = pos.x;
-      lastY = pos.y;
-      ctx.beginPath();
-      ctx.moveTo(lastX, lastY);
-      e.preventDefault();
-    };
-    
-    const draw = (e) => {
-      if (!isDrawing) return;
-      const pos = getPos(e);
-      ctx.lineTo(pos.x, pos.y);
-      ctx.stroke();
-      lastX = pos.x;
-      lastY = pos.y;
-      e.preventDefault();
-    };
-    
-    const stop = () => {
-      isDrawing = false;
-      ctx.beginPath();
-    };
-    
-    canvas.addEventListener('mousedown', start);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', stop);
-    canvas.addEventListener('mouseout', stop);
-    canvas.addEventListener('touchstart', start, {passive: false});
-    canvas.addEventListener('touchmove', draw, {passive: false});
-    canvas.addEventListener('touchend', stop);
-    
-    return {
-      clear: () => ctx.clearRect(0, 0, canvas.width, canvas.height),
-      toDataURL: () => canvas.toDataURL('image/png'),
-      isEmpty: () => {
-        const blank = document.createElement('canvas');
-        blank.width = canvas.width;
-        blank.height = canvas.height;
-        return canvas.toDataURL() === blank.toDataURL();
-      }
-    };
-  },
-  
-  limpar(tipo) {
-    if (this.pads[tipo]) {
-      this.pads[tipo].clear();
-      State.assinaturas[tipo] = null;
-      this.atualizarStatus(tipo, false);
-      UI.showToast(`Assinatura ${tipo === 'contratante' ? 'do cliente' : 'do DJ'} limpa`);
-    }
-  },
-  
-  salvar(tipo) {
-    if (!this.pads[tipo]) return;
-    
-    if (this.pads[tipo].isEmpty()) {
-      UI.showToast('Desenhe a assinatura primeiro!', 'error');
-      return;
-    }
-    
-    State.assinaturas[tipo] = this.pads[tipo].toDataURL();
-    this.atualizarStatus(tipo, true);
-    UI.showToast(`Assinatura ${tipo === 'contratante' ? 'do cliente' : 'do DJ'} salva! ✓`);
-  },
-  
-  atualizarStatus(tipo, confirmada) {
-    const span = Cache.getElement(tipo === 'contratante' ? 'statusAssinaturaContratante' : 'statusAssinaturaContratado');
-    if (!span) return;
-    
-    if (confirmada) {
-      span.className = 'badge badge-success';
-      span.textContent = tipo === 'contratante' ? '✓ Cliente assinou' : '✓ DJ assinou';
-    } else {
-      span.className = 'badge badge-danger';
-      span.textContent = tipo === 'contratante' ? '✗ Cliente não assinou' : '✗ DJ não assinou';
-    }
-  }
+// Se tem entrada, cria lançamento automático
+if(evento.valorEntrada>0&&!id){
+const lancamento={
+id:Date.now(),
+tipo:'entrada',
+valor:evento.valorEntrada,
+descricao:`Sinal - ${evento.tipo} de ${cliente.nome}`,
+clienteId:clienteId,
+eventoId:evento.id,
+data:new Date().toISOString().split('T')[0],
+categoria:'Evento'
+};
+DB.dados.lancamentos.push(lancamento);
+}
+
+DB.dados.eventos=DB.dados.eventos.filter(ev=>ev.id!==evento.id);
+DB.dados.eventos.push(evento);
+DB.salvar();
+
+UI.toast('Evento salvo com sucesso!');
+e.target.reset();
+document.getElementById('eventoId').value='';
+this.filtrar('todos');
+Dashboard.atualizar();
+},
+
+filtrar(filtro){
+const hoje=new Date();
+hoje.setHours(0,0,0,0);
+const container=document.getElementById('listaEventos');
+
+let eventos=DB.dados.eventos.filter(e=>{
+if(filtro==='concluidos')return e.concluido||new Date(e.data)<hoje;
+if(filtro==='agendados')return!e.concluido&&new Date(e.data)>=hoje;
+if(filtro==='hoje')return e.data===hoje.toISOString().split('T')[0];
+if(filtro==='semana'){
+const semana=new Date(hoje);
+semana.setDate(semana.getDate()+7);
+return new Date(e.data)>=hoje&&new Date(e.data)<=semana;
+}
+return!e.concluido;
+});
+
+eventos.sort((a,b)=>new Date(a.data)-new Date(b.data));
+
+if(eventos.length===0){
+container.innerHTML='<div class="empty-state"><div class="empty-state-icon">📅</div><p>Nenhum evento encontrado</p></div>';
+return;
+}
+
+container.innerHTML=eventos.map(e=>{
+const data=new Date(e.data);
+const dias=Math.ceil((data-hoje)/(1000*60*60*24));
+let status=dias<0?'Concluído':dias===0?'HOJE!':dias===1?'Amanhã':`Em ${dias} dias`;
+let badge=dias<0?'badge-secondary':dias===0?'badge-danger':dias<=7?'badge-warning':'badge-info';
+
+const recebido=DB.dados.lancamentos.filter(l=>l.eventoId===e.id&&l.tipo==='entrada').reduce((s,l)=>s+l.valor,0);
+const pct=e.valorTotal>0?(recebido/e.valorTotal*100):0;
+
+return`
+<div class="list-item" style="${dias<0?'opacity:0.7':''}">
+<div class="list-item-header">
+<div>
+<div class="list-item-title">${e.tipo} - ${e.clienteNome}</div>
+<div class="list-item-meta">📅 ${Utils.formatarData(e.data)} | ⏰ ${e.inicio} às ${e.termino}</div>
+<div class="list-item-meta">📍 ${e.local}</div>
+<div style="margin-top:5px">
+<span class="badge ${badge}">${status}</span>
+<span class="badge ${pct>=100?'badge-success':'badge-warning'}">
+${Utils.formatarMoeda(recebido)} / ${Utils.formatarMoeda(e.valorTotal)}
+</span>
+</div>
+<div class="progress-bar"><div class="progress-fill" style="width:${Math.min(pct,100)}%">${pct.toFixed(0)}%</div></div>
+</div>
+</div>
+<div class="list-item-actions">
+${dias>=0?`
+<button class="btn btn-sm btn-secondary" onclick="Financeiro.addPagamento(${e.id})">💵 Pagar</button>
+<button class="btn btn-sm" onclick="Contrato.gerarDoEvento(${e.id})">📄 Contrato</button>
+<button class="btn btn-sm btn-success" onclick="Eventos.concluir(${e.id})">✓ Concluir</button>
+`:`<button class="btn btn-sm btn-secondary" onclick="Eventos.reativar(${e.id})">↩ Reativar</button>`}
+<button class="btn btn-sm btn-secondary" onclick="Eventos.editar(${e.id})">✏️</button>
+<button class="btn btn-sm btn-danger" onclick="Eventos.excluir(${e.id})">🗑️</button>
+</div>
+</div>
+`;
+}).join('');
+},
+
+concluir(id){
+const e=DB.dados.eventos.find(x=>x.id===id);
+if(e){e.concluido=true;DB.salvar();this.filtrar('todos');Dashboard.atualizar();UI.toast('Evento concluído!');}
+},
+
+reativar(id){
+const e=DB.dados.eventos.find(x=>x.id===id);
+if(e){e.concluido=false;DB.salvar();this.filtrar('todos');Dashboard.atualizar();UI.toast('Evento reativado!');}
+},
+
+editar(id){
+const e=DB.dados.eventos.find(x=>x.id===id);
+if(!e)return;
+document.getElementById('eventoId').value=e.id;
+document.getElementById('evt_cliente_id').value=e.clienteId;
+document.getElementById('evt_tipo').value=e.tipo;
+document.getElementById('evt_data').value=e.data;
+document.getElementById('evt_inicio').value=e.inicio;
+document.getElementById('evt_termino').value=e.termino;
+document.getElementById('evt_duracao').value=e.duracao;
+document.getElementById('evt_local').value=e.local;
+document.getElementById('evt_servicos').value=e.servicos;
+document.getElementById('evt_valor').value=Utils.formatarMoeda(e.valorTotal);
+document.getElementById('evt_entrada').value=Utils.formatarMoeda(e.valorEntrada);
+document.getElementById('evt_pagamento').value=e.formaPagamento||'';
+this.calcularSaldo();
+window.scrollTo(0,0);
+},
+
+excluir(id){
+if(!confirm('Excluir este evento?'))return;
+DB.dados.eventos=DB.dados.eventos.filter(e=>e.id!==id);
+DB.dados.lancamentos=DB.dados.lancamentos.filter(l=>l.eventoId!==id);
+DB.salvar();
+this.filtrar('todos');
+Dashboard.atualizar();
+UI.toast('Evento excluído!');
+},
+
+novoComCliente(id){
+Router.navigate('eventos');
+document.getElementById('evt_cliente_id').value=id;
+}
 };
 
-// Módulo de Contratos
-const Contratos = {
-  carregarDados() {
-    const eventoId = Cache.getElement('contratoEvento')?.value;
-    if (!eventoId) return;
-    
-    const evento = State.eventos.find(e => e.id === parseInt(eventoId));
-    if (!evento) return;
-    
-    const cliente = State.clientes.find(c => c.id === evento.clienteId);
-    const config = State.config;
-    
-    // Preenche dados no print area
-    const dados = {
-      printContratoNumero: evento.id,
-      printContratanteNome: cliente?.nome || '',
-      printContratanteDocumento: cliente?.documento || '',
-      printContratanteEndereco: cliente ? `${cliente.rua || ''}, ${cliente.numero || ''} - ${cliente.bairro || ''}, ${cliente.cidade || ''}-${cliente.estado || ''}` : '',
-      printContratadoNome: config.nome,
-      printContratadoDocumento: config.documento || '00.000.000/0000-00',
-      printContratadoEndereco: config.endereco || '',
-      printEventoTipo: evento.tipo,
-      printEventoData: Utils.formatarData(evento.data),
-      printEventoHoraInicio: evento.horaInicio,
-      printEventoHoraFim: evento.horaFim,
-      printEventoLocal: evento.local,
-      printValorTotal: evento.valorTotal.toFixed(2),
-      printValorEntrada: evento.valorEntrada.toFixed(2),
-      printValorSaldo: (evento.valorTotal - evento.valorEntrada).toFixed(2),
-      printValorExtenso: Utils.valorPorExtenso(evento.valorTotal),
-      printCidadeContrato: Cache.getElement('contratoCidade')?.value || cliente?.cidade || '',
-      printDataExtenso: Utils.dataPorExtenso(Cache.getElement('contratoData')?.value),
-      printDataContrato: Utils.formatarData(Cache.getElement('contratoData')?.value),
-      printNomeAssinaturaContratante: cliente?.nome || '',
-      printNomeAssinaturaContratado: config.nome
-    };
-    
-    Object.entries(dados).forEach(([id, val]) => {
-      const el = Cache.getElement(id);
-      if (el) el.textContent = val;
-    });
-    
-    // Cláusulas adicionais
-    const clausulas = Cache.getElement('contratoClausulas')?.value;
-    const elClausulas = Cache.getElement('printClausulasAdicionais');
-    if (elClausulas) {
-      elClausulas.style.display = clausulas ? 'block' : 'none';
-      const texto = Cache.getElement('printClausulasTexto');
-      if (texto) texto.textContent = clausulas;
-    }
-  },
-  
-  visualizar() {
-    if (!Cache.getElement('contratoEvento')?.value) {
-      UI.showToast('Selecione um evento primeiro!', 'error');
-      return;
-    }
-    
-    this.carregarDados();
-    
-    // Aplica assinaturas
-    const imgContratante = Cache.getElement('imgAssinaturaContratante');
-    const imgContratado = Cache.getElement('imgAssinaturaContratado');
-    
-    if (State.assinaturas.contratante && imgContratante) {
-      imgContratante.src = State.assinaturas.contratante;
-      imgContratante.style.display = 'block';
-    } else if (imgContratante) {
-      imgContratante.style.display = 'none';
-    }
-    
-    if (State.assinaturas.contratado && imgContratado) {
-      imgContratado.src = State.assinaturas.contratado;
-      imgContratado.style.display = 'block';
-    } else if (imgContratado) {
-      imgContratado.style.display = 'none';
-    }
-    
-    const printArea = Cache.getElement('contractPrintArea');
-    printArea.style.display = 'block';
-    printArea.scrollIntoView({ behavior: 'smooth' });
-    
-    if (!State.assinaturas.contratante || !State.assinaturas.contratado) {
-      UI.showToast('Atenção: Contrato sem assinaturas!', 'warning');
-    }
-  },
-  
-  imprimir() {
-    if (!Cache.getElement('contratoEvento')?.value) {
-      UI.showToast('Selecione um evento primeiro!', 'error');
-      return;
-    }
-    
-    const printArea = Cache.getElement('contractPrintArea');
-    if (printArea.style.display === 'none') {
-      this.visualizar();
-      setTimeout(() => window.print(), 500);
-      return;
-    }
-    
-    window.print();
-  },
-  
-  gerarDoEvento(eventoId) {
-    Router.navigate('contratos');
-    const sel = Cache.getElement('contratoEvento');
-    if (sel) {
-      sel.value = eventoId;
-      this.carregarDados();
-    }
-  }
+// ==================== FINANCEIRO ====================
+const Financeiro = {
+init(){
+document.getElementById('tabsFinanceiro').addEventListener('click',(e)=>{
+if(e.target.classList.contains('tab')){
+document.querySelectorAll('#tabsFinanceiro .tab').forEach(t=>t.classList.remove('active'));
+e.target.classList.add('active');
+document.querySelectorAll('.aba-financeiro').forEach(a=>a.style.display='none');
+document.getElementById('aba'+e.target.dataset.aba.charAt(0).toUpperCase()+e.target.dataset.aba.slice(1)).style.display='block';
+if(e.target.dataset.aba==='relatorios')this.gerarRelatorios();
+}
+});
+},
+
+mascaraValor(el){
+if(typeof el==='string')el=document.getElementById(el);
+let v=el.value.replace(/\D/g,'');
+v=(v/100).toFixed(2)+'';
+v=v.replace('.',',');
+v=v.replace(/(\d)(\d{3})(\d{3}),/g,'$1.$2.$3,');
+v=v.replace(/(\d)(\d{3}),/g,'$1.$2,');
+el.value='R$ '+v;
+},
+
+toggleCliente(){
+const tipo=document.getElementById('fin_tipo').value;
+const grupo=document.getElementById('grupoClienteLancamento');
+grupo.style.display=tipo==='entrada'?'block':'none';
+if(tipo!=='entrada'){
+document.getElementById('fin_cliente_id').value='';
+document.getElementById('grupoEventoLancamento').style.display='none';
+}
+},
+
+atualizarSelects(){
+const selCliente=document.getElementById('fin_cliente_id');
+const opts=DB.dados.clientes.sort((a,b)=>a.nome.localeCompare(b.nome)).map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');
+selCliente.innerHTML='<option value="">Nenhum</option>'+opts;
+},
+
+carregarEventos(){
+const clienteId=document.getElementById('fin_cliente_id').value;
+const sel=document.getElementById('fin_evento_id');
+const grupo=document.getElementById('grupoEventoLancamento');
+
+if(!clienteId){
+grupo.style.display='none';
+return;
+}
+
+const eventos=DB.dados.eventos.filter(e=>e.clienteId===parseInt(clienteId)&&!e.concluido);
+if(eventos.length===0){
+grupo.style.display='none';
+return;
+}
+
+sel.innerHTML='<option value="">Nenhum</option>'+eventos.map(e=>`<option value="${e.id}">${e.tipo} - ${Utils.formatarData(e.data)}</option>`).join('');
+grupo.style.display='block';
+},
+
+salvar(e){
+e.preventDefault();
+const lancamento={
+id:Date.now(),
+tipo:document.getElementById('fin_tipo').value,
+valor:Utils.parseMoeda(document.getElementById('fin_valor').value),
+data:document.getElementById('fin_data').value,
+categoria:document.getElementById('fin_categoria').value,
+clienteId:document.getElementById('fin_cliente_id').value||null,
+eventoId:document.getElementById('fin_evento_id').value||null,
+descricao:document.getElementById('fin_descricao').value
 };
 
-// Módulo de Recibos
-const Recibos = {
-  init() {
-    Selects.atualizarRecibos();
-  },
-  
-  carregarEventos() {
-    const clienteId = Cache.getElement('reciboCliente')?.value;
-    const sel = Cache.getElement('reciboEvento');
-    if (!sel) return;
-    
-    if (!clienteId) {
-      sel.innerHTML = '<option value="">Selecione...</option>';
-      return;
-    }
-    
-    const eventos = State.eventos.filter(e => e.clienteId === parseInt(clienteId));
-    sel.innerHTML = '<option value="">Selecione...</option>' +
-      eventos.map(e => `<option value="${e.id}">${e.tipo} - ${Utils.formatarData(e.data)}</option>`).join('');
-  },
-  
-  salvar(e) {
-    e.preventDefault();
-    const clienteId = parseInt(Cache.getElement('reciboCliente').value);
-    const cliente = State.clientes.find(c => c.id === clienteId);
-    const eventoId = parseInt(Cache.getElement('reciboEvento').value);
-    
-    const recibo = {
-      id: Date.now(),
-      clienteId: clienteId,
-      eventoId: eventoId,
-      clienteNome: cliente.nome,
-      valor: parseFloat(Cache.getElement('reciboValor').value) || 0,
-      data: Cache.getElement('reciboData').value,
-      formaPagamento: Cache.getElement('reciboFormaPagamento').value,
-      referente: Cache.getElement('reciboReferente').value
-    };
-    
-    State.setRecibos([...State.recibos, recibo]);
-    State.setCaixa([
-      ...State.caixa,
-      {
-        id: Date.now(),
-        tipo: 'entrada',
-        valor: recibo.valor,
-        descricao: `Recibo: ${recibo.referente}`,
-        clienteId: clienteId,
-        eventoId: eventoId,
-        data: recibo.data,
-        categoria: 'Evento'
-      }
-    ]);
-    
-    UI.showToast('Recibo emitido!');
-    e.target.reset();
-    this.atualizarLista();
-    Dashboard.atualizar();
-    
-    if (confirm('Imprimir recibo?')) this.imprimir(recibo.id);
-  },
-  
-  atualizarLista() {
-    UI.renderVirtualList('listaRecibos', 
-      State.recibos.sort((a, b) => new Date(b.data) - new Date(a.data)),
-      r => `
-        <div class="list-item">
-          <div class="list-item-header">
-            <div>
-              <div class="list-item-title">${Utils.formatarMoeda(r.valor)} - ${r.clienteNome}</div>
-              <div class="list-item-meta">📅 ${Utils.formatarData(r.data)} | 💳 ${r.formaPagamento}</div>
-              <div class="list-item-meta">📝 ${r.referente}</div>
-            </div>
-          </div>
-          <div class="list-item-actions">
-            <button class="btn btn-sm" onclick="Recibos.imprimir(${r.id})">🖨️</button>
-            <button class="btn btn-sm btn-danger" onclick="Recibos.excluir(${r.id})">🗑️</button>
-          </div>
-        </div>
-      `
-    );
-  },
-  
-  imprimir(id) {
-    const r = State.recibos.find(rec => rec.id === id);
-    if (!r) return;
-    
-    const w = window.open('', '_blank');
-    w.document.write(`
-      <html>
-      <head>
-        <title>Recibo ${r.id}</title>
-        <style>
-          body { font-family: Arial; padding: 40px; max-width: 600px; margin: 0 auto; }
-          .header { text-align: center; border-bottom: 3px solid #0b76d1; padding-bottom: 20px; margin-bottom: 30px; }
-          .valor { font-size: 36px; font-weight: bold; color: #28a745; text-align: center; margin: 30px 0; }
-          .info { margin: 15px 0; padding: 10px 0; border-bottom: 1px solid #eee; }
-          .assinatura { margin-top: 60px; text-align: center; border-top: 1px solid #333; padding-top: 10px; }
-          @media print { body { padding: 20px; } }
-        </style>
-      </head>
-      <body>
-        <div class="header">
-          <h1>🎧 ${State.config.nome}</h1>
-          <p>${State.config.endereco || ''}</p>
-          <h2>RECIBO DE PAGAMENTO</h2>
-          <p>Nº ${r.id}</p>
-        </div>
-        <div class="valor">R$ ${r.valor.toFixed(2)}</div>
-        <div class="info"><strong>Recebemos de:</strong> ${r.clienteNome}</div>
-        <div class="info"><strong>Referente a:</strong> ${r.referente}</div>
-        <div class="info"><strong>Forma:</strong> ${r.formaPagamento}</div>
-        <div class="info"><strong>Data:</strong> ${Utils.formatarData(r.data)}</div>
-        <div class="assinatura">
-          <p>${State.config.nome}</p>
-          <p>CNPJ: ${State.config.documento || ''}</p>
-        </div>
-      </body>
-      </html>
-    `);
-    w.document.close();
-    setTimeout(() => w.print(), 500);
-  },
-  
-  excluir(id) {
-    if (!confirm('Excluir recibo?')) return;
-    State.setRecibos(State.recibos.filter(r => r.id !== id));
-    this.atualizarLista();
-    Dashboard.atualizar();
-  }
+DB.dados.lancamentos.push(lancamento);
+DB.salvar();
+
+UI.toast('Lançamento salvo!');
+e.target.reset();
+Dashboard.atualizar();
+this.filtrarExtrato();
+},
+
+addPagamento(eventoId){
+const evento=DB.dados.eventos.find(e=>e.id===eventoId);
+if(!evento)return;
+
+const recebido=DB.dados.lancamentos.filter(l=>l.eventoId===eventoId&&l.tipo==='entrada').reduce((s,l)=>s+l.valor,0);
+const saldo=evento.valorTotal-recebido;
+
+const valor=prompt(`Valor do pagamento:\nSaldo restante: ${Utils.formatarMoeda(saldo)}`);
+if(!valor||isNaN(valor))return;
+
+const forma=prompt('Forma de pagamento:','Pix')||'Não especificado';
+
+const lancamento={
+id:Date.now(),
+tipo:'entrada',
+valor:parseFloat(valor),
+descricao:`Pagamento - ${evento.tipo} de ${evento.clienteNome}`,
+clienteId:evento.clienteId,
+eventoId:eventoId,
+data:new Date().toISOString().split('T')[0],
+categoria:'Evento'
+};
+DB.dados.lancamentos.push(lancamento);
+DB.salvar();
+
+UI.toast('Pagamento registrado!');
+Eventos.filtrar('todos');
+Dashboard.atualizar();
+},
+
+filtrarExtrato(){
+const inicio=document.getElementById('ext_data_inicio').value;
+const fim=document.getElementById('ext_data_fim').value;
+const tipo=document.getElementById('ext_tipo').value;
+
+let lancamentos=DB.dados.lancamentos.filter(l=>{
+if(inicio&&l.data<inicio)return false;
+if(fim&&l.data>fim)return false;
+if(tipo!=='todos'&&l.tipo!==tipo)return false;
+return true;
+});
+
+lancamentos.sort((a,b)=>new Date(b.data)-new Date(a.data));
+
+const entradas=lancamentos.filter(l=>l.tipo==='entrada').reduce((s,l)=>s+l.valor,0);
+const saidas=lancamentos.filter(l=>l.tipo==='saida').reduce((s,l)=>s+l.valor,0);
+
+const container=document.getElementById('listaExtrato');
+container.innerHTML=`
+<div style="display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap">
+<div style="background:var(--success);color:#fff;padding:8px 15px;border-radius:6px;font-size:13px">
+<strong>Entradas:</strong> ${Utils.formatarMoeda(entradas)}
+</div>
+<div style="background:var(--danger);color:#fff;padding:8px 15px;border-radius:6px;font-size:13px">
+<strong>Saídas:</strong> ${Utils.formatarMoeda(saidas)}
+</div>
+<div style="background:var(--primary);color:#fff;padding:8px 15px;border-radius:6px;font-size:13px">
+<strong>Saldo:</strong> ${Utils.formatarMoeda(entradas-saidas)}
+</div>
+</div>
+`+(lancamentos.length===0?'<div class="empty-state"><div class="empty-state-icon">💰</div><p>Nenhum lançamento</p></div>':lancamentos.map(l=>{
+const cliente=l.clienteId?DB.dados.clientes.find(c=>c.id===l.clienteId):null;
+return`
+<div class="list-item" style="border-left-color:${l.tipo==='entrada'?'var(--success)':'var(--danger)'}">
+<div class="list-item-header">
+<div>
+<div class="list-item-title" style="color:${l.tipo==='entrada'?'var(--success)':'var(--danger)'}">
+${l.tipo==='entrada'?'↑':'↓'} ${Utils.formatarMoeda(l.valor)}
+</div>
+<div class="list-item-meta">📅 ${Utils.formatarData(l.data)} | 📂 ${l.categoria}</div>
+<div class="list-item-meta">📝 ${l.descricao}</div>
+${cliente?`<div class="list-item-meta">👤 ${cliente.nome}</div>`:''}
+</div>
+</div>
+<div class="list-item-actions">
+<button class="btn btn-sm btn-danger" onclick="Financeiro.excluir(${l.id})">🗑️</button>
+</div>
+</div>
+`;
+}).join(''));
+},
+
+excluir(id){
+if(!confirm('Excluir este lançamento?'))return;
+DB.dados.lancamentos=DB.dados.lancamentos.filter(l=>l.id!==id);
+DB.salvar();
+this.filtrarExtrato();
+Dashboard.atualizar();
+UI.toast('Lançamento excluído!');
+},
+
+gerarRelatorios(){
+const entradas=DB.dados.lancamentos.filter(l=>l.tipo==='entrada').reduce((s,l)=>s+l.valor,0);
+const saidas=DB.dados.lancamentos.filter(l=>l.tipo==='saida').reduce((s,l)=>s+l.valor,0);
+const eventos=DB.dados.eventos.length;
+const ticket=eventos>0?entradas/eventos:0;
+
+document.getElementById('rel_total_entradas').textContent=Utils.formatarMoeda(entradas);
+document.getElementById('rel_total_saidas').textContent=Utils.formatarMoeda(saidas);
+document.getElementById('rel_lucro').textContent=Utils.formatarMoeda(entradas-saidas);
+document.getElementById('rel_ticket_medio').textContent=Utils.formatarMoeda(ticket);
+
+// Top clientes
+const clientesValor=DB.dados.clientes.map(c=>{
+const total=DB.dados.lancamentos.filter(l=>l.clienteId===c.id&&l.tipo==='entrada').reduce((s,l)=>s+l.valor,0);
+return{...c,total};
+}).sort((a,b)=>b.total-a.total).slice(0,5);
+
+document.getElementById('listaTopClientes').innerHTML=clientesValor.map((c,i)=>`
+<div class="list-item" style="${i===0?'border-left-color:gold':''}">
+<div class="list-item-header">
+<div>
+<div class="list-item-title">${i+1}º ${c.nome} ${i===0?'👑':''}</div>
+<div class="list-item-meta">${DB.dados.eventos.filter(e=>e.clienteId===c.id).length} eventos</div>
+</div>
+<div class="stat-value" style="font-size:18px">${Utils.formatarMoeda(c.total)}</div>
+</div>
+</div>
+`).join('');
+}
 };
 
-// Módulo de Caixa
-const Caixa = {
-  init() {
-    // Tabs
-    document.getElementById('caixaTabs')?.addEventListener('click', (e) => {
-      if (e.target.classList.contains('tab')) {
-        document.querySelectorAll('#caixaTabs .tab').forEach(t => t.classList.remove('active'));
-        e.target.classList.add('active');
-        this.mostrarAba(e.target.dataset.aba);
-      }
-    });
-    
-    // Filtros com debounce
-    ['extratoDataInicio', 'extratoDataFim', 'extratoTipo'].forEach(id => {
-      const el = Cache.getElement(id);
-      if (el) el.addEventListener('change', Utils.debounce(() => this.filtrarExtrato(), 300));
-    });
-  },
-  
-  mostrarAba(aba) {
-    document.querySelectorAll('.aba-caixa').forEach(a => a.style.display = 'none');
-    const el = Cache.getElement(`aba${aba.charAt(0).toUpperCase() + aba.slice(1)}`);
-    if (el) el.style.display = 'block';
-    
-    if (aba === 'extrato') this.filtrarExtrato();
-    if (aba === 'relatorio') Relatorios.gerar();
-  },
-  
-  toggleCliente() {
-    const tipo = Cache.getElement('caixaTipo')?.value;
-    const grupo = Cache.getElement('grupoClienteLancamento');
-    if (grupo) grupo.style.display = tipo === 'entrada' ? 'block' : 'none';
-    if (tipo !== 'entrada') {
-      const cliente = Cache.getElement('caixaCliente');
-      if (cliente) cliente.value = '';
-      const evento = Cache.getElement('grupoEventoLancamento');
-      if (evento) evento.style.display = 'none';
-    }
-  },
-  
-  carregarEventos() {
-    const clienteId = Cache.getElement('caixaCliente')?.value;
-    const sel = Cache.getElement('caixaEvento');
-    const grupo = Cache.getElement('grupoEventoLancamento');
-    
-    if (!clienteId || !sel) {
-      if (grupo) grupo.style.display = 'none';
-      return;
-    }
-    
-    const eventos = State.eventos.filter(e => e.clienteId === parseInt(clienteId) && !e.concluido);
-    if (eventos.length === 0) {
-      if (grupo) grupo.style.display = 'none';
-      return;
-    }
-    
-    sel.innerHTML = '<option value="">Nenhum</option>' +
-      eventos.map(e => `<option value="${e.id}">${e.tipo} - ${Utils.formatarData(e.data)}</option>`).join('');
-    if (grupo) grupo.style.display = 'block';
-  },
-  
-  salvar(e) {
-    e.preventDefault();
-    const tipo = Cache.getElement('caixaTipo').value;
-    
-    const lancamento = {
-      id: Date.now(),
-      tipo: tipo,
-      valor: parseFloat(Cache.getElement('caixaValor').value) || 0,
-      descricao: Cache.getElement('caixaDescricao').value,
-      clienteId: Cache.getElement('caixaCliente').value ? parseInt(Cache.getElement('caixaCliente').value) : null,
-      eventoId: Cache.getElement('caixaEvento').value ? parseInt(Cache.getElement('caixaEvento').value) : null,
-      data: Cache.getElement('caixaData').value,
-      categoria: Cache.getElement('caixaCategoria').value
-    };
-    
-    State.setCaixa([...State.caixa, lancamento]);
-    UI.showToast('Lançamento salvo!');
-    e.target.reset();
-    Dashboard.atualizar();
-    
-    if (tipo === 'entrada' && confirm('Emitir recibo?')) {
-      Router.navigate('recibos');
-      const sel = Cache.getElement('reciboCliente');
-      if (sel && lancamento.clienteId) sel.value = lancamento.clienteId;
-    }
-  },
-  
-  filtrarExtrato() {
-    const inicio = Cache.getElement('extratoDataInicio')?.value;
-    const fim = Cache.getElement('extratoDataFim')?.value;
-    const tipo = Cache.getElement('extratoTipo')?.value;
-    
-    let lancamentos = State.caixa.filter(l => {
-      if (inicio && l.data < inicio) return false;
-      if (fim && l.data > fim) return false;
-      if (tipo !== 'todos' && l.tipo !== tipo) return false;
-      return true;
-    });
-    
-    lancamentos.sort((a, b) => new Date(b.data) - new Date(a.data));
-    
-    const entradas = lancamentos.filter(l => l.tipo === 'entrada').reduce((s, l) => s + l.valor, 0);
-    const saidas = lancamentos.filter(l => l.tipo === 'saida').reduce((s, l) => s + l.valor, 0);
-    
-    const container = Cache.getElement('listaCaixa');
-    if (!container) return;
-    
-    container.innerHTML = `
-      <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
-        <div style="background: var(--success); color: white; padding: 10px 20px; border-radius: 8px;">
-          <strong>Entradas:</strong> ${Utils.formatarMoeda(entradas)}
-        </div>
-        <div style="background: var(--danger); color: white; padding: 10px 20px; border-radius: 8px;">
-          <strong>Saídas:</strong> ${Utils.formatarMoeda(saidas)}
-        </div>
-        <div style="background: var(--primary); color: white; padding: 10px 20px; border-radius: 8px;">
-          <strong>Saldo:</strong> ${Utils.formatarMoeda(entradas - saidas)}
-        </div>
-      </div>
-    ` + lancamentos.map(l => {
-      const cliente = l.clienteId ? State.clientes.find(c => c.id === l.clienteId) : null;
-      return `
-        <div class="list-item" style="border-left-color: ${l.tipo === 'entrada' ? 'var(--success)' : 'var(--danger)'}">
-          <div class="list-item-header">
-            <div>
-              <div class="list-item-title" style="color: ${l.tipo === 'entrada' ? 'var(--success)' : 'var(--danger)'}">
-                ${l.tipo === 'entrada' ? '↑' : '↓'} ${Utils.formatarMoeda(l.valor)}
-              </div>
-              <div class="list-item-meta">📅 ${Utils.formatarData(l.data)} | 📂 ${l.categoria}</div>
-              <div class="list-item-meta">📝 ${l.descricao}</div>
-              ${cliente ? `<div class="list-item-meta">👤 ${cliente.nome}</div>` : ''}
-            </div>
-          </div>
-          <div class="list-item-actions">
-            <button class="btn btn-sm btn-danger" onclick="Caixa.excluir(${l.id})">🗑️</button>
-          </div>
-        </div>
-      `;
-    }).join('');
-  },
-  
-  adicionarPagamento(eventoId) {
-    const evento = State.eventos.find(e => e.id === eventoId);
-    if (!evento) return;
-    
-    const valor = prompt(`Valor do pagamento:\nSaldo: ${Utils.formatarMoeda(evento.valorTotal - evento.valorEntrada)}`);
-    if (!valor || isNaN(valor)) return;
-    
-    const forma = prompt('Forma de pagamento:', 'Pix') || 'Não especificado';
-    
-    State.setCaixa([
-      ...State.caixa,
-      {
-        id: Date.now(),
-        tipo: 'entrada',
-        valor: parseFloat(valor),
-        descricao: `Pagamento - ${evento.tipo}`,
-        clienteId: evento.clienteId,
-        eventoId: eventoId,
-        data: new Date().toISOString().split('T')[0],
-        categoria: 'Evento'
-      }
-    ]);
-    
-    State.setRecibos([
-      ...State.recibos,
-      {
-        id: Date.now(),
-        clienteId: evento.clienteId,
-        eventoId: eventoId,
-        clienteNome: evento.clienteNome,
-        valor: parseFloat(valor),
-        data: new Date().toISOString().split('T')[0],
-        formaPagamento: forma,
-        referente: `Pagamento - ${evento.tipo}`
-      }
-    ]);
-    
-    UI.showToast('Pagamento registrado!');
-    Eventos.filtrar(State.filtros.eventos);
-    Dashboard.atualizar();
-  },
-  
-  excluir(id) {
-    if (!confirm('Excluir lançamento?')) return;
-    State.setCaixa(State.caixa.filter(l => l.id !== id));
-    this.filtrarExtrato();
-    Dashboard.atualizar();
-    UI.showToast('Excluído!');
-  }
+// ==================== ASSINATURA ====================
+const Assinatura = {
+pads:{},
+
+init(){
+this.initCanvas('canvasAssCliente','cliente');
+this.initCanvas('canvasAssDJ','dj');
+},
+
+initCanvas(id,tipo){
+const canvas=document.getElementById(id);
+if(!canvas)return;
+
+const ctx=canvas.getContext('2d');
+let desenhando=false;
+
+const resize=()=>{
+const rect=canvas.parentElement.getBoundingClientRect();
+canvas.width=rect.width-4;
+canvas.height=150;
+ctx.strokeStyle='#000';
+ctx.lineWidth=2;
+ctx.lineCap='round';
+ctx.lineJoin='round';
 };
 
-// Módulo de Relatórios
-const Relatorios = {
-  init() {
-    // Tabs
-    document.getElementById('relatoriosTabs')?.addEventListener('click', (e) => {
-      if (e.target.classList.contains('tab')) {
-        document.querySelectorAll('#relatoriosTabs .tab').forEach(t => t.classList.remove('active'));
-        e.target.classList.add('active');
-        this.mostrarAba(e.target.dataset.aba);
-      }
-    });
-    
-    // Ano change
-    Cache.getElement('relAnoEventos')?.addEventListener('change', () => this.gerarEventos());
-  },
-  
-  mostrarAba(aba) {
-    document.querySelectorAll('.aba-relatorio').forEach(a => a.style.display = 'none');
-    const el = Cache.getElement(`rel${aba.charAt(0).toUpperCase() + aba.slice(1)}`);
-    if (el) el.style.display = 'block';
-    
-    if (aba === 'clientes') this.gerarTopClientes();
-    if (aba === 'eventos') this.gerarEventos();
-  },
-  
-  togglePeriodo() {
-    const periodo = Cache.getElement('relPeriodo')?.value;
-    const show = periodo === 'personalizado';
-    const inicio = Cache.getElement('grupoDataInicio');
-    const fim = Cache.getElement('grupoDataFim');
-    if (inicio) inicio.style.display = show ? 'block' : 'none';
-    if (fim) fim.style.display = show ? 'block' : 'none';
-    this.gerar();
-  },
-  
-  gerar() {
-    const hoje = new Date();
-    const periodo = Cache.getElement('relPeriodo')?.value || 'mes';
-    let inicio, fim;
-    
-    switch(periodo) {
-      case 'mes': inicio = new Date(hoje.getFullYear(), hoje.getMonth(), 1); fim = hoje; break;
-      case 'ultimo_mes': inicio = new Date(hoje.getFullYear(), hoje.getMonth() - 1, 1); fim = new Date(hoje.getFullYear(), hoje.getMonth(), 0); break;
-      case 'trimestre': inicio = new Date(hoje.getFullYear(), hoje.getMonth() - 3, 1); fim = hoje; break;
-      case 'semestre': inicio = new Date(hoje.getFullYear(), hoje.getMonth() - 6, 1); fim = hoje; break;
-      case 'ano': inicio = new Date(hoje.getFullYear(), 0, 1); fim = hoje; break;
-      case 'personalizado':
-        inicio = new Date(Cache.getElement('relDataInicio')?.value);
-        fim = new Date(Cache.getElement('relDataFim')?.value);
-        break;
-      default: inicio = new Date(hoje.getFullYear(), hoje.getMonth(), 1); fim = hoje;
-    }
-    
-    const lancamentos = State.caixa.filter(l => {
-      const d = new Date(l.data);
-      return d >= inicio && d <= fim;
-    });
-    
-    const entradas = lancamentos.filter(l => l.tipo === 'entrada').reduce((s, l) => s + l.valor, 0);
-    const saidas = lancamentos.filter(l => l.tipo === 'saida').reduce((s, l) => s + l.valor, 0);
-    
-    const els = {
-      relMesEntradas: Utils.formatarMoeda(entradas),
-      relMesSaidas: Utils.formatarMoeda(saidas),
-      relMesLucro: Utils.formatarMoeda(entradas - saidas)
-    };
-    
-    const anoInicio = new Date(hoje.getFullYear(), 0, 1);
-    const entradasAno = State.caixa.filter(l => new Date(l.data) >= anoInicio && l.tipo === 'entrada').reduce((s, l) => s + l.valor, 0);
-    els.relAnoEntradas = Utils.formatarMoeda(entradasAno);
-    
-    Object.entries(els).forEach(([id, val]) => {
-      const el = Cache.getElement(id);
-      if (el) el.textContent = val;
-    });
-    
-    // Análise por categoria
-    const cats = {};
-    lancamentos.forEach(l => {
-      if (!cats[l.categoria]) cats[l.categoria] = { entradas: 0, saidas: 0 };
-      cats[l.categoria][l.tipo === 'entrada' ? 'entradas' : 'saidas'] += l.valor;
-    });
-    
-    const container = Cache.getElement('analiseCategoria');
-    if (container) {
-      container.innerHTML = Object.entries(cats).length ? Object.entries(cats).map(([cat, v]) => `
-        <div class="list-item">
-          <div class="list-item-header">
-            <div class="list-item-title">${cat}</div>
-            <div>
-              ${v.entradas > 0 ? `<span style="color: var(--success); font-weight: bold;">+ ${Utils.formatarMoeda(v.entradas)}</span>` : ''}
-              ${v.saidas > 0 ? `<span style="color: var(--danger); font-weight: bold; margin-left: 10px;">-${Utils.formatarMoeda(v.saidas)}</span>` : ''}
-            </div>
-          </div>
-        </div>
-      `).join('') : '<div class="empty-state"><div class="empty-state-icon">📊</div><p>Sem dados</p></div>';
-    }
-  },
-  
-  gerarTopClientes() {
-    const clientes = State.clientes.map(c => {
-      const total = State.caixa.filter(l => l.clienteId === c.id && l.tipo === 'entrada').reduce((s, l) => s + l.valor, 0);
-      return { ...c, total, eventos: State.eventos.filter(e => e.clienteId === c.id).length };
-    }).sort((a, b) => b.total - a.total).slice(0, 10);
-    
-    const container = Cache.getElement('topClientes');
-    if (!container) return;
-    
-    container.innerHTML = clientes.length && clientes[0].total > 0 ? clientes.map((c, i) => `
-      <div class="list-item" style="${i < 3 ? 'border-left-color: gold;' : ''}">
-        <div class="list-item-header">
-          <div>
-            <div class="list-item-title">${i + 1}º ${c.nome} ${i < 3 ? '👑' : ''}</div>
-            <div class="list-item-meta">${c.eventos} eventos</div>
-          </div>
-          <div class="stat-value" style="font-size: 20px;">${Utils.formatarMoeda(c.total)}</div>
-        </div>
-      </div>
-    `).join('') : '<div class="empty-state"><div class="empty-state-icon">👑</div><p>Sem dados</p></div>';
-  },
-  
-  gerarEventos() {
-    const ano = parseInt(Cache.getElement('relAnoEventos')?.value || new Date().getFullYear());
-    const eventos = State.eventos.filter(e => new Date(e.data).getFullYear() === ano);
-    
-    const porMes = {};
-    for (let i = 0; i < 12; i++) porMes[i] = { qtd: 0, valor: 0 };
-    eventos.forEach(e => {
-      const m = new Date(e.data).getMonth();
-      porMes[m].qtd++;
-      porMes[m].valor += e.valorTotal;
-    });
-    
-    const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-    const container = Cache.getElement('relatorioEventos');
-    if (container) {
-      container.innerHTML = `
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
-          ${Object.entries(porMes).map(([m, d]) => `
-            <div class="report-card" style="${d.qtd > 0 ? 'border-left-color: var(--success);' : ''}">
-              <div class="report-card-title">${meses[m]} ${ano}</div>
-              <div class="report-card-value">${d.qtd}</div>
-              <div class="report-card-subtitle">${Utils.formatarMoeda(d.valor)}</div>
-            </div>
-          `).join('')}
-        </div>
-        <div style="margin-top: 20px; text-align: center;">
-          <strong>Total:</strong> ${eventos.length} eventos | <strong>Valor:</strong> ${Utils.formatarMoeda(eventos.reduce((s, e) => s + e.valorTotal, 0))}
-        </div>
-      `;
-    }
-  }
+resize();
+window.addEventListener('resize',Utils.debounce(resize,200));
+
+const getPos=(e)=>{
+const rect=canvas.getBoundingClientRect();
+const clientX=e.touches?e.touches[0].clientX:e.clientX;
+const clientY=e.touches?e.touches[0].clientY:e.clientY;
+return{
+x:clientX-rect.left,
+y:clientY-rect.top
+};
 };
 
-// Módulo de Configurações
-const Config = {
-  init() {
-    // Preenche formulário
-    Cache.getElement('configNome').value = State.config.nome;
-    Cache.getElement('configDocumento').value = State.config.documento;
-    Cache.getElement('configTelefone').value = State.config.telefone;
-    Cache.getElement('configEndereco').value = State.config.endereco;
-    
-    // Color picker
-    document.getElementById('colorPicker')?.addEventListener('click', (e) => {
-      if (e.target.classList.contains('color-option')) {
-        Theme.setColor(e.target.dataset.color);
-      }
-    });
-  },
-  
-  salvar() {
-    State.config.nome = Cache.getElement('configNome').value;
-    State.config.documento = Cache.getElement('configDocumento').value;
-    State.config.telefone = Cache.getElement('configTelefone').value;
-    State.config.endereco = Cache.getElement('configEndereco').value;
-    State.setConfig(State.config);
-    UI.showToast('Configurações salvas!');
-  },
-  
-  salvarModal() {
-    State.config.nome = Cache.getElement('modalConfigNome').value;
-    State.config.documento = Cache.getElement('modalConfigDocumento').value;
-    State.config.endereco = Cache.getElement('modalConfigEndereco').value;
-    State.setConfig(State.config);
-    UI.closeModal('config');
-    UI.showToast('Salvo!');
-  }
+const iniciar=(e)=>{
+desenhando=true;
+const pos=getPos(e);
+ctx.beginPath();
+ctx.moveTo(pos.x,pos.y);
+e.preventDefault();
 };
 
-// Módulo de Dados (Import/Export)
-const Data = {
-  exportar() {
-    const blob = new Blob([JSON.stringify(State.data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `djpro_backup_${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    UI.showToast('Exportado!');
-  },
-  
-  async importar(input) {
-    const file = input.files[0];
-    if (!file) return;
-    
-    try {
-      const text = await file.text();
-      const data = JSON.parse(text);
-      
-      if (confirm('Substituir dados atuais?')) {
-        State.data = data;
-        await State.persist();
-        location.reload();
-      }
-    } catch (err) {
-      UI.showToast('Erro ao importar!', 'error');
-    }
-  }
+const desenhar=(e)=>{
+if(!desenhando)return;
+const pos=getPos(e);
+ctx.lineTo(pos.x,pos.y);
+ctx.stroke();
+e.preventDefault();
 };
 
-// Módulo de Busca Global
+const parar=()=>{
+desenhando=false;
+ctx.beginPath();
+};
+
+canvas.addEventListener('mousedown',iniciar);
+canvas.addEventListener('mousemove',desenhar);
+canvas.addEventListener('mouseup',parar);
+canvas.addEventListener('mouseout',parar);
+canvas.addEventListener('touchstart',iniciar,{passive:false});
+canvas.addEventListener('touchmove',desenhar,{passive:false});
+canvas.addEventListener('touchend',parar);
+
+this.pads[tipo]={canvas,ctx,limpar:()=>{
+ctx.clearRect(0,0,canvas.width,canvas.height);
+DB.dados.assinaturas[tipo]=null;
+this.atualizarStatus(tipo,false);
+},salvar:()=>{
+const dataURL=canvas.toDataURL('image/png');
+DB.dados.assinaturas[tipo]=dataURL;
+this.atualizarStatus(tipo,true);
+UI.toast(`Assinatura ${tipo==='cliente'?'do cliente':'do DJ'} salva!`);
+}};
+},
+
+limpar(tipo){
+if(this.pads[tipo])this.pads[tipo].limpar();
+},
+
+salvar(tipo){
+if(this.pads[tipo])this.pads[tipo].salvar();
+},
+
+atualizarStatus(tipo,salva){
+const span=document.getElementById(tipo==='cliente'?'statusAssCliente':'statusAssDJ');
+if(salva){
+span.className='badge badge-success';
+span.textContent=tipo==='cliente'?'✓ Cliente assinou':'✓ DJ assinou';
+}else{
+span.className='badge badge-danger';
+span.textContent=tipo==='cliente'?'✗ Cliente não assinou':'✗ DJ não assinou';
+}
+}
+};
+
+// ==================== CONTRATO ====================
+const Contrato = {
+atualizarSelectEventos(){
+const sel=document.getElementById('contr_evento_id');
+const eventos=DB.dados.eventos.filter(e=>!e.concluido).sort((a,b)=>new Date(a.data)-new Date(b.data));
+sel.innerHTML='<option value="">Selecione...</option>'+eventos.map(e=>{
+const cliente=DB.dados.clientes.find(c=>c.id===e.clienteId);
+return`<option value="${e.id}">${e.tipo} - ${cliente?cliente.nome:'Cliente'} (${Utils.formatarData(e.data)})</option>`;
+}).join('');
+},
+
+carregarDados(){
+const eventoId=document.getElementById('contr_evento_id').value;
+if(!eventoId)return;
+
+const evento=DB.dados.eventos.find(e=>e.id===parseInt(eventoId));
+const cliente=DB.dados.clientes.find(c=>c.id===evento.clienteId);
+
+// Preenche dados automáticos
+document.getElementById('contr_local').value=cliente?`${cliente.cidade}/${cliente.uf}`:'Quintana/SP';
+document.getElementById('contr_data').value=new Date().toISOString().split('T')[0];
+},
+
+gerarHTML(){
+const eventoId=document.getElementById('contr_evento_id').value;
+if(!eventoId)return null;
+
+const evento=DB.dados.eventos.find(e=>e.id===parseInt(eventoId));
+const cliente=DB.dados.clientes.find(c=>c.id===evento.clienteId);
+
+const contratado={
+nome_artistico:'DJ Brow',
+nome_civil:'Marcelo da Cruz',
+cpf:'200.050.638-09',
+rg:'27.325.130-2',
+telefone:'(14) 99765-4321',
+endereco:'Avenida São João, 195',
+cidade:'Quintana',
+uf:'SP'
+};
+
+const dataLocal=(document.getElementById('contr_local').value||'Quintana/SP')+', '+Utils.dataExtenso(document.getElementById('contr_data').value);
+
+const testemunhas={
+t1_nome:document.getElementById('contr_test1_nome').value,
+t1_doc:document.getElementById('contr_test1_doc').value,
+t2_nome:document.getElementById('contr_test2_nome').value,
+t2_doc:document.getElementById('contr_test2_doc').value
+};
+
+const enderecoCliente=`${cliente.endereco||''}${cliente.numero?', Nº '+cliente.numero:''}${cliente.bairro?' — Bairro: '+cliente.bairro:''} — ${cliente.cidade||''}/${cliente.uf||''}`;
+
+// Verifica assinaturas
+const assCliente=DB.dados.assinaturas.cliente;
+const assDJ=DB.dados.assinaturas.dj;
+
+return`
+<div id="pdfContent">
+<h2>CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE DJ</h2>
+
+<h3>CONTRATADO</h3>
+<p><strong>Nome artístico:</strong> ${contratado.nome_artistico}<br>
+<strong>Nome civil:</strong> ${contratado.nome_civil}<br>
+<strong>CPF:</strong> ${contratado.cpf} &nbsp;&nbsp; <strong>RG:</strong> ${contratado.rg} &nbsp;&nbsp; <strong>Telefone:</strong> ${contratado.telefone}<br>
+<strong>Endereço:</strong> ${contratado.endereco} — ${contratado.cidade}/${contratado.uf}</p>
+
+<h3>CONTRATANTE</h3>
+<p><strong>Nome:</strong> ${cliente.nome}<br>
+<strong>CPF:</strong> ${cliente.cpf} &nbsp;&nbsp; <strong>RG:</strong> ${cliente.rg||'__________________'} &nbsp;&nbsp; <strong>Telefone:</strong> ${cliente.telefone}<br>
+<strong>Endereço:</strong> ${enderecoCliente}</p>
+
+<h3>DO EVENTO E SERVIÇOS</h3>
+<p><strong>Local:</strong> ${evento.local}<br>
+<strong>Data:</strong> ${Utils.formatarData(evento.data)} — <strong>Início:</strong> ${evento.inicio} — <strong>Término:</strong> ${evento.termino} — <strong>Duração:</strong> ${evento.duracao} horas<br>
+<strong>Valor total:</strong> ${Utils.formatarMoeda(evento.valorTotal)} — <strong>Forma de pagamento:</strong> ${evento.formaPagamento||'A combinar'}<br>
+<strong>Serviços e equipamentos inclusos:</strong><br>${evento.servicos.replace(/\n/g,'<br>')}</p>
+
+<h3>CLÁUSULAS</h3>
+<p><strong>Cláusula 1ª — Do Objeto:</strong> O presente contrato tem por objeto a prestação de serviços de DJ e sonorização para o evento descrito, incluindo montagem e operação do sistema de som, iluminação de pista e demais equipamentos necessários à execução do serviço.</p>
+
+<p><strong>Cláusula 2ª — Do Pagamento e Desistência:</strong> O valor total do serviço será de ${Utils.formatarMoeda(evento.valorTotal)}, com forma e prazos de pagamento detalhados: <strong>${evento.formaPagamento||'A definir'}</strong>. O pagamento do sinal ou primeira parcela caracteriza a reserva da data. Em caso de desistência por parte da CONTRATANTE, o valor do sinal ou valores já pagos não serão devolvidos, podendo ser cobrado o valor integral se a desistência ocorrer em menos de 30 dias da data do evento.</p>
+
+<p><strong>Cláusula 3ª — Das Obrigações da Contratante:</strong> A CONTRATANTE compromete-se a disponibilizar estrutura adequada para a realização do evento, incluindo mesa, ponto de energia elétrica compatível com os equipamentos e condições de segurança para montagem e operação.</p>
+
+<p><strong>Cláusula 4ª — Das Obrigações do Contratado:</strong> O CONTRATADO compromete-se a realizar os serviços conforme acordado, garantindo qualidade técnica, pontualidade e bom atendimento durante todo o evento.</p>
+
+<p><strong>Cláusula 5ª — Das Despesas:</strong> As despesas com alimentação, transporte, alvarás, licenças ou taxas de direitos autorais (ECAD) são de exclusiva responsabilidade da CONTRATANTE.</p>
+
+<p><strong>Cláusula 6ª — Rescisão e Força Maior:</strong> O presente contrato poderá ser rescindido por qualquer das partes em caso de descumprimento das cláusulas aqui pactuadas. Caso ocorra impossibilidade de comparecimento do CONTRATADO por motivo de força maior, este se compromete a indicar profissional substituto de igual qualidade ou a devolver integralmente os valores pagos.</p>
+
+<p><strong>Cláusula 7ª — Proteção dos Equipamentos:</strong> A CONTRATANTE se responsabiliza pela integridade dos equipamentos durante o evento. Em caso de danos ou roubo por falha na segurança do local, a CONTRATANTE deverá ressarcir o CONTRATADO.</p>
+
+<p><strong>Cláusula 8ª — Interrupção dos Serviços:</strong> Em caso de falhas de energia não sanadas, clima adverso (eventos ao ar livre) ou riscos à segurança, o CONTRATADO poderá suspender ou encerrar as atividades sem obrigação de devolução de valores.</p>
+
+<p><strong>Cláusula 9ª — Uso de Imagem:</strong> O CONTRATANTE autoriza o CONTRATADO a registrar imagens do evento para fins de divulgação profissional, salvo manifestação contrária expressa por escrito.</p>
+
+<p><strong>Cláusula 10ª — Foro:</strong> Para dirimir quaisquer controvérsias, as partes elegem o foro da comarca de Quintana/SP.</p>
+
+<p style="margin-top:20px">E por estarem de pleno acordo, firmam o presente contrato em 02 (duas) vias de igual teor e forma, na data e local abaixo indicados:</p>
+
+<p style="text-align:center;font-style:italic;margin:15px 0"><strong>${dataLocal}</strong></p>
+
+<div class="assinaturas">
+<div class="assinatura-box">
+${assCliente?`<img src="${assCliente}" style="max-height:60px;margin-bottom:5px">`:'<div style="height:60px"></div>'}
+<div class="linha-assinatura">CONTRATANTE<br><small>${cliente.nome}</small></div>
+</div>
+<div class="assinatura-box">
+${assDJ?`<img src="${assDJ}" style="max-height:60px;margin-bottom:5px">`:'<div style="height:60px"></div>'}
+<div class="linha-assinatura">CONTRATADO<br><small>Marcelo da Cruz (DJ Brow)</small></div>
+</div>
+</div>
+
+<p style="margin-top:20px;text-align:center"><strong>TESTEMUNHAS</strong></p>
+<div style="display:flex;justify-content:space-around;margin-top:10px">
+<div style="width:45%">
+<div style="border-top:1px solid #000;padding-top:5px;margin-top:30px"></div>
+<p class="testemunha-info">Nome: ${testemunhas.t1_nome||'________________________________'}</p>
+<p class="testemunha-info">CPF/RG: ${testemunhas.t1_doc||'________________________________'}</p>
+</div>
+<div style="width:45%">
+<div style="border-top:1px solid #000;padding-top:5px;margin-top:30px"></div>
+<p class="testemunha-info">Nome: ${testemunhas.t2_nome||'________________________________'}</p>
+<p class="testemunha-info">CPF/RG: ${testemunhas.t2_doc||'________________________________'}</p>
+</div>
+</div>
+</div>
+`;
+},
+
+visualizar(){
+const html=this.gerarHTML();
+if(!html){
+UI.toast('Selecione um evento!','error');
+return;
+}
+document.getElementById('contractPreview').innerHTML=html;
+document.getElementById('contractContainer').style.display='block';
+document.getElementById('contractContainer').scrollIntoView({behavior:'smooth'});
+},
+
+imprimir(){
+if(!document.getElementById('contractPreview').innerHTML){
+this.visualizar();
+setTimeout(()=>window.print(),500);
+return;
+}
+window.print();
+},
+
+gerarDoEvento(id){
+Router.navigate('contrato');
+document.getElementById('contr_evento_id').value=id;
+this.carregarDados();
+},
+
+compartilharWhatsApp(){
+const eventoId=document.getElementById('contr_evento_id').value;
+if(!eventoId){
+UI.toast('Selecione um evento!','error');
+return;
+}
+const evento=DB.dados.eventos.find(e=>e.id===parseInt(eventoId));
+const cliente=DB.dados.clientes.find(c=>c.id===evento.clienteId);
+
+const texto=`Olá ${cliente.nome}! 
+
+Segue o contrato do seu evento de ${evento.tipo} no dia ${Utils.formatarData(evento.data)}.
+
+*Valor:* ${Utils.formatarMoeda(evento.valorTotal)}
+*Local:* ${evento.local}
+*Horário:* ${evento.inicio} às ${evento.termino}
+
+Por favor, confirme o recebimento. Qualquer dúvida estou à disposição!
+
+DJ Brow - Marcelo da Cruz
+(14) 99765-4321`;
+
+const url='https://wa.me/?text='+encodeURIComponent(texto);
+window.open(url,'_blank');
+},
+
+enviarEmail(){
+const eventoId=document.getElementById('contr_evento_id').value;
+if(!eventoId){
+UI.toast('Selecione um evento!','error');
+return;
+}
+const evento=DB.dados.eventos.find(e=>e.id===parseInt(eventoId));
+const cliente=DB.dados.clientes.find(c=>c.id===evento.clienteId);
+
+const assunto=`Contrato - ${evento.tipo} - ${Utils.formatarData(evento.data)}`;
+const corpo=`Olá ${cliente.nome},
+
+Segue em anexo o contrato para o seu evento de ${evento.tipo}.
+
+Atenciosamente,
+DJ Brow - Marcelo da Cruz`;
+
+window.location.href=`mailto:${cliente.email||''}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+}
+};
+
+// ==================== DASHBOARD ====================
+const Dashboard = {
+atualizar(){
+const hoje=new Date();
+const inicioMes=new Date(hoje.getFullYear(),hoje.getMonth(),1);
+
+const lancMes=DB.dados.lancamentos.filter(l=>new Date(l.data)>=inicioMes);
+const entradas=lancMes.filter(l=>l.tipo==='entrada').reduce((s,l)=>s+l.valor,0);
+const saidas=lancMes.filter(l=>l.tipo==='saida').reduce((s,l)=>s+l.valor,0);
+
+document.getElementById('mesEntradas').textContent=Utils.formatarMoeda(entradas);
+document.getElementById('mesSaidas').textContent=Utils.formatarMoeda(saidas);
+document.getElementById('mesLucro').textContent=Utils.formatarMoeda(entradas-saidas);
+document.getElementById('mesEventos').textContent=DB.dados.eventos.filter(e=>{
+const d=new Date(e.data);
+return d.getMonth()===hoje.getMonth()&&d.getFullYear()===hoje.getFullYear();
+}).length;
+
+// Próximos eventos
+const trintaDias=new Date(hoje);
+trintaDias.setDate(trintaDias.getDate()+30);
+
+const proximos=DB.dados.eventos
+.filter(e=>{
+const d=new Date(e.data);
+return d>=hoje&&d<=trintaDias&&!e.concluido;
+})
+.sort((a,b)=>new Date(a.data)-new Date(b.data))
+.slice(0,5);
+
+document.getElementById('contadorEventos').textContent=proximos.length+' eventos';
+
+const container=document.getElementById('listaEventosDashboard');
+if(proximos.length===0){
+container.innerHTML='<div class="empty-state"><div class="empty-state-icon">📅</div><p>Nenhum evento próximo</p></div>';
+}else{
+container.innerHTML=proximos.map(e=>{
+const d=new Date(e.data);
+const dias=Math.ceil((d-hoje)/(1000*60*60*24));
+let badge=dias===0?'badge-danger':dias<=7?'badge-warning':'badge-info';
+let txt=dias===0?'HOJE':dias===1?'AMANHÃ':`Em ${dias} dias`;
+return`
+<div class="list-item" onclick="Router.navigate('eventos')" style="cursor:pointer">
+<div class="list-item-header">
+<div>
+<div class="list-item-title">${e.tipo} - ${e.clienteNome}</div>
+<div class="list-item-meta">📅 ${Utils.formatarData(e.data)} | ⏰ ${e.inicio}</div>
+</div>
+<span class="badge ${badge}">${txt}</span>
+</div>
+</div>
+`;
+}).join('');
+}
+
+// A receber
+const aReceber=DB.dados.eventos
+.filter(e=>!e.concluido)
+.map(e=>{
+const recebido=DB.dados.lancamentos.filter(l=>l.eventoId===e.id&&l.tipo==='entrada').reduce((s,l)=>s+l.valor,0);
+const saldo=e.valorTotal-recebido;
+return{...e,saldo,recebido};
+})
+.filter(e=>e.saldo>0)
+.sort((a,b)=>new Date(a.data)-new Date(b.data));
+
+const containerReceber=document.getElementById('listaAReceber');
+if(aReceber.length===0){
+containerReceber.innerHTML='<div class="empty-state"><div class="empty-state-icon">💰</div><p>Nenhum valor pendente</p></div>';
+}else{
+containerReceber.innerHTML=aReceber.map(e=>`
+<div class="list-item" style="border-left-color:var(--warning)">
+<div class="list-item-header">
+<div>
+<div class="list-item-title">${e.clienteNome}</div>
+<div class="list-item-meta">${e.tipo} - ${Utils.formatarData(e.data)}</div>
+</div>
+<div style="text-align:right">
+<div style="font-size:18px;font-weight:700;color:var(--danger)">${Utils.formatarMoeda(e.saldo)}</div>
+<div style="font-size:11px;color:var(--text-muted)">de ${Utils.formatarMoeda(e.valorTotal)}</div>
+</div>
+</div>
+<div class="list-item-actions">
+<button class="btn btn-sm btn-success" onclick="Financeiro.addPagamento(${e.id})">Registrar Pagamento</button>
+</div>
+</div>
+`).join('');
+}
+}
+};
+
+// ==================== BUSCA GLOBAL ====================
 const Search = {
-  init() {
-    const input = Cache.getElement('globalSearch');
-    if (input) {
-      input.addEventListener('input', Utils.debounce(() => this.buscar(), 300));
-    }
-    
-    // Fecha resultados ao clicar fora
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.search-container')) {
-        const results = Cache.getElement('searchResults');
-        if (results) results.style.display = 'none';
-      }
-    });
-  },
-  
-  buscar() {
-    const termo = Cache.getElement('globalSearch')?.value.toLowerCase().trim();
-    const resultadosDiv = Cache.getElement('searchResults');
-    
-    if (!resultadosDiv) return;
-    
-    if (termo.length < 2) {
-      resultadosDiv.style.display = 'none';
-      return;
-    }
-    
-    const resultados = [];
-    
-    // Busca em clientes
-    State.clientes.forEach(c => {
-      if (c.nome.toLowerCase().includes(termo) || 
-          c.documento?.includes(termo) ||
-          c.telefone?.includes(termo)) {
-        resultados.push({
-          tipo: 'cliente',
-          titulo: c.nome,
-          subtitulo: `CPF: ${c.documento || 'N/A'}`,
-          acao: () => { Clientes.editar(c.id); }
-        });
-      }
-    });
-    
-    // Busca em eventos
-    State.eventos.forEach(e => {
-      const c = State.clientes.find(cli => cli.id === e.clienteId);
-      if (e.tipo.toLowerCase().includes(termo) || 
-          e.local.toLowerCase().includes(termo) ||
-          c?.nome.toLowerCase().includes(termo)) {
-        resultados.push({
-          tipo: 'evento',
-          titulo: `${e.tipo} - ${c?.nome || 'Cliente'}`,
-          subtitulo: Utils.formatarData(e.data),
-          acao: () => { Router.navigate('eventos'); }
-        });
-      }
-    });
-    
-    resultadosDiv.innerHTML = resultados.length ? resultados.slice(0, 10).map(r => `
-      <div class="search-result-item" onclick="(${r.acao.toString})(); document.getElementById('searchResults').style.display='none';">
-        <div>
-          <div style="font-weight: 600;">${r.titulo}</div>
-          <div style="font-size: 12px; color: var(--text-muted);">${r.subtitulo}</div>
-        </div>
-        <span class="badge badge-info">${r.tipo === 'cliente' ? '👤' : '🎉'}</span>
-      </div>
-    `).join('') : '<div class="search-result-item">Nenhum resultado</div>';
-    
-    resultadosDiv.style.display = 'block';
-  }
+init(){
+const input=document.getElementById('globalSearch');
+input.addEventListener('input',Utils.debounce(()=>this.buscar(),300));
+},
+
+buscar(){
+const termo=document.getElementById('globalSearch').value.toLowerCase().trim();
+if(termo.length<2)return;
+
+// Busca em clientes
+const clientes=DB.dados.clientes.filter(c=>
+c.nome.toLowerCase().includes(termo)||
+c.cpf.includes(termo)||
+c.telefone.includes(termo)
+);
+
+// Busca em eventos
+const eventos=DB.dados.eventos.filter(e=>{
+const c=DB.dados.clientes.find(x=>x.id===e.clienteId);
+return e.tipo.toLowerCase().includes(termo)||
+e.local.toLowerCase().includes(termo)||
+c?.nome.toLowerCase().includes(termo);
+});
+
+if(clientes.length===1&&eventos.length===0){
+// Vai direto para o cliente
+Router.navigate('clientes');
+Clientes.editar(clientes[0].id);
+document.getElementById('globalSearch').value='';
+}else if(eventos.length===1&&clientes.length===0){
+// Vai direto para o evento
+Router.navigate('eventos');
+Eventos.editar(eventos[0].id);
+document.getElementById('globalSearch').value='';
+}else{
+// Mostra resultados (poderia abrir um modal, mas por simplicidade vai para a lista)
+if(clientes.length>0){
+Router.navigate('clientes');
+UI.toast(`${clientes.length} cliente(s) encontrado(s)`);
+}else if(eventos.length>0){
+Router.navigate('eventos');
+UI.toast(`${eventos.length} evento(s) encontrado(s)`);
+}
+}
+}
 };
 
 // ==================== INICIALIZAÇÃO ====================
-document.addEventListener('DOMContentLoaded', async () => {
-  // Inicializa IndexedDB primeiro
-  await DB.init();
-  
-  // Carrega dados
-  await State.load();
-  
-  // Inicializa módulos
-  Theme.init();
-  Auth.init();
-  Clientes.init();
-  Eventos.init();
-  Assinaturas.init();
-  Caixa.init();
-  Relatorios.init();
-  Config.init();
-  Search.init();
-  
-  // Datas padrão
-  const hoje = new Date().toISOString().split('T')[0];
-  const inicioMes = new Date();
-  inicioMes.setDate(1);
-  
-  const datas = {
-    contratoData: hoje,
-    reciboData: hoje,
-    caixaData: hoje,
-    extratoDataFim: hoje,
-    extratoDataInicio: inicioMes.toISOString().split('T')[0]
-  };
-  
-  Object.entries(datas).forEach(([id, val]) => {
-    const el = Cache.getElement(id);
-    if (el) el.value = val;
-  });
-  
-  // Dashboard inicial
-  Dashboard.atualizar();
-  
-  console.log('DJ Pro inicializado com sucesso!');
+document.addEventListener('DOMContentLoaded',()=>{
+DB.carregar();
+if(DB.dados.config.tema==='dark'){
+document.documentElement.setAttribute('data-theme','dark');
+}
+
+// Datas padrão
+const hoje=new Date().toISOString().split('T')[0];
+document.getElementById('fin_data').value=hoje;
+document.getElementById('evt_data').value=hoje;
+document.getElementById('ext_data_fim').value=hoje;
+const inicioMes=new Date();
+inicioMes.setDate(1);
+document.getElementById('ext_data_inicio').value=inicioMes.toISOString().split('T')[0];
+
+// Inicializa módulos
+Eventos.init();
+Financeiro.init();
+Search.init();
+
+// Dashboard inicial
+Dashboard.atualizar();
+
+console.log('DJ Brow - Sistema carregado!');
 });
 </script>
-
 </body>
 </html>
