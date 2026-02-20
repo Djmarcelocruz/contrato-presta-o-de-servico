@@ -1,1875 +1,2485 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<meta name="theme-color" content="#0b76d1"/>
-<title>DJ Brow - Sistema Completo de Gestão</title>
-<style>
-:root{--primary:#0b76d1;--primary-dark:#0056b3;--secondary:#6c757d;--success:#28a745;--danger:#dc3545;--warning:#ffc107;--info:#17a2b8;--bg:#f8f9fa;--card:#fff;--text:#212529;--text-muted:#6c757d;--border:#dee2e6;--shadow:0 4px 20px rgba(0,0,0,0.08);--radius:12px}
-[data-theme="dark"]{--bg:#0f1419;--card:#1a1d29;--text:#e4e6eb;--text-muted:#b0b3b8;--border:#3e4042;--shadow:0 4px 20px rgba(0,0,0,0.4)}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:80px;min-height:100vh}
-.app-header{position:fixed;top:0;left:0;right:0;height:60px;background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 15px;z-index:1000;box-shadow:var(--shadow)}
-.app-header h1{font-size:20px;font-weight:700;display:flex;align-items:center;gap:8px}
-.header-actions{display:flex;gap:8px}
-.header-btn{width:40px;height:40px;border-radius:10px;border:none;background:rgba(255,255,255,0.2);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
-.header-btn:hover{background:rgba(255,255,255,0.3);transform:scale(1.05)}
-.main-content{margin-top:60px;padding:15px;max-width:1200px;margin-left:auto;margin-right:auto}
-.card{background:var(--card);border-radius:var(--radius);padding:20px;margin-bottom:15px;box-shadow:var(--shadow);border:1px solid var(--border)}
-.card-title{font-size:18px;font-weight:700;color:var(--primary);margin-bottom:15px;display:flex;align-items:center;gap:8px}
-.form-group{margin-bottom:15px}
-.form-label{display:block;font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px}
-.form-control{width:100%;padding:12px 15px;border:2px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);font-size:15px;transition:all 0.2s}
-.form-control:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(11,118,209,0.1);outline:none}
-.form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 20px;border-radius:10px;border:none;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;background:var(--primary);color:#fff}
-.btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(11,118,209,0.3)}
-.btn-success{background:var(--success)}
-.btn-danger{background:var(--danger)}
-.btn-warning{background:var(--warning);color:#000}
-.btn-secondary{background:var(--secondary)}
-.btn-sm{padding:8px 14px;font-size:13px}
-.btn-lg{padding:14px 24px;font-size:16px;width:100%}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:var(--card);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;z-index:999;padding-bottom:env(safe-area-inset-bottom)}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px;color:var(--text-muted);text-decoration:none;font-size:11px;font-weight:500;transition:all 0.2s;cursor:pointer;background:none;border:none}
-.nav-item .icon{font-size:22px;transition:transform 0.2s}
-.nav-item.active{color:var(--primary)}
-.nav-item.active .icon{transform:translateY(-3px)}
-.section{display:none}
-.section.active{display:block;animation:fadeIn 0.3s ease}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:15px}
-.stat-card{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);color:#fff;padding:15px;border-radius:var(--radius);text-align:center;cursor:pointer;transition:transform 0.2s}
-.stat-card:hover{transform:translateY(-3px)}
-.stat-value{font-size:24px;font-weight:800;margin-bottom:3px}
-.stat-label{font-size:11px;opacity:0.9;text-transform:uppercase}
-.list-item{background:var(--bg);border-radius:10px;padding:15px;margin-bottom:10px;border-left:4px solid var(--primary);transition:all 0.2s}
-.list-item:hover{transform:translateX(5px);box-shadow:var(--shadow)}
-.list-item-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:8px}
-.list-item-title{font-size:16px;font-weight:700;color:var(--text)}
-.list-item-meta{font-size:13px;color:var(--text-muted);margin-top:4px}
-.list-item-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
-.badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase}
-.badge-success{background:#d4edda;color:#155724}
-.badge-warning{background:#fff3cd;color:#856404}
-.badge-danger{background:#f8d7da;color:#721c24}
-.badge-info{background:#d1ecf1;color:#0c5460}
-.tabs{display:flex;gap:8px;margin-bottom:15px;overflow-x:auto;padding-bottom:5px}
-.tab{padding:8px 16px;border-radius:20px;border:2px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;white-space:nowrap;transition:all 0.2s;font-weight:600;font-size:13px}
-.tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
-.search-container{position:relative;margin-bottom:15px}
-.search-input{width:100%;padding:12px 15px 12px 45px;border:2px solid var(--border);border-radius:50px;font-size:15px;background:var(--card);color:var(--text)}
-.search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--text-muted)}
-.quick-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:15px}
-.quick-action-btn{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:15px;text-align:center;cursor:pointer;transition:all 0.2s}
-.quick-action-btn:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:var(--shadow)}
-.quick-action-icon{font-size:28px;margin-bottom:6px}
-.quick-action-text{font-weight:600;font-size:13px;color:var(--text)}
-.financial-summary{background:linear-gradient(135deg,var(--success) 0%,var(--primary) 100%);color:#fff;padding:15px;border-radius:var(--radius);margin-bottom:15px}
-.financial-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.financial-item{background:rgba(255,255,255,0.2);padding:12px;border-radius:8px;text-align:center}
-.financial-value{font-size:20px;font-weight:700;margin-bottom:3px}
-.financial-label{font-size:10px;opacity:0.9;text-transform:uppercase}
-.empty-state{text-align:center;padding:40px 20px;color:var(--text-muted)}
-.empty-state-icon{font-size:48px;margin-bottom:15px;opacity:0.5}
-.progress-bar{width:100%;height:18px;background:var(--border);border-radius:9px;overflow:hidden;margin-top:8px}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--success),var(--primary));transition:width 0.3s;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:600}
-.event-status{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
-.event-status.agendado{background:#d1ecf1;color:#0c5460}
-.event-status.hoje{background:#f8d7da;color:#721c24;animation:pulse 2s infinite}
-.event-status.proximo{background:#fff3cd;color:#856404}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.7}}
-.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(5px)}
-.modal-overlay.active{display:flex}
-.modal-content{background:var(--card);border-radius:var(--radius);width:100%;max-width:600px;max-height:90vh;overflow-y:auto}
-.modal-header{padding:20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.modal-header h3{font-size:18px;font-weight:700;color:var(--primary)}
-.modal-close{width:36px;height:36px;border-radius:50%;border:none;background:var(--bg);color:var(--text);font-size:20px;cursor:pointer}
-.modal-body{padding:20px}
-.modal-footer{padding:15px 20px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--success);color:#fff;padding:14px 28px;border-radius:50px;font-weight:600;z-index:4000;opacity:0;transition:all 0.3s;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
-.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-.toast.error{background:var(--danger)}
-.toast.warning{background:var(--warning);color:#000}
-.signature-pad{background:#fff;border:2px solid #333;border-radius:8px;width:100%;height:150px;touch-action:none;cursor:crosshair;display:block}
-.contract-preview{display:none;margin-top:20px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:20px;font-family:'Times New Roman',Times,serif;line-height:1.6;color:#000}
-.contract-preview h2{text-align:center;font-size:18px;margin-bottom:15px;border-bottom:2px solid #000;padding-bottom:10px}
-.contract-preview h3{font-size:14px;margin-top:20px;margin-bottom:8px;border-bottom:1px solid #ccc;padding-bottom:4px}
-.contract-preview p{margin-bottom:10px;text-align:justify;font-size:12px}
-.contract-preview .assinaturas{margin-top:30px;display:flex;justify-content:space-between;gap:20px}
-.contract-preview .assinatura-box{flex:1;text-align:center}
-.contract-preview .linha-assinatura{border-top:1px solid #000;padding-top:5px;margin-top:40px;font-size:11px;font-weight:600}
-.contract-preview .testemunha-info{font-size:10px;line-height:1.2;margin:3px 0;text-align:left;padding-left:15px}
-
-/* Search Results Styles */
-.search-results{position:absolute;top:100%;left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);z-index:100;max-height:300px;overflow-y:auto;display:none}
-.search-results.active{display:block}
-.search-result-item{padding:12px 15px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.2s}
-.search-result-item:hover{background:var(--bg)}
-.search-result-item:last-child{border-bottom:none}
-.search-result-type{font-size:10px;color:var(--primary);text-transform:uppercase;font-weight:600;margin-bottom:2px}
-.search-result-title{font-size:14px;font-weight:600;color:var(--text)}
-.search-result-meta{font-size:12px;color:var(--text-muted)}
-
-@media print{
-@page{margin:15mm}
-*{visibility:hidden}
-body{background:#fff;padding:0;margin:0}
-.contract-preview,.contract-preview *{visibility:visible;display:block;color:#000!important;background:#fff!important}
-.contract-preview{position:absolute;left:0;top:0;width:100%;margin:0;padding:0;border:none;box-shadow:none;display:block!important}
-.app-header,.bottom-nav,.btn,.card:not(.contract-container),footer,.modal-overlay,.toast,.search-results{display:none!important}
-}
-@media(min-width:768px){
-.main-content{max-width:900px;margin:60px auto 0}
-.bottom-nav{display:none}
-body{padding-bottom:20px}
-.stats-grid{grid-template-columns:repeat(4,1fr)}
-}
-@media(max-width:480px){
-.form-row{grid-template-columns:1fr}
-.stats-grid{grid-template-columns:repeat(2,1fr)}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DJ Brow - Sistema Financeiro Completo</title>
+    
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Login Screen */
+        .login-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .login-box h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .login-box .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-success { background: #28a745; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-warning { background: #ffc107; color: #000; }
+        .btn-info { background: #17a2b8; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        /* App Layout */
+        .app-container {
+            display: none;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: #2d3748;
+            color: white;
+            padding: 20px 0;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid #4a5568;
+            text-align: center;
+        }
+        
+        .sidebar-header h2 {
+            font-size: 20px;
+            color: #fff;
+        }
+        
+        .sidebar-header p {
+            font-size: 12px;
+            color: #a0aec0;
+            margin-top: 5px;
+        }
+        
+        .nav-menu {
+            list-style: none;
+            padding: 20px 0;
+        }
+        
+        .nav-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: #4a5568;
+            border-left-color: #667eea;
+        }
+        
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .main-content {
+            margin-left: 260px;
+            padding: 30px;
+        }
+        
+        .header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            color: #2d3748;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        /* Cards Dashboard */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+        }
+        
+        .stat-card.receitas::before { background: #28a745; }
+        .stat-card.pendentes::before { background: #ffc107; }
+        .stat-card.atrasados::before { background: #dc3545; }
+        .stat-card.eventos::before { background: #667eea; }
+        
+        .stat-card h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+        
+        .stat-change {
+            font-size: 12px;
+            margin-top: 5px;
+            color: #28a745;
+        }
+        
+        .stat-change.negative {
+            color: #dc3545;
+        }
+        
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        
+        tr:hover {
+            background: #f7fafc;
+        }
+        
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-success { background: #d4edda; color: #155724; }
+        .badge-warning { background: #fff3cd; color: #856404; }
+        .badge-danger { background: #f8d7da; color: #721c24; }
+        .badge-info { background: #d1ecf1; color: #0c5460; }
+        
+        /* Forms */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        /* Search Box */
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 25px;
+        }
+        
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        /* Signature Pad */
+        .signature-container {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            background: #fafafa;
+        }
+        
+        #signaturePad {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: crosshair;
+            max-width: 100%;
+        }
+        
+        /* Contract Preview */
+        .contract-preview {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            font-family: 'Times New Roman', serif;
+            line-height: 1.6;
+        }
+        
+        .contract-preview h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .contract-preview h3 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+        }
+        
+        /* Financial Summary */
+        .financial-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .financial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .financial-item h4 {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .financial-item p {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        /* Installments */
+        .installment-item {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px;
+            background: #f7fafc;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .installment-item.paid {
+            background: #d4edda;
+        }
+        
+        /* QR Code */
+        #qrcode {
+            margin: 20px auto;
+            text-align: center;
+        }
+        
+        /* Print Styles */
+        @media print {
+            .sidebar, .header, .btn, .no-print {
+                display: none !important;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 0;
+            }
+            .contract-preview {
+                border: none;
+                padding: 0;
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Charts */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 20px 0;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 3000;
+            animation: slideIn 0.3s;
+        }
+        
+        .toast.show {
+            display: flex;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(400px); }
+            to { transform: translateX(0); }
+        }
+        
+        .toast.success { border-left: 4px solid #28a745; }
+        .toast.error { border-left: 4px solid #dc3545; }
+        .toast.warning { border-left: 4px solid #ffc107; }
+    </style>
 </head>
 <body>
 
-<header class="app-header">
-<h1>🎧 DJ Brow</h1>
-<div class="header-actions">
-<button class="header-btn" onclick="UI.toggleTheme()" title="Tema">🌓</button>
-</div>
-</header>
-
-<main class="main-content">
-
-<!-- DASHBOARD -->
-<section id="dashboard" class="section active">
-<div class="search-container">
-<span class="search-icon">🔍</span>
-<input type="text" class="search-input" id="globalSearch" placeholder="Buscar cliente, evento, CPF..." autocomplete="off">
-<div class="search-results" id="searchResults"></div>
-</div>
-
-<div class="quick-actions">
-<div class="quick-action-btn" onclick="Router.navigate('clientes')">
-<div class="quick-action-icon">👤</div>
-<div class="quick-action-text">Novo Cliente</div>
-</div>
-<div class="quick-action-btn" onclick="Router.navigate('eventos')">
-<div class="quick-action-icon">🎉</div>
-<div class="quick-action-text">Novo Evento</div>
-</div>
-<div class="quick-action-btn" onclick="Router.navigate('financeiro')">
-<div class="quick-action-icon">💵</div>
-<div class="quick-action-text">Lançamento</div>
-</div>
-<div class="quick-action-btn" onclick="Router.navigate('contrato')">
-<div class="quick-action-icon">📄</div>
-<div class="quick-action-text">Contrato</div>
-</div>
-</div>
-
-<div class="financial-summary">
-<h3 style="font-size:14px;margin-bottom:12px;opacity:0.9">📈 Resumo do Mês</h3>
-<div class="financial-grid">
-<div class="financial-item">
-<div class="financial-value" id="mesEntradas">R$ 0,00</div>
-<div class="financial-label">Entradas</div>
-</div>
-<div class="financial-item">
-<div class="financial-value" id="mesSaidas">R$ 0,00</div>
-<div class="financial-label">Saídas</div>
-</div>
-<div class="financial-item">
-<div class="financial-value" id="mesLucro">R$ 0,00</div>
-<div class="financial-label">Lucro</div>
-</div>
-<div class="financial-item">
-<div class="financial-value" id="mesEventos">0</div>
-<div class="financial-label">Eventos</div>
-</div>
-</div>
-</div>
-
-<div class="card">
-<div class="card-title">📅 Próximos Eventos <span id="contadorEventos" style="margin-left:auto;font-size:13px;color:var(--text-muted)">0</span></div>
-<div id="listaEventosDashboard"></div>
-</div>
-
-<div class="card">
-<div class="card-title">💰 A Receber</div>
-<div id="listaAReceber"></div>
-</div>
-</section>
-
-<!-- CLIENTES -->
-<section id="clientes" class="section">
-<div class="card">
-<div class="card-title">👤 Cadastrar Cliente</div>
-<form id="formCliente" onsubmit="Clientes.salvar(event)">
-<input type="hidden" id="clienteId">
-<div class="form-row">
-<div class="form-group" style="flex:2">
-<label class="form-label">Nome Completo *</label>
-<input type="text" class="form-control" id="cli_nome" required placeholder="Nome completo">
-</div>
-<div class="form-group">
-<label class="form-label">CPF *</label>
-<input type="text" class="form-control" id="cli_cpf" required placeholder="000.000.000-00" maxlength="14">
-</div>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label class="form-label">RG</label>
-<input type="text" class="form-control" id="cli_rg" placeholder="00.000.000-0" maxlength="12">
-</div>
-<div class="form-group">
-<label class="form-label">Telefone *</label>
-<input type="text" class="form-control" id="cli_tel" required placeholder="(00) 00000-0000" maxlength="15">
-</div>
-<div class="form-group">
-<label class="form-label">E-mail</label>
-<input type="email" class="form-control" id="cli_email" placeholder="email@exemplo.com">
-</div>
-</div>
-<div class="form-row">
-<div class="form-group" style="flex:1">
-<label class="form-label">CEP</label>
-<input type="text" class="form-control" id="cli_cep" placeholder="00000-000" maxlength="9" onblur="Clientes.buscarCep()">
-</div>
-<div class="form-group" style="flex:3">
-<label class="form-label">Rua/Avenida</label>
-<input type="text" class="form-control" id="cli_end" placeholder="Endereço">
-</div>
-<div class="form-group" style="flex:1">
-<label class="form-label">Número</label>
-<input type="text" class="form-control" id="cli_numero" placeholder="Nº">
-</div>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label class="form-label">Bairro</label>
-<input type="text" class="form-control" id="cli_bairro" placeholder="Bairro">
-</div>
-<div class="form-group">
-<label class="form-label">Cidade</label>
-<input type="text" class="form-control" id="cli_cidade" placeholder="Cidade">
-</div>
-<div class="form-group">
-<label class="form-label">UF</label>
-<input type="text" class="form-control" id="cli_uf" placeholder="UF" maxlength="2">
-</div>
-</div>
-<button type="submit" class="btn btn-lg">💾 Salvar Cliente</button>
-</form>
-</div>
-
-<div class="card">
-<div class="card-title">📋 Clientes (<span id="totalClientes">0</span>)</div>
-<div id="listaClientes"></div>
-</div>
-</section>
-
-<!-- EVENTOS -->
-<section id="eventos" class="section">
-<div class="tabs" id="tabsEventos">
-<div class="tab active" data-filtro="todos">Todos</div>
-<div class="tab" data-filtro="agendados">Agendados</div>
-<div class="tab" data-filtro="hoje">Hoje</div>
-<div class="tab" data-filtro="semana">Semana</div>
-<div class="tab" data-filtro="concluidos">Concluídos</div>
-</div>
-
-<div class="card">
-<div class="card-title">🎉 Novo Evento</div>
-<form id="formEvento" onsubmit="Eventos.salvar(event)">
-<input type="hidden" id="eventoId">
-<div class="form-group">
-<label class="form-label">Cliente *</label>
-<select class="form-control" id="evt_cliente_id" required>
-<option value="">Selecione o cliente...</option>
-</select>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label class="form-label">Tipo de Evento *</label>
-<select class="form-control" id="evt_tipo" required>
-<option value="Casamento">Casamento</option>
-<option value="Aniversário">Aniversário</option>
-<option value="Corporativo">Corporativo</option>
-<option value="Debutante">Debutante</option>
-<option value="Formatura">Formatura</option>
-<option value="Outro">Outro</option>
-</select>
-</div>
-<div class="form-group">
-<label class="form-label">Data *</label>
-<input type="date" class="form-control" id="evt_data" required>
-</div>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label class="form-label">Início *</label>
-<input type="time" class="form-control" id="evt_inicio" required>
-</div>
-<div class="form-group">
-<label class="form-label">Término *</label>
-<input type="time" class="form-control" id="evt_termino" required onchange="Eventos.calcularDuracao()">
-</div>
-<div class="form-group">
-<label class="form-label">Duração (horas)</label>
-<input type="text" class="form-control" id="evt_duracao" readonly placeholder="Auto">
-</div>
-</div>
-<div class="form-group">
-<label class="form-label">Local do Evento *</label>
-<input type="text" class="form-control" id="evt_local" required placeholder="Endereço completo do evento">
-</div>
-<div class="form-group">
-<label class="form-label">Serviços e Equipamentos *</label>
-<textarea class="form-control" id="evt_servicos" rows="3" required placeholder="Ex: Som para 200 pessoas, 04 Moving Heads, Máquina de fumaça, Iluminação de pista, DJ profissional..."></textarea>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label class="form-label">Valor Total (R$) *</label>
-<input type="text" class="form-control" id="evt_valor" required placeholder="0,00" oninput="Financeiro.mascaraValor(this)" onchange="Eventos.calcularSaldo()">
-</div>
-<div class="form-group">
-<label class="form-label">Entrada/Sinal (R$)</label>
-<input type="text" class="form-control" id="evt_entrada" placeholder="0,00" oninput="Financeiro.mascaraValor(this)" onchange="Eventos.calcularSaldo()">
-</div>
-<div class="form-group">
-<label class="form-label">Saldo Devedor</label>
-<input type="text" class="form-control" id="evt_saldo" readonly style="background:var(--bg);font-weight:700;color:var(--danger)">
-</div>
-</div>
-<div class="form-group">
-<label class="form-label">Forma de Pagamento</label>
-<input type="text" class="form-control" id="evt_pagamento" placeholder="Ex: 50% na reserva e 50% no dia do evento">
-</div>
-<button type="submit" class="btn btn-lg">💾 Salvar Evento</button>
-</form>
-</div>
-
-<div class="card">
-<div class="card-title">📋 Eventos</div>
-<div id="listaEventos"></div>
-</div>
-</section>
-
-<!-- FINANCEIRO -->
-<section id="financeiro" class="section">
-<div class="tabs" id="tabsFinanceiro">
-<div class="tab active" data-aba="lancamento">Lançamento</div>
-<div class="tab" data-aba="extrato">Extrato</div>
-<div class="tab" data-aba="relatorios">Relatórios</div>
-</div>
-
-<div id="abaLancamento" class="aba-financeiro">
-<div class="card">
-<div class="card-title">💵 Novo Lançamento</div>
-<form id="formLancamento" onsubmit="Financeiro.salvar(event)">
-<div class="form-row">
-<div class="form-group">
-<label class="form-label">Tipo *</label>
-<select class="form-control" id="fin_tipo" required onchange="Financeiro.toggleCliente()">
-<option value="entrada">Entrada (Recebimento)</option>
-<option value="saida">Saída (Despesa)</option>
-</select>
-</div>
-<div class="form-group">
-<label class="form-label">Valor (R$) *</label>
-<input type="text" class="form-control" id="fin_valor" required placeholder="0,00" oninput="Financeiro.mascaraValor(this)">
-</div>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label class="form-label">Data *</label>
-<input type="date" class="form-control" id="fin_data" required>
-</div>
-<div class="form-group">
-<label class="form-label">Categoria *</label>
-<select class="form-control" id="fin_categoria" required>
-<option value="Evento">Evento</option>
-<option value="Equipamento">Equipamento</option>
-<option value="Marketing">Marketing</option>
-<option value="Transporte">Transporte</option>
-<option value="Alimentação">Alimentação</option>
-<option value="Outros">Outros</option>
-</select>
-</div>
-</div>
-<div class="form-group" id="grupoClienteLancamento">
-<label class="form-label">Cliente (opcional)</label>
-<select class="form-control" id="fin_cliente_id" onchange="Financeiro.carregarEventos()">
-<option value="">Nenhum</option>
-</select>
-</div>
-<div class="form-group" id="grupoEventoLancamento" style="display:none">
-<label class="form-label">Evento (opcional)</label>
-<select class="form-control" id="fin_evento_id">
-<option value="">Nenhum</option>
-</select>
-</div>
-<div class="form-group">
-<label class="form-label">Descrição *</label>
-<input type="text" class="form-control" id="fin_descricao" required placeholder="Ex: Sinal do evento de Casamento">
-</div>
-<button type="submit" class="btn btn-lg">💾 Salvar Lançamento</button>
-</form>
-</div>
-</div>
-
-<div id="abaExtrato" class="aba-financeiro" style="display:none">
-<div class="card">
-<div class="card-title">📋 Extrato</div>
-<div class="form-row" style="margin-bottom:15px">
-<div class="form-group">
-<label class="form-label">De</label>
-<input type="date" class="form-control" id="ext_data_inicio" onchange="Financeiro.filtrarExtrato()">
-</div>
-<div class="form-group">
-<label class="form-label">Até</label>
-<input type="date" class="form-control" id="ext_data_fim" onchange="Financeiro.filtrarExtrato()">
-</div>
-<div class="form-group">
-<label class="form-label">Tipo</label>
-<select class="form-control" id="ext_tipo" onchange="Financeiro.filtrarExtrato()">
-<option value="todos">Todos</option>
-<option value="entrada">Entradas</option>
-<option value="saida">Saídas</option>
-</select>
-</div>
-</div>
-<div id="listaExtrato"></div>
-</div>
-</div>
-
-<div id="abaRelatorios" class="aba-financeiro" style="display:none">
-<div class="stats-grid">
-<div class="stat-card">
-<div class="stat-value" id="rel_total_entradas">R$ 0,00</div>
-<div class="stat-label">Total Entradas</div>
-</div>
-<div class="stat-card" style="background:linear-gradient(135deg,var(--danger) 0%,#c82333 100%)">
-<div class="stat-value" id="rel_total_saidas">R$ 0,00</div>
-<div class="stat-label">Total Saídas</div>
-</div>
-<div class="stat-card" style="background:linear-gradient(135deg,var(--success) 0%,#1e7e34 100%)">
-<div class="stat-value" id="rel_lucro">R$ 0,00</div>
-<div class="stat-label">Lucro Líquido</div>
-</div>
-<div class="stat-card" style="background:linear-gradient(135deg,var(--info) 0%,#117a8b 100%)">
-<div class="stat-value" id="rel_ticket_medio">R$ 0,00</div>
-<div class="stat-label">Ticket Médio</div>
-</div>
-</div>
-<div class="card">
-<div class="card-title">🏆 Top Clientes</div>
-<div id="listaTopClientes"></div>
-</div>
-</div>
-</section>
-
-<!-- CONTRATO -->
-<section id="contrato" class="section">
-<div class="card">
-<div class="card-title">📄 Gerar Contrato</div>
-<div class="form-group">
-<label class="form-label">Selecionar Evento *</label>
-<select class="form-control" id="contr_evento_id" onchange="Contrato.carregarDados()" required>
-<option value="">Selecione...</option>
-</select>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label class="form-label">Data do Contrato</label>
-<input type="date" class="form-control" id="contr_data">
-</div>
-<div class="form-group">
-<label class="form-label">Local de Assinatura</label>
-<input type="text" class="form-control" id="contr_local" placeholder="Ex: Quintana/SP">
-</div>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label class="form-label">Testemunha 1 - Nome</label>
-<input type="text" class="form-control" id="contr_test1_nome" placeholder="Nome completo">
-</div>
-<div class="form-group">
-<label class="form-label">Testemunha 1 - CPF/RG</label>
-<input type="text" class="form-control" id="contr_test1_doc" placeholder="Documento">
-</div>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label class="form-label">Testemunha 2 - Nome</label>
-<input type="text" class="form-control" id="contr_test2_nome" placeholder="Nome completo">
-</div>
-<div class="form-group">
-<label class="form-label">Testemunha 2 - CPF/RG</label>
-<input type="text" class="form-control" id="contr_test2_doc" placeholder="Documento">
-</div>
-</div>
-
-<div style="margin:15px 0">
-<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
-<span id="statusAssCliente" class="badge badge-danger">✗ Cliente não assinou</span>
-<span id="statusAssDJ" class="badge badge-danger">✗ DJ não assinou</span>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label class="form-label">Assinatura do CLIENTE</label>
-<canvas id="canvasAssCliente" class="signature-pad"></canvas>
-<div style="display:flex;gap:8px;margin-top:8px">
-<button type="button" class="btn btn-sm btn-secondary" onclick="Assinatura.limpar('cliente')">🗑️ Limpar</button>
-<button type="button" class="btn btn-sm btn-success" onclick="Assinatura.salvar('cliente')">✓ Confirmar</button>
-</div>
-</div>
-<div class="form-group">
-<label class="form-label">Assinatura do DJ (Marcelo)</label>
-<canvas id="canvasAssDJ" class="signature-pad"></canvas>
-<div style="display:flex;gap:8px;margin-top:8px">
-<button type="button" class="btn btn-sm btn-secondary" onclick="Assinatura.limpar('dj')">🗑️ Limpar</button>
-<button type="button" class="btn btn-sm btn-success" onclick="Assinatura.salvar('dj')">✓ Confirmar</button>
-</div>
-</div>
-</div>
-</div>
-
-<div style="display:flex;gap:10px;flex-wrap:wrap">
-<button class="btn btn-success" onclick="Contrato.visualizar()">👁️ Visualizar</button>
-<button class="btn btn-primary" onclick="Contrato.imprimir()">🖨️ Imprimir PDF</button>
-<button class="btn btn-secondary" onclick="Contrato.compartilharWhatsApp()">📱 WhatsApp</button>
-<button class="btn btn-secondary" onclick="Contrato.enviarEmail()">📧 Email</button>
-</div>
-</div>
-
-<div class="card contract-container" id="contractContainer" style="display:none">
-<div class="card-title">Prévia do Contrato</div>
-<div id="contractPreview" class="contract-preview"></div>
-</div>
-</section>
-
-</main>
-
-<nav class="bottom-nav">
-<button class="nav-item active" onclick="Router.navigate('dashboard')" data-tab="dashboard">
-<span class="icon">📊</span>
-<span>Início</span>
-</button>
-<button class="nav-item" onclick="Router.navigate('clientes')" data-tab="clientes">
-<span class="icon">👥</span>
-<span>Clientes</span>
-</button>
-<button class="nav-item" onclick="Router.navigate('eventos')" data-tab="eventos">
-<span class="icon">🎉</span>
-<span>Eventos</span>
-</button>
-<button class="nav-item" onclick="Router.navigate('financeiro')" data-tab="financeiro">
-<span class="icon">💰</span>
-<span>Caixa</span>
-</button>
-<button class="nav-item" onclick="Router.navigate('contrato')" data-tab="contrato">
-<span class="icon">📄</span>
-<span>Contrato</span>
-</button>
-</nav>
-
-<div id="toast" class="toast"></div>
-
-<script>
-// ==================== ESTADO E UTILITÁRIOS ====================
-const DB_VERSION = '1.1'; // Versão para controle de migração
-
-const DB = {
-dados: {
-clientes: [],
-eventos: [],
-lancamentos: [],
-assinaturas: {cliente:null,dj:null},
-config:{tema:'light', versao: DB_VERSION}
-},
-carregar(){
-const salvo = localStorage.getItem('djbrow_sistema');
-if(salvo) {
-const parsed = JSON.parse(salvo);
-// Migração de dados se necessário
-if(!parsed.config) parsed.config = {tema:'light', versao: DB_VERSION};
-if(!parsed.config.versao) parsed.config.versao = '1.0';
-this.dados = this.migrar(parsed);
-}
-},
-salvar(){
-this.dados.config.versao = DB_VERSION;
-localStorage.setItem('djbrow_sistema',JSON.stringify(this.dados));
-},
-migrar(dados){
-// Estratégia de migração simples
-if(dados.config.versao === DB_VERSION) return dados;
-// Adicionar campos novos se necessário
-if(!dados.assinaturas) dados.assinaturas = {cliente:null,dj:null};
-return dados;
-},
-backup(){
-const blob = new Blob([JSON.stringify(this.dados,null,2)],{type:'application/json'});
-const url = URL.createObjectURL(blob);
-const a = document.createElement('a');
-a.href = url;
-a.download = `djbrow_backup_${new Date().toISOString().split('T')[0]}.json`;
-a.click();
-URL.revokeObjectURL(url);
-}
-};
-
-const Utils = {
-formatarData(d){
-if(!d) return '';
-return new Date(d).toLocaleDateString('pt-BR');
-},
-dataExtenso(d){
-if(!d) return '';
-const data = new Date(d);
-const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-return `${data.getDate()} de ${meses[data.getMonth()]} de ${data.getFullYear()}`;
-},
-formatarMoeda(v){
-return 'R$ ' + parseFloat(v).toFixed(2).replace('.',',');
-},
-parseMoeda(v){
-if(typeof v === 'number') return v;
-// Remove R$, espaços e pontos de milhar, mantém vírgula decimal
-v = v.replace(/[R$\s]/g,'');
-v = v.replace(/\./g,'').replace(',','.');
-return parseFloat(v) || 0;
-},
-mascaraCPF(v){
-v=v.replace(/\D/g,'');
-v=v.replace(/(\d{3})(\d)/,'$1.$2');
-v=v.replace(/(\d{3})(\d)/,'$1.$2');
-v=v.replace(/(\d{3})(\d{1,2})$/,'$1-$2');
-return v;
-},
-mascaraRG(v){
-v=v.replace(/\D/g,'');
-v=v.replace(/(\d{2})(\d)/,'$1.$2');
-v=v.replace(/(\d{3})(\d)/,'$1.$2');
-v=v.replace(/(\d{3})(\d{1})$/,'$1-$2');
-return v;
-},
-mascaraTel(v){
-v=v.replace(/\D/g,'');
-v=v.replace(/(\d{2})(\d)/,'($1) $2');
-v=v.replace(/(\d{5})(\d)/,'$1-$2');
-return v;
-},
-mascaraCEP(v){
-v=v.replace(/\D/g,'');
-v=v.replace(/(\d{5})(\d)/,'$1-$2');
-return v;
-},
-debounce(fn,ms){
-let timeout;
-return function(...args){
-clearTimeout(timeout);
-timeout=setTimeout(()=>fn.apply(this,args),ms);
-}
-},
-confirmarSaida(formId){
-const form = document.getElementById(formId);
-if(!form) return true;
-const inputs = form.querySelectorAll('input:not([type="hidden"]), textarea, select');
-for(let input of inputs){
-if(input.value && input.value !== input.defaultValue){
-return 'Você tem alterações não salvas. Deseja realmente sair?';
-}
-}
-return true;
-}
-};
-
-// ==================== UI E NAVEGAÇÃO ====================
-const UI = {
-toast(msg,tipo='success'){
-const t=document.getElementById('toast');
-t.textContent=msg;
-t.className=`toast ${tipo} show`;
-setTimeout(()=>t.classList.remove('show'),3000);
-},
-toggleTheme(){
-const html=document.documentElement;
-const atual=html.getAttribute('data-theme');
-const novo=atual==='dark'?'light':'dark';
-html.setAttribute('data-theme',novo);
-DB.dados.config.tema=novo;
-DB.salvar();
-}
-};
-
-const Router = {
-atual:'dashboard',
-navegacaoConfirmada: false,
-navigate(pagina){
-// Verificar alterações não salvas
-if(this.atual !== pagina && !this.navegacaoConfirmada){
-const msg = Utils.confirmarSaida(this.getFormId(this.atual));
-if(msg !== true){
-if(!confirm(msg)) return;
-}
-}
-this.navegacaoConfirmada = false;
-
-document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-document.getElementById(pagina).classList.add('active');
-document.querySelectorAll('.nav-item').forEach(n=>{
-n.classList.toggle('active',n.dataset.tab===pagina);
-});
-this.atual=pagina;
-window.scrollTo(0,0);
-
-// Carrega dados específicos
-if(pagina==='clientes'){
-Clientes.atualizarLista();
-}
-if(pagina==='eventos'){
-Eventos.atualizarSelectClientes();
-Eventos.filtrar('todos');
-}
-if(pagina==='financeiro'){
-Financeiro.atualizarSelects();
-Financeiro.filtrarExtrato();
-}
-if(pagina==='contrato'){
-Contrato.atualizarSelectEventos();
-Assinatura.init();
-}
-if(pagina==='dashboard'){
-Dashboard.atualizar();
-}
-},
-getFormId(pagina){
-const map = {
-'clientes': 'formCliente',
-'eventos': 'formEvento',
-'financeiro': 'formLancamento'
-};
-return map[pagina];
-},
-confirmarNavegacao(){
-this.navegacaoConfirmada = true;
-}
-};
-
-// ==================== CLIENTES ====================
-const Clientes = {
-async buscarCep(){
-const cep=document.getElementById('cli_cep').value.replace(/\D/g,'');
-if(cep.length!==8){
-UI.toast('CEP inválido','warning');
-return;
-}
-try{
-const res=await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-const data=await res.json();
-if(!data.erro){
-document.getElementById('cli_end').value=data.logradouro||'';
-document.getElementById('cli_bairro').value=data.bairro||'';
-document.getElementById('cli_cidade').value=data.localidade||'';
-document.getElementById('cli_uf').value=data.uf||'';
-document.getElementById('cli_numero').focus();
-UI.toast('Endereço encontrado!');
-}else{
-UI.toast('CEP não encontrado','error');
-}
-}catch(e){
-UI.toast('Erro ao buscar CEP','error');
-console.error('CEP error',e);
-}
-},
-
-salvar(e){
-e.preventDefault();
-const id=document.getElementById('clienteId').value;
-const cliente={
-id:id?parseInt(id):Date.now(),
-nome:document.getElementById('cli_nome').value,
-cpf:document.getElementById('cli_cpf').value,
-rg:document.getElementById('cli_rg').value,
-telefone:document.getElementById('cli_tel').value,
-email:document.getElementById('cli_email').value,
-cep:document.getElementById('cli_cep').value,
-endereco:document.getElementById('cli_end').value,
-numero:document.getElementById('cli_numero').value,
-bairro:document.getElementById('cli_bairro').value,
-cidade:document.getElementById('cli_cidade').value,
-uf:document.getElementById('cli_uf').value,
-dataCadastro:new Date().toISOString()
-};
-
-// Remove duplicado e adiciona
-DB.dados.clientes=DB.dados.clientes.filter(c=>c.id!==cliente.id);
-DB.dados.clientes.push(cliente);
-DB.salvar();
-
-UI.toast('Cliente salvo com sucesso!');
-e.target.reset();
-document.getElementById('clienteId').value='';
-Router.confirmarNavegacao();
-this.atualizarLista();
-// Atualiza selects em outras páginas
-Eventos.atualizarSelectClientes();
-Financeiro.atualizarSelects();
-},
-
-atualizarLista(){
-const container=document.getElementById('listaClientes');
-document.getElementById('totalClientes').textContent=DB.dados.clientes.length;
-
-if(DB.dados.clientes.length===0){
-container.innerHTML='<div class="empty-state"><div class="empty-state-icon">👤</div><p>Nenhum cliente cadastrado</p></div>';
-return;
-}
-
-container.innerHTML=DB.dados.clientes.sort((a,b)=>a.nome.localeCompare(b.nome)).map(c=>{
-const totalEventos=DB.dados.eventos.filter(e=>e.clienteId===c.id).length;
-const totalRecebido=DB.dados.lancamentos.filter(l=>l.clienteId===c.id&&l.tipo==='entrada').reduce((s,l)=>s+l.valor,0);
-return`
-<div class="list-item">
-<div class="list-item-header">
-<div>
-<div class="list-item-title">${c.nome}</div>
-<div class="list-item-meta">📱 ${c.telefone} | 📍 ${c.cidade}/${c.uf}</div>
-<div style="margin-top:5px">
-<span class="badge badge-info">${totalEventos} eventos</span>
-<span class="badge badge-success">${Utils.formatarMoeda(totalRecebido)}</span>
-</div>
-</div>
-</div>
-<div class="list-item-actions">
-<button class="btn btn-sm btn-secondary" onclick="Clientes.editar(${c.id})">✏️</button>
-<button class="btn btn-sm" onclick="Eventos.novoComCliente(${c.id})">🎉 Novo Evento</button>
-<button class="btn btn-sm btn-danger" onclick="Clientes.excluir(${c.id})">🗑️</button>
-</div>
-</div>
-`;
-}).join('');
-},
-
-editar(id){
-const c=DB.dados.clientes.find(x=>x.id===id);
-if(!c)return;
-document.getElementById('clienteId').value=c.id;
-document.getElementById('cli_nome').value=c.nome;
-document.getElementById('cli_cpf').value=c.cpf;
-document.getElementById('cli_rg').value=c.rg||'';
-document.getElementById('cli_tel').value=c.telefone;
-document.getElementById('cli_email').value=c.email||'';
-document.getElementById('cli_cep').value=c.cep||'';
-document.getElementById('cli_end').value=c.endereco||'';
-document.getElementById('cli_numero').value=c.numero||'';
-document.getElementById('cli_bairro').value=c.bairro||'';
-document.getElementById('cli_cidade').value=c.cidade||'';
-document.getElementById('cli_uf').value=c.uf||'';
-window.scrollTo(0,0);
-},
-
-excluir(id){
-if(!confirm('Excluir cliente e todos seus eventos?'))return;
-DB.dados.clientes=DB.dados.clientes.filter(c=>c.id!==id);
-DB.dados.eventos=DB.dados.eventos.filter(e=>e.clienteId!==id);
-DB.dados.lancamentos=DB.dados.lancamentos.filter(l=>l.clienteId!==id);
-DB.salvar();
-this.atualizarLista();
-Eventos.atualizarSelectClientes();
-Financeiro.atualizarSelects();
-UI.toast('Cliente excluído!');
-}
-};
-
-// ==================== EVENTOS ====================
-const Eventos = {
-init(){
-document.getElementById('tabsEventos').addEventListener('click',(e)=>{
-if(e.target.classList.contains('tab')){
-document.querySelectorAll('#tabsEventos .tab').forEach(t=>t.classList.remove('active'));
-e.target.classList.add('active');
-this.filtrar(e.target.dataset.filtro);
-}
-});
-},
-
-atualizarSelectClientes(){
-const sel=document.getElementById('evt_cliente_id');
-const opts=DB.dados.clientes.sort((a,b)=>a.nome.localeCompare(b.nome)).map(c=>`<option value="${c.id}">${c.nome} - ${c.cidade}</option>`).join('');
-sel.innerHTML='<option value="">Selecione o cliente...</option>'+opts;
-},
-
-calcularDuracao(){
-const inicio=document.getElementById('evt_inicio').value;
-const termino=document.getElementById('evt_termino').value;
-if(!inicio||!termino)return;
-
-const [h1,m1]=inicio.split(':').map(Number);
-const [h2,m2]=termino.split(':').map(Number);
-let min1=h1*60+m1;
-let min2=h2*60+m2;
-
-// Se o término é menor que o início, assume que é no dia seguinte (evento noturno)
-if(min2 < min1) min2 += 24*60;
-const duracao=(min2-min1)/60;
-
-document.getElementById('evt_duracao').value=duracao.toFixed(1).replace('.',',');
-},
-
-calcularSaldo(){
-const total=Utils.parseMoeda(document.getElementById('evt_valor').value)||0;
-const entrada=Utils.parseMoeda(document.getElementById('evt_entrada').value)||0;
-const saldo=total-entrada;
-document.getElementById('evt_saldo').value=Utils.formatarMoeda(saldo);
-},
-
-salvar(e){
-e.preventDefault();
-const id=document.getElementById('eventoId').value;
-const clienteId=parseInt(document.getElementById('evt_cliente_id').value);
-const cliente=DB.dados.clientes.find(c=>c.id===clienteId);
-
-const evento={
-id:id?parseInt(id):Date.now(),
-clienteId:clienteId,
-clienteNome:cliente.nome,
-tipo:document.getElementById('evt_tipo').value,
-data:document.getElementById('evt_data').value,
-inicio:document.getElementById('evt_inicio').value,
-termino:document.getElementById('evt_termino').value,
-duracao:document.getElementById('evt_duracao').value,
-local:document.getElementById('evt_local').value,
-servicos:document.getElementById('evt_servicos').value,
-valorTotal:Utils.parseMoeda(document.getElementById('evt_valor').value),
-valorEntrada:Utils.parseMoeda(document.getElementById('evt_entrada').value)||0,
-formaPagamento:document.getElementById('evt_pagamento').value,
-concluido:false,
-dataCadastro:new Date().toISOString()
-};
-
-// Se tem entrada, cria lançamento automático
-if(evento.valorEntrada>0&&!id){
-const lancamento={
-id:Date.now(),
-tipo:'entrada',
-valor:evento.valorEntrada,
-descricao:`Sinal - ${evento.tipo} de ${cliente.nome}`,
-clienteId:clienteId,
-eventoId:evento.id,
-data:new Date().toISOString().split('T')[0],
-categoria:'Evento'
-};
-DB.dados.lancamentos.push(lancamento);
-}
-
-DB.dados.eventos=DB.dados.eventos.filter(ev=>ev.id!==evento.id);
-DB.dados.eventos.push(evento);
-DB.salvar();
-
-UI.toast('Evento salvo com sucesso!');
-e.target.reset();
-document.getElementById('eventoId').value='';
-Router.confirmarNavegacao();
-this.filtrar('todos');
-Dashboard.atualizar();
-},
-
-filtrar(filtro){
-const hoje=new Date();
-hoje.setHours(0,0,0,0);
-const container=document.getElementById('listaEventos');
-
-let eventos=DB.dados.eventos.filter(e=>{
-if(filtro==='concluidos')return e.concluido;
-if(filtro==='agendados')return!e.concluido&&new Date(e.data)>=hoje;
-if(filtro==='hoje')return e.data===hoje.toISOString().split('T')[0];
-if(filtro==='semana'){
-const semana=new Date(hoje);
-semana.setDate(semana.getDate()+7);
-return new Date(e.data)>=hoje&&new Date(e.data)<=semana;
-}
-return!e.concluido;
-});
-
-eventos.sort((a,b)=>new Date(a.data)-new Date(b.data));
-
-if(eventos.length===0){
-container.innerHTML='<div class="empty-state"><div class="empty-state-icon">📅</div><p>Nenhum evento encontrado</p></div>';
-return;
-}
-
-container.innerHTML=eventos.map(e=>{
-const data=new Date(e.data);
-const dias=Math.ceil((data-hoje)/(1000*60*60*24));
-let status=dias<0?'Concluído':dias===0?'HOJE!':dias===1?'Amanhã':`Em ${dias} dias`;
-let badge=dias<0?'badge-secondary':dias===0?'badge-danger':dias<=7?'badge-warning':'badge-info';
-
-const recebido=DB.dados.lancamentos.filter(l=>l.eventoId===e.id&&l.tipo==='entrada').reduce((s,l)=>s+l.valor,0);
-const pct=e.valorTotal>0?(recebido/e.valorTotal*100):0;
-
-return`
-<div class="list-item" style="${dias<0?'opacity:0.7':''}">
-<div class="list-item-header">
-<div>
-<div class="list-item-title">${e.tipo} - ${e.clienteNome}</div>
-<div class="list-item-meta">📅 ${Utils.formatarData(e.data)} | ⏰ ${e.inicio} às ${e.termino}</div>
-<div class="list-item-meta">📍 ${e.local}</div>
-<div style="margin-top:5px">
-<span class="badge ${badge}">${status}</span>
-<span class="badge ${pct>=100?'badge-success':'badge-warning'}">
-${Utils.formatarMoeda(recebido)} / ${Utils.formatarMoeda(e.valorTotal)}
-</span>
-</div>
-<div class="progress-bar"><div class="progress-fill" style="width:${Math.min(pct,100)}%">${pct.toFixed(0)}%</div></div>
-</div>
-</div>
-<div class="list-item-actions">
-${dias>=0?`
-<button class="btn btn-sm btn-secondary" onclick="Financeiro.addPagamento(${e.id})">💵 Pagar</button>
-<button class="btn btn-sm" onclick="Contrato.gerarDoEvento(${e.id})">📄 Contrato</button>
-<button class="btn btn-sm btn-success" onclick="Eventos.concluir(${e.id})">✓ Concluir</button>
-`:`<button class="btn btn-sm btn-secondary" onclick="Eventos.reativar(${e.id})">↩ Reativar</button>`}
-<button class="btn btn-sm btn-secondary" onclick="Eventos.editar(${e.id})">✏️</button>
-<button class="btn btn-sm btn-danger" onclick="Eventos.excluir(${e.id})">🗑️</button>
-</div>
-</div>
-`;
-}).join('');
-},
-
-concluir(id){
-const e=DB.dados.eventos.find(x=>x.id===id);
-if(e){e.concluido=true;DB.salvar();this.filtrar('todos');Dashboard.atualizar();UI.toast('Evento concluído!');}
-},
-
-reativar(id){
-const e=DB.dados.eventos.find(x=>x.id===id);
-if(e){e.concluido=false;DB.salvar();this.filtrar('todos');Dashboard.atualizar();UI.toast('Evento reativado!');}
-},
-
-editar(id){
-const e=DB.dados.eventos.find(x=>x.id===id);
-if(!e)return;
-document.getElementById('eventoId').value=e.id;
-document.getElementById('evt_cliente_id').value=e.clienteId;
-document.getElementById('evt_tipo').value=e.tipo;
-document.getElementById('evt_data').value=e.data;
-document.getElementById('evt_inicio').value=e.inicio;
-document.getElementById('evt_termino').value=e.termino;
-document.getElementById('evt_duracao').value=e.duracao;
-document.getElementById('evt_local').value=e.local;
-document.getElementById('evt_servicos').value=e.servicos;
-document.getElementById('evt_valor').value=Utils.formatarMoeda(e.valorTotal);
-document.getElementById('evt_entrada').value=Utils.formatarMoeda(e.valorEntrada);
-document.getElementById('evt_pagamento').value=e.formaPagamento||'';
-this.calcularSaldo();
-window.scrollTo(0,0);
-},
-
-excluir(id){
-if(!confirm('Excluir este evento?'))return;
-DB.dados.eventos=DB.dados.eventos.filter(e=>e.id!==id);
-DB.dados.lancamentos=DB.dados.lancamentos.filter(l=>l.eventoId!==id);
-DB.salvar();
-this.filtrar('todos');
-Dashboard.atualizar();
-UI.toast('Evento excluído!');
-},
-
-novoComCliente(id){
-Router.navigate('eventos');
-document.getElementById('evt_cliente_id').value=id;
-}
-};
-
-// ==================== FINANCEIRO ====================
-const Financeiro = {
-init(){
-document.getElementById('tabsFinanceiro').addEventListener('click',(e)=>{
-if(e.target.classList.contains('tab')){
-document.querySelectorAll('#tabsFinanceiro .tab').forEach(t=>t.classList.remove('active'));
-e.target.classList.add('active');
-document.querySelectorAll('.aba-financeiro').forEach(a=>a.style.display='none');
-document.getElementById('aba'+e.target.dataset.aba.charAt(0).toUpperCase()+e.target.dataset.aba.slice(1)).style.display='block';
-if(e.target.dataset.aba==='relatorios')this.gerarRelatorios();
-}
-});
-},
-
-mascaraValor(el){
-if(typeof el==='string')el=document.getElementById(el);
-let v=el.value.replace(/\D/g,'');
-v=(v/100).toFixed(2)+'';
-v=v.replace('.',',');
-v=v.replace(/(\d)(\d{3})(\d{3}),/g,'$1.$2.$3,');
-v=v.replace(/(\d)(\d{3}),/g,'$1.$2,');
-el.value='R$ '+v;
-},
-
-toggleCliente(){
-const tipo=document.getElementById('fin_tipo').value;
-const grupo=document.getElementById('grupoClienteLancamento');
-grupo.style.display=tipo==='entrada'?'block':'none';
-if(tipo!=='entrada'){
-document.getElementById('fin_cliente_id').value='';
-document.getElementById('grupoEventoLancamento').style.display='none';
-}
-},
-
-atualizarSelects(){
-const selCliente=document.getElementById('fin_cliente_id');
-const opts=DB.dados.clientes.sort((a,b)=>a.nome.localeCompare(b.nome)).map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');
-selCliente.innerHTML='<option value="">Nenhum</option>'+opts;
-},
-
-carregarEventos(){
-const clienteId=document.getElementById('fin_cliente_id').value;
-const sel=document.getElementById('fin_evento_id');
-const grupo=document.getElementById('grupoEventoLancamento');
-
-if(!clienteId){
-grupo.style.display='none';
-return;
-}
-
-const eventos=DB.dados.eventos.filter(e=>e.clienteId===parseInt(clienteId)&&!e.concluido);
-if(eventos.length===0){
-grupo.style.display='none';
-return;
-}
-
-sel.innerHTML='<option value="">Nenhum</option>'+eventos.map(e=>`<option value="${e.id}">${e.tipo} - ${Utils.formatarData(e.data)}</option>`).join('');
-grupo.style.display='block';
-},
-
-salvar(e){
-e.preventDefault();
-const lancamento={
-id:Date.now(),
-tipo:document.getElementById('fin_tipo').value,
-valor:Utils.parseMoeda(document.getElementById('fin_valor').value),
-data:document.getElementById('fin_data').value,
-categoria:document.getElementById('fin_categoria').value,
-clienteId:document.getElementById('fin_cliente_id').value||null,
-eventoId:document.getElementById('fin_evento_id').value||null,
-descricao:document.getElementById('fin_descricao').value
-};
-
-DB.dados.lancamentos.push(lancamento);
-DB.salvar();
-
-UI.toast('Lançamento salvo!');
-e.target.reset();
-Router.confirmarNavegacao();
-Dashboard.atualizar();
-this.filtrarExtrato();
-},
-
-addPagamento(eventoId){
-const evento=DB.dados.eventos.find(e=>e.id===eventoId);
-if(!evento)return;
-
-const recebido=DB.dados.lancamentos.filter(l=>l.eventoId===eventoId&&l.tipo==='entrada').reduce((s,l)=>s+l.valor,0);
-const saldo=evento.valorTotal-recebido;
-
-const valor=prompt(`Valor do pagamento:\nSaldo restante: ${Utils.formatarMoeda(saldo)}`);
-if(!valor||isNaN(valor))return;
-
-const forma=prompt('Forma de pagamento:','Pix')||'Não especificado';
-
-const lancamento={
-id:Date.now(),
-tipo:'entrada',
-valor:parseFloat(valor),
-descricao:`Pagamento - ${evento.tipo} de ${evento.clienteNome}`,
-clienteId:evento.clienteId,
-eventoId:eventoId,
-data:new Date().toISOString().split('T')[0],
-categoria:'Evento'
-};
-DB.dados.lancamentos.push(lancamento);
-DB.salvar();
-
-UI.toast('Pagamento registrado!');
-Eventos.filtrar('todos');
-Dashboard.atualizar();
-},
-
-filtrarExtrato(){
-const inicio=document.getElementById('ext_data_inicio').value;
-const fim=document.getElementById('ext_data_fim').value;
-const tipo=document.getElementById('ext_tipo').value;
-
-let lancamentos=DB.dados.lancamentos.filter(l=>{
-if(inicio&&l.data<inicio)return false;
-if(fim&&l.data>fim)return false;
-if(tipo!=='todos'&&l.tipo!==tipo)return false;
-return true;
-});
-
-lancamentos.sort((a,b)=>new Date(b.data)-new Date(a.data));
-
-const entradas=lancamentos.filter(l=>l.tipo==='entrada').reduce((s,l)=>s+l.valor,0);
-const saidas=lancamentos.filter(l=>l.tipo==='saida').reduce((s,l)=>s+l.valor,0);
-
-const container=document.getElementById('listaExtrato');
-container.innerHTML=`
-<div style="display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap">
-<div style="background:var(--success);color:#fff;padding:8px 15px;border-radius:6px;font-size:13px">
-<strong>Entradas:</strong> ${Utils.formatarMoeda(entradas)}
-</div>
-<div style="background:var(--danger);color:#fff;padding:8px 15px;border-radius:6px;font-size:13px">
-<strong>Saídas:</strong> ${Utils.formatarMoeda(saidas)}
-</div>
-<div style="background:var(--primary);color:#fff;padding:8px 15px;border-radius:6px;font-size:13px">
-<strong>Saldo:</strong> ${Utils.formatarMoeda(entradas-saidas)}
-</div>
-</div>
-`+(lancamentos.length===0?'<div class="empty-state"><div class="empty-state-icon">💰</div><p>Nenhum lançamento</p></div>':lancamentos.map(l=>{
-const cliente=l.clienteId?DB.dados.clientes.find(c=>c.id===l.clienteId):null;
-return`
-<div class="list-item" style="border-left-color:${l.tipo==='entrada'?'var(--success)':'var(--danger)'}">
-<div class="list-item-header">
-<div>
-<div class="list-item-title" style="color:${l.tipo==='entrada'?'var(--success)':'var(--danger)'}">
-${l.tipo==='entrada'?'↑':'↓'} ${Utils.formatarMoeda(l.valor)}
-</div>
-<div class="list-item-meta">📅 ${Utils.formatarData(l.data)} | 📂 ${l.categoria}</div>
-<div class="list-item-meta">📝 ${l.descricao}</div>
-${cliente?`<div class="list-item-meta">👤 ${cliente.nome}</div>`:''}
-</div>
-</div>
-<div class="list-item-actions">
-<button class="btn btn-sm btn-danger" onclick="Financeiro.excluir(${l.id})">🗑️</button>
-</div>
-</div>
-`;
-}).join(''));
-},
-
-excluir(id){
-if(!confirm('Excluir este lançamento?'))return;
-DB.dados.lancamentos=DB.dados.lancamentos.filter(l=>l.id!==id);
-DB.salvar();
-this.filtrarExtrato();
-Dashboard.atualizar();
-UI.toast('Lançamento excluído!');
-},
-
-gerarRelatorios(){
-const entradas=DB.dados.lancamentos.filter(l=>l.tipo==='entrada').reduce((s,l)=>s+l.valor,0);
-const saidas=DB.dados.lancamentos.filter(l=>l.tipo==='saida').reduce((s,l)=>s+l.valor,0);
-const eventos=DB.dados.eventos.length;
-const ticket=eventos>0?entradas/eventos:0;
-
-document.getElementById('rel_total_entradas').textContent=Utils.formatarMoeda(entradas);
-document.getElementById('rel_total_saidas').textContent=Utils.formatarMoeda(saidas);
-document.getElementById('rel_lucro').textContent=Utils.formatarMoeda(entradas-saidas);
-document.getElementById('rel_ticket_medio').textContent=Utils.formatarMoeda(ticket);
-
-// Top clientes
-const clientesValor=DB.dados.clientes.map(c=>{
-const total=DB.dados.lancamentos.filter(l=>l.clienteId===c.id&&l.tipo==='entrada').reduce((s,l)=>s+l.valor,0);
-return{...c,total};
-}).sort((a,b)=>b.total-a.total).slice(0,5);
-
-document.getElementById('listaTopClientes').innerHTML=clientesValor.map((c,i)=>`
-<div class="list-item" style="${i===0?'border-left-color:gold':''}">
-<div class="list-item-header">
-<div>
-<div class="list-item-title">${i+1}º ${c.nome} ${i===0?'👑':''}</div>
-<div class="list-item-meta">${DB.dados.eventos.filter(e=>e.clienteId===c.id).length} eventos</div>
-</div>
-<div class="stat-value" style="font-size:18px">${Utils.formatarMoeda(c.total)}</div>
-</div>
-</div>
-`).join('');
-}
-};
-
-// ==================== ASSINATURA ====================
-const Assinatura = {
-pads:{},
-signatureData: {cliente: null, dj: null},
-
-init(){
-// Evita reinicialização desnecessária
-if(this.pads.cliente && this.pads.dj) return;
-this.initCanvas('canvasAssCliente','cliente');
-this.initCanvas('canvasAssDJ','dj');
-// Restaura assinaturas salvas se existirem
-if(DB.dados.assinaturas.cliente) {
-this.signatureData.cliente = DB.dados.assinaturas.cliente;
-this.restaurarAssinatura('cliente');
-}
-if(DB.dados.assinaturas.dj) {
-this.signatureData.dj = DB.dados.assinaturas.dj;
-this.restaurarAssinatura('dj');
-}
-},
-
-initCanvas(id,tipo){
-const canvas=document.getElementById(id);
-if(!canvas)return;
-
-const ctx=canvas.getContext('2d');
-let desenhando=false;
-
-const resize=()=>{
-const rect=canvas.parentElement.getBoundingClientRect();
-const imgData = this.signatureData[tipo]; // Salva antes de redimensionar
-
-canvas.width=rect.width-4;
-canvas.height=150;
-ctx.strokeStyle='#000';
-ctx.lineWidth=2;
-ctx.lineCap='round';
-ctx.lineJoin='round';
-
-// Restaura a imagem se existir
-if(imgData){
-const img = new Image();
-img.onload = () => {
-ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-};
-img.src = imgData;
-}
-};
-
-resize();
-window.addEventListener('resize',Utils.debounce(()=>{
-resize();
-// Reaplica a assinatura salva após resize
-if(this.signatureData[tipo]){
-setTimeout(() => this.restaurarAssinatura(tipo), 100);
-}
-},200));
-
-const getPos=(e)=>{
-const rect=canvas.getBoundingClientRect();
-const clientX=e.touches?e.touches[0].clientX:e.clientX;
-const clientY=e.touches?e.touches[0].clientY:e.clientY;
-return{
-x:clientX-rect.left,
-y:clientY-rect.top
-};
-};
-
-const iniciar=(e)=>{
-desenhando=true;
-const pos=getPos(e);
-ctx.beginPath();
-ctx.moveTo(pos.x,pos.y);
-e.preventDefault();
-};
-
-const desenhar=(e)=>{
-if(!desenhando)return;
-const pos=getPos(e);
-ctx.lineTo(pos.x,pos.y);
-ctx.stroke();
-e.preventDefault();
-};
-
-const parar=()=>{
-desenhando=false;
-ctx.beginPath();
-// Auto-salva ao parar de desenhar
-this.signatureData[tipo] = canvas.toDataURL('image/png');
-};
-
-canvas.addEventListener('mousedown',iniciar);
-canvas.addEventListener('mousemove',desenhar);
-canvas.addEventListener('mouseup',parar);
-canvas.addEventListener('mouseout',parar);
-canvas.addEventListener('touchstart',iniciar,{passive:false});
-canvas.addEventListener('touchmove',desenhar,{passive:false});
-canvas.addEventListener('touchend',parar);
-
-this.pads[tipo]={
-canvas, 
-ctx, 
-limpar:()=>{
-ctx.clearRect(0,0,canvas.width,canvas.height);
-this.signatureData[tipo] = null;
-DB.dados.assinaturas[tipo]=null;
-this.atualizarStatus(tipo,false);
-DB.salvar();
-},
-salvar:()=>{
-const dataURL=canvas.toDataURL('image/png');
-this.signatureData[tipo] = dataURL;
-DB.dados.assinaturas[tipo]=dataURL;
-this.atualizarStatus(tipo,true);
-DB.salvar();
-UI.toast(`Assinatura ${tipo==='cliente'?'do cliente':'do DJ'} salva!`);
-}
-};
-},
-
-restaurarAssinatura(tipo){
-if(!this.pads[tipo] || !this.signatureData[tipo]) return;
-const {canvas, ctx} = this.pads[tipo];
-const img = new Image();
-img.onload = () => {
-ctx.clearRect(0,0,canvas.width,canvas.height);
-ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-};
-img.src = this.signatureData[tipo];
-},
-
-limpar(tipo){
-if(this.pads[tipo])this.pads[tipo].limpar();
-},
-
-salvar(tipo){
-if(this.pads[tipo])this.pads[tipo].salvar();
-},
-
-atualizarStatus(tipo,salva){
-const span=document.getElementById(tipo==='cliente'?'statusAssCliente':'statusAssDJ');
-if(salva){
-span.className='badge badge-success';
-span.textContent=tipo==='cliente'?'✓ Cliente assinou':'✓ DJ assinou';
-}else{
-span.className='badge badge-danger';
-span.textContent=tipo==='cliente'?'✗ Cliente não assinou':'✗ DJ não assinou';
-}
-}
-};
-
-// ==================== CONTRATO ====================
-const Contrato = {
-atualizarSelectEventos(){
-const sel=document.getElementById('contr_evento_id');
-const eventos=DB.dados.eventos.filter(e=>!e.concluido).sort((a,b)=>new Date(a.data)-new Date(b.data));
-sel.innerHTML='<option value="">Selecione...</option>'+eventos.map(e=>{
-const cliente=DB.dados.clientes.find(c=>c.id===e.clienteId);
-return`<option value="${e.id}">${e.tipo} - ${cliente?cliente.nome:'Cliente'} (${Utils.formatarData(e.data)})</option>`;
-}).join('');
-},
-
-carregarDados(){
-const eventoId=document.getElementById('contr_evento_id').value;
-if(!eventoId)return;
-
-const evento=DB.dados.eventos.find(e=>e.id===parseInt(eventoId));
-const cliente=DB.dados.clientes.find(c=>c.id===evento.clienteId);
-
-// Preenche dados automáticos
-document.getElementById('contr_local').value=cliente?`${cliente.cidade}/${cliente.uf}`:'Quintana/SP';
-document.getElementById('contr_data').value=new Date().toISOString().split('T')[0];
-},
-
-validarAssinaturas(){
-const assCliente=DB.dados.assinaturas.cliente;
-const assDJ=DB.dados.assinaturas.dj;
-if(!assCliente || !assDJ){
-UI.toast('Ambas as assinaturas são obrigatórias!','error');
-return false;
-}
-return true;
-},
-
-gerarHTML(){
-const eventoId=document.getElementById('contr_evento_id').value;
-if(!eventoId)return null;
-
-const evento=DB.dados.eventos.find(e=>e.id===parseInt(eventoId));
-const cliente=DB.dados.clientes.find(c=>c.id===evento.clienteId);
-
-const contratado={
-nome_artistico:'DJ Brow',
-nome_civil:'Marcelo da Cruz',
-cpf:'200.050.638-09',
-rg:'27.325.130-2',
-telefone:'(14) 99765-4321',
-endereco:'Avenida São João, 195',
-cidade:'Quintana',
-uf:'SP'
-};
-
-const dataLocal=(document.getElementById('contr_local').value||'Quintana/SP')+', '+Utils.dataExtenso(document.getElementById('contr_data').value);
-
-const testemunhas={
-t1_nome:document.getElementById('contr_test1_nome').value,
-t1_doc:document.getElementById('contr_test1_doc').value,
-t2_nome:document.getElementById('contr_test2_nome').value,
-t2_doc:document.getElementById('contr_test2_doc').value
-};
-
-const enderecoCliente=`${cliente.endereco||''}${cliente.numero?', Nº '+cliente.numero:''}${cliente.bairro?' — Bairro: '+cliente.bairro:''} — ${cliente.cidade||''}/${cliente.uf||''}`;
-
-// Verifica assinaturas
-const assCliente=DB.dados.assinaturas.cliente;
-const assDJ=DB.dados.assinaturas.dj;
-
-return`
-<div id="pdfContent">
-<h2>CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE DJ</h2>
-
-<h3>CONTRATADO</h3>
-<p><strong>Nome artístico:</strong> ${contratado.nome_artistico}<br>
-<strong>Nome civil:</strong> ${contratado.nome_civil}<br>
-<strong>CPF:</strong> ${contratado.cpf} &nbsp;&nbsp; <strong>RG:</strong> ${contratado.rg} &nbsp;&nbsp; <strong>Telefone:</strong> ${contratado.telefone}<br>
-<strong>Endereço:</strong> ${contratado.endereco} — ${contratado.cidade}/${contratado.uf}</p>
-
-<h3>CONTRATANTE</h3>
-<p><strong>Nome:</strong> ${cliente.nome}<br>
-<strong>CPF:</strong> ${cliente.cpf} &nbsp;&nbsp; <strong>RG:</strong> ${cliente.rg||'__________________'} &nbsp;&nbsp; <strong>Telefone:</strong> ${cliente.telefone}<br>
-<strong>Endereço:</strong> ${enderecoCliente}</p>
-
-<h3>DO EVENTO E SERVIÇOS</h3>
-<p><strong>Local:</strong> ${evento.local}<br>
-<strong>Data:</strong> ${Utils.formatarData(evento.data)} — <strong>Início:</strong> ${evento.inicio} — <strong>Término:</strong> ${evento.termino} — <strong>Duração:</strong> ${evento.duracao} horas<br>
-<strong>Valor total:</strong> ${Utils.formatarMoeda(evento.valorTotal)} — <strong>Forma de pagamento:</strong> ${evento.formaPagamento||'A combinar'}<br>
-<strong>Serviços e equipamentos inclusos:</strong><br>${evento.servicos.replace(/\n/g,'<br>')}</p>
-
-<h3>CLÁUSULAS</h3>
-<p><strong>Cláusula 1ª — Do Objeto:</strong> O presente contrato tem por objeto a prestação de serviços de DJ e sonorização para o evento descrito, incluindo montagem e operação do sistema de som, iluminação de pista e demais equipamentos necessários à execução do serviço.</p>
-
-<p><strong>Cláusula 2ª — Do Pagamento e Desistência:</strong> O valor total do serviço será de ${Utils.formatarMoeda(evento.valorTotal)}, com forma e prazos de pagamento detalhados: <strong>${evento.formaPagamento||'A definir'}</strong>. O pagamento do sinal ou primeira parcela caracteriza a reserva da data. Em caso de desistência por parte da CONTRATANTE, o valor do sinal ou valores já pagos não serão devolvidos, podendo ser cobrado o valor integral se a desistência ocorrer em menos de 30 dias da data do evento.</p>
-
-<p><strong>Cláusula 3ª — Das Obrigações da Contratante:</strong> A CONTRATANTE compromete-se a disponibilizar estrutura adequada para a realização do evento, incluindo mesa, ponto de energia elétrica compatível com os equipamentos e condições de segurança para montagem e operação.</p>
-
-<p><strong>Cláusula 4ª — Das Obrigações do Contratado:</strong> O CONTRATADO compromete-se a realizar os serviços conforme acordado, garantindo qualidade técnica, pontualidade e bom atendimento durante todo o evento.</p>
-
-<p><strong>Cláusula 5ª — Das Despesas:</strong> As despesas com alimentação, transporte, alvarás, licenças ou taxas de direitos autorais (ECAD) são de exclusiva responsabilidade da CONTRATANTE.</p>
-
-<p><strong>Cláusula 6ª — Rescisão e Força Maior:</strong> O presente contrato poderá ser rescindido por qualquer das partes em caso de descumprimento das cláusulas aqui pactuadas. Caso ocorra impossibilidade de comparecimento do CONTRATADO por motivo de força maior, este se compromete a indicar profissional substituto de igual qualidade ou a devolver integralmente os valores pagos.</p>
-
-<p><strong>Cláusula 7ª — Proteção dos Equipamentos:</strong> A CONTRATANTE se responsabiliza pela integridade dos equipamentos durante o evento. Em caso de danos ou roubo por falha na segurança do local, a CONTRATANTE deverá ressarcir o CONTRATADO.</p>
-
-<p><strong>Cláusula 8ª — Interrupção dos Serviços:</strong> Em caso de falhas de energia não sanadas, clima adverso (eventos ao ar livre) ou riscos à segurança, o CONTRATADO poderá suspender ou encerrar as atividades sem obrigação de devolução de valores.</p>
-
-<p><strong>Cláusula 9ª — Uso de Imagem:</strong> O CONTRATANTE autoriza o CONTRATADO a registrar imagens do evento para fins de divulgação profissional, salvo manifestação contrária expressa por escrito.</p>
-
-<p><strong>Cláusula 10ª — Foro:</strong> Para dirimir quaisquer controvérsias, as partes elegem o foro da comarca de Quintana/SP.</p>
-
-<p style="margin-top:20px">E por estarem de pleno acordo, firmam o presente contrato em 02 (duas) vias de igual teor e forma, na data e local abaixo indicados:</p>
-
-<p style="text-align:center;font-style:italic;margin:15px 0"><strong>${dataLocal}</strong></p>
-
-<div class="assinaturas">
-<div class="assinatura-box">
-${assCliente?`<img src="${assCliente}" style="max-height:60px;margin-bottom:5px">`:'<div style="height:60px"></div>'}
-<div class="linha-assinatura">CONTRATANTE<br><small>${cliente.nome}</small></div>
-</div>
-<div class="assinatura-box">
-${assDJ?`<img src="${assDJ}" style="max-height:60px;margin-bottom:5px">`:'<div style="height:60px"></div>'}
-<div class="linha-assinatura">CONTRATADO<br><small>Marcelo da Cruz (DJ Brow)</small></div>
-</div>
-</div>
-
-<p style="margin-top:20px;text-align:center"><strong>TESTEMUNHAS</strong></p>
-<div style="display:flex;justify-content:space-around;margin-top:10px">
-<div style="width:45%">
-<div style="border-top:1px solid #000;padding-top:5px;margin-top:30px"></div>
-<p class="testemunha-info">Nome: ${testemunhas.t1_nome||'________________________________'}</p>
-<p class="testemunha-info">CPF/RG: ${testemunhas.t1_doc||'________________________________'}</p>
-</div>
-<div style="width:45%">
-<div style="border-top:1px solid #000;padding-top:5px;margin-top:30px"></div>
-<p class="testemunha-info">Nome: ${testemunhas.t2_nome||'________________________________'}</p>
-<p class="testemunha-info">CPF/RG: ${testemunhas.t2_doc||'________________________________'}</p>
-</div>
-</div>
-</div>
-`;
-},
-
-visualizar(){
-const html=this.gerarHTML();
-if(!html){
-UI.toast('Selecione um evento!','error');
-return;
-}
-document.getElementById('contractPreview').innerHTML=html;
-document.getElementById('contractContainer').style.display='block';
-document.getElementById('contractContainer').scrollIntoView({behavior:'smooth'});
-},
-
-imprimir(){
-if(!this.validarAssinaturas()) return;
-if(!document.getElementById('contractPreview').innerHTML){
-this.visualizar();
-setTimeout(()=>window.print(),500);
-return;
-}
-window.print();
-},
-
-gerarDoEvento(id){
-Router.navigate('contrato');
-document.getElementById('contr_evento_id').value=id;
-this.carregarDados();
-},
-
-compartilharWhatsApp(){
-const eventoId=document.getElementById('contr_evento_id').value;
-if(!eventoId){
-UI.toast('Selecione um evento!','error');
-return;
-}
-const evento=DB.dados.eventos.find(e=>e.id===parseInt(eventoId));
-const cliente=DB.dados.clientes.find(c=>c.id===evento.clienteId);
-
-const texto=`Olá ${cliente.nome}! 
-
-Segue o contrato do seu evento de ${evento.tipo} no dia ${Utils.formatarData(evento.data)}.
-
-*Valor:* ${Utils.formatarMoeda(evento.valorTotal)}
-*Local:* ${evento.local}
-*Horário:* ${evento.inicio} às ${evento.termino}
-
-Por favor, confirme o recebimento. Qualquer dúvida estou à disposição!
-
-DJ Brow - Marcelo da Cruz
-(14) 99765-4321`;
-
-const url='https://wa.me/?text='+encodeURIComponent(texto);
-window.open(url,'_blank');
-},
-
-enviarEmail(){
-const eventoId=document.getElementById('contr_evento_id').value;
-if(!eventoId){
-UI.toast('Selecione um evento!','error');
-return;
-}
-const evento=DB.dados.eventos.find(e=>e.id===parseInt(eventoId));
-const cliente=DB.dados.clientes.find(c=>c.id===evento.clienteId);
-
-const assunto=`Contrato - ${evento.tipo} - ${Utils.formatarData(evento.data)}`;
-const corpo=`Olá ${cliente.nome},
-
-Segue em anexo o contrato para o seu evento de ${evento.tipo}.
-
-Atenciosamente,
-DJ Brow - Marcelo da Cruz`;
-
-window.location.href=`mailto:${cliente.email||''}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
-}
-};
-
-// ==================== DASHBOARD ====================
-const Dashboard = {
-atualizar(){
-const hoje=new Date();
-const inicioMes=new Date(hoje.getFullYear(),hoje.getMonth(),1);
-
-const lancMes=DB.dados.lancamentos.filter(l=>new Date(l.data)>=inicioMes);
-const entradas=lancMes.filter(l=>l.tipo==='entrada').reduce((s,l)=>s+l.valor,0);
-const saidas=lancMes.filter(l=>l.tipo==='saida').reduce((s,l)=>s+l.valor,0);
-
-document.getElementById('mesEntradas').textContent=Utils.formatarMoeda(entradas);
-document.getElementById('mesSaidas').textContent=Utils.formatarMoeda(saidas);
-document.getElementById('mesLucro').textContent=Utils.formatarMoeda(entradas-saidas);
-document.getElementById('mesEventos').textContent=DB.dados.eventos.filter(e=>{
-const d=new Date(e.data);
-return d.getMonth()===hoje.getMonth()&&d.getFullYear()===hoje.getFullYear();
-}).length;
-
-// Próximos eventos
-const trintaDias=new Date(hoje);
-trintaDias.setDate(trintaDias.getDate()+30);
-
-const proximos=DB.dados.eventos
-.filter(e=>{
-const d=new Date(e.data);
-return d>=hoje&&d<=trintaDias&&!e.concluido;
-})
-.sort((a,b)=>new Date(a.data)-new Date(b.data))
-.slice(0,5);
-
-document.getElementById('contadorEventos').textContent=proximos.length+' eventos';
-
-const container=document.getElementById('listaEventosDashboard');
-if(proximos.length===0){
-container.innerHTML='<div class="empty-state"><div class="empty-state-icon">📅</div><p>Nenhum evento próximo</p></div>';
-}else{
-container.innerHTML=proximos.map(e=>{
-const d=new Date(e.data);
-const dias=Math.ceil((d-hoje)/(1000*60*60*24));
-let badge=dias===0?'badge-danger':dias<=7?'badge-warning':'badge-info';
-let txt=dias===0?'HOJE':dias===1?'AMANHÃ':`Em ${dias} dias`;
-return`
-<div class="list-item" onclick="Router.navigate('eventos')" style="cursor:pointer">
-<div class="list-item-header">
-<div>
-<div class="list-item-title">${e.tipo} - ${e.clienteNome}</div>
-<div class="list-item-meta">📅 ${Utils.formatarData(e.data)} | ⏰ ${e.inicio}</div>
-</div>
-<span class="badge ${badge}">${txt}</span>
-</div>
-</div>
-`;
-}).join('');
-}
-
-// A receber
-const aReceber=DB.dados.eventos
-.filter(e=>!e.concluido)
-.map(e=>{
-const recebido=DB.dados.lancamentos.filter(l=>l.eventoId===e.id&&l.tipo==='entrada').reduce((s,l)=>s+l.valor,0);
-const saldo=e.valorTotal-recebido;
-return{...e,saldo,recebido};
-})
-.filter(e=>e.saldo>0)
-.sort((a,b)=>new Date(a.data)-new Date(b.data));
-
-const containerReceber=document.getElementById('listaAReceber');
-if(aReceber.length===0){
-containerReceber.innerHTML='<div class="empty-state"><div class="empty-state-icon">💰</div><p>Nenhum valor pendente</p></div>';
-}else{
-containerReceber.innerHTML=aReceber.map(e=>`
-<div class="list-item" style="border-left-color:var(--warning)">
-<div class="list-item-header">
-<div>
-<div class="list-item-title">${e.clienteNome}</div>
-<div class="list-item-meta">${e.tipo} - ${Utils.formatarData(e.data)}</div>
-</div>
-<div style="text-align:right">
-<div style="font-size:18px;font-weight:700;color:var(--danger)">${Utils.formatarMoeda(e.saldo)}</div>
-<div style="font-size:11px;color:var(--text-muted)">de ${Utils.formatarMoeda(e.valorTotal)}</div>
-</div>
-</div>
-<div class="list-item-actions">
-<button class="btn btn-sm btn-success" onclick="Financeiro.addPagamento(${e.id})">Registrar Pagamento</button>
-</div>
-</div>
-`).join('');
-}
-}
-};
-
-// ==================== BUSCA GLOBAL ====================
-const Search = {
-init(){
-const input=document.getElementById('globalSearch');
-const results = document.getElementById('searchResults');
-input.addEventListener('input',Utils.debounce(()=>this.buscar(),300));
-// Fecha resultados ao clicar fora
-document.addEventListener('click', (e) => {
-if(!e.target.closest('.search-container')){
-results.classList.remove('active');
-}
-});
-},
-
-buscar(){
-const termo=document.getElementById('globalSearch').value.toLowerCase().trim();
-const resultsContainer = document.getElementById('searchResults');
-if(termo.length<2){
-resultsContainer.classList.remove('active');
-return;
-}
-
-// Busca em clientes
-const clientes=DB.dados.clientes.filter(c=>
-c.nome.toLowerCase().includes(termo)||
-c.cpf.includes(termo)||
-c.telefone.includes(termo)
-);
-
-// Busca em eventos
-const eventos=DB.dados.eventos.filter(e=>{
-const c=DB.dados.clientes.find(x=>x.id===e.clienteId);
-return e.tipo.toLowerCase().includes(termo)||
-e.local.toLowerCase().includes(termo)||
-c?.nome.toLowerCase().includes(termo);
-});
-
-if(clientes.length===0 && eventos.length===0){
-resultsContainer.innerHTML = '<div class="search-result-item">Nenhum resultado encontrado</div>';
-resultsContainer.classList.add('active');
-return;
-}
-
-let html = '';
-if(clientes.length > 0){
-html += '<div class="search-result-item" style="background:var(--bg);font-weight:600">Clientes</div>';
-html += clientes.slice(0,3).map(c => `
-<div class="search-result-item" onclick="Search.irParaCliente(${c.id})">
-<div class="search-result-type">Cliente</div>
-<div class="search-result-title">${c.nome}</div>
-<div class="search-result-meta">${c.telefone} | ${c.cidade}</div>
-</div>
-`).join('');
-}
-
-if(eventos.length > 0){
-html += '<div class="search-result-item" style="background:var(--bg);font-weight:600;margin-top:5px">Eventos</div>';
-html += eventos.slice(0,3).map(e => `
-<div class="search-result-item" onclick="Search.irParaEvento(${e.id})">
-<div class="search-result-type">${e.tipo}</div>
-<div class="search-result-title">${e.clienteNome}</div>
-<div class="search-result-meta">${Utils.formatarData(e.data)} | ${e.local}</div>
-</div>
-`).join('');
-}
-
-resultsContainer.innerHTML = html;
-resultsContainer.classList.add('active');
-},
-
-irParaCliente(id){
-document.getElementById('searchResults').classList.remove('active');
-document.getElementById('globalSearch').value = '';
-Router.navigate('clientes');
-Clientes.editar(id);
-},
-
-irParaEvento(id){
-document.getElementById('searchResults').classList.remove('active');
-document.getElementById('globalSearch').value = '';
-Router.navigate('eventos');
-Eventos.editar(id);
-}
-};
-
-// ==================== INICIALIZAÇÃO ====================
-document.addEventListener('DOMContentLoaded',()=>{
-DB.carregar();
-if(DB.dados.config.tema==='dark'){
-document.documentElement.setAttribute('data-theme','dark');
-}
-
-// Datas padrão
-const hoje=new Date().toISOString().split('T')[0];
-document.getElementById('fin_data').value=hoje;
-document.getElementById('evt_data').value=hoje;
-document.getElementById('ext_data_fim').value=hoje;
-const inicioMes=new Date();
-inicioMes.setDate(1);
-document.getElementById('ext_data_inicio').value=inicioMes.toISOString().split('T')[0];
-document.getElementById('contr_data').value = hoje;
-
-// Inicializa event listeners de máscara (apenas uma vez)
-document.getElementById('cli_cpf').addEventListener('input',(e)=>e.target.value=Utils.mascaraCPF(e.target.value));
-document.getElementById('cli_rg').addEventListener('input',(e)=>e.target.value=Utils.mascaraRG(e.target.value));
-document.getElementById('cli_tel').addEventListener('input',(e)=>e.target.value=Utils.mascaraTel(e.target.value));
-document.getElementById('cli_cep').addEventListener('input',(e)=>e.target.value=Utils.mascaraCEP(e.target.value));
-document.getElementById('evt_valor').addEventListener('input',(e)=>Financeiro.mascaraValor(e.target));
-document.getElementById('evt_entrada').addEventListener('input',(e)=>Financeiro.mascaraValor(e.target));
-document.getElementById('fin_valor').addEventListener('input',(e)=>Financeiro.mascaraValor(e.target));
-
-// Inicializa módulos
-Eventos.init();
-Financeiro.init();
-Search.init();
-
-// Dashboard inicial
-Dashboard.atualizar();
-
-console.log('DJ Brow - Sistema carregado! Versão:', DB_VERSION);
-});
-</script>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Operação realizada com sucesso!</span>
+    </div>
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-box">
+            <h1><i class="fas fa-music"></i> DJ Brow</h1>
+            <p class="subtitle">Sistema Financeiro e Gestão de Contratos</p>
+            
+            <div id="firstAccess" style="display: none;">
+                <div class="form-group">
+                    <label>Crie uma senha de acesso</label>
+                    <input type="password" id="newPassword" placeholder="Mínimo 6 caracteres">
+                </div>
+                <div class="form-group">
+                    <label>Confirme a senha</label>
+                    <input type="password" id="confirmPassword" placeholder="Repita a senha">
+                </div>
+                <button class="btn btn-primary" onclick="createPassword()">
+                    <i class="fas fa-lock"></i> Criar Acesso
+                </button>
+            </div>
+            
+            <div id="loginForm">
+                <div class="form-group">
+                    <label>Senha de Acesso</label>
+                    <input type="password" id="password" placeholder="Digite sua senha" onkeypress="if(event.key==='Enter')login()">
+                </div>
+                <button class="btn btn-primary" onclick="login()">
+                    <i class="fas fa-sign-in-alt"></i> Entrar no Sistema
+                </button>
+                <p style="margin-top: 15px; font-size: 12px; color: #666;">
+                    <i class="fas fa-info-circle"></i> Seus dados são salvos localmente neste dispositivo
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="appContainer" class="app-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-music"></i> DJ Brow</h2>
+                <p>Sistema Financeiro</p>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item active" onclick="showSection('dashboard')">
+                    <i class="fas fa-home"></i> Dashboard
+                </li>
+                <li class="nav-item" onclick="showSection('clients')">
+                    <i class="fas fa-users"></i> Clientes
+                </li>
+                <li class="nav-item" onclick="showSection('contracts')">
+                    <i class="fas fa-file-contract"></i> Contratos
+                </li>
+                <li class="nav-item" onclick="showSection('receipts')">
+                    <i class="fas fa-receipt"></i> Recibos
+                </li>
+                <li class="nav-item" onclick="showSection('reports')">
+                    <i class="fas fa-chart-bar"></i> Relatórios
+                </li>
+                <li class="nav-item" onclick="showSection('settings')">
+                    <i class="fas fa-cog"></i> Configurações
+                </li>
+                <li class="nav-item" onclick="logout()" style="margin-top: 30px; color: #fc8181;">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1 id="pageTitle">Dashboard</h1>
+                <div class="user-info">
+                    <span id="currentDate"></span>
+                    <button class="btn btn-secondary" onclick="backupData()">
+                        <i class="fas fa-download"></i> Backup
+                    </button>
+                </div>
+            </div>
+
+            <!-- DASHBOARD SECTION -->
+            <div id="dashboard" class="content-section active">
+                <div class="stats-grid">
+                    <div class="stat-card receitas">
+                        <h3>Receitas do Mês</h3>
+                        <div class="stat-value" id="monthRevenue">R$ 0,00</div>
+                        <div class="stat-change" id="revenueChange">+0% vs mês anterior</div>
+                    </div>
+                    <div class="stat-card pendentes">
+                        <h3>Pagamentos Pendentes</h3>
+                        <div class="stat-value" id="pendingAmount">R$ 0,00</div>
+                        <div class="stat-change" id="pendingCount">0 contratos</div>
+                    </div>
+                    <div class="stat-card atrasados">
+                        <h3>Valores Atrasados</h3>
+                        <div class="stat-value" id="overdueAmount">R$ 0,00</div>
+                        <div class="stat-change negative" id="overdueCount">0 contratos</div>
+                    </div>
+                    <div class="stat-card eventos">
+                        <h3>Eventos Próximos</h3>
+                        <div class="stat-value" id="upcomingEvents">0</div>
+                        <div class="stat-change">Nos próximos 30 dias</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Fluxo de Caixa - Últimos 6 Meses</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="cashFlowChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Próximos Eventos (7 dias)</span>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Cliente</th>
+                                    <th>Local</th>
+                                    <th>Valor Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="upcomingEventsTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CLIENTS SECTION -->
+            <div id="clients" class="content-section">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Gerenciar Clientes</span>
+                        <button class="btn btn-primary" onclick="openClientModal()">
+                            <i class="fas fa-plus"></i> Novo Cliente
+                        </button>
+                    </div>
+                    
+                    <div class="search-box">
+                        <input type="text" id="clientSearch" placeholder="Buscar cliente por nome, CPF ou telefone..." onkeyup="searchClients()">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>CPF</th>
+                                    <th>Telefone</th>
+                                    <th>Cidade</th>
+                                    <th>Contratos</th>
+                                    <th>Saldo Devedor</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clientsTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTRACTS SECTION -->
+            <div id="contracts" class="content-section">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Contratos e Eventos</span>
+                        <button class="btn btn-primary" onclick="openContractModal()">
+                            <i class="fas fa-plus"></i> Novo Contrato
+                        </button>
+                    </div>
+                    
+                    <div class="tabs">
+                        <div class="tab active" onclick="filterContracts('all')">Todos</div>
+                        <div class="tab" onclick="filterContracts('pending')">Pendentes</div>
+                        <div class="tab" onclick="filterContracts('signed')">Assinados</div>
+                        <div class="tab" onclick="filterContracts('completed')">Concluídos</div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nº</th>
+                                    <th>Cliente</th>
+                                    <th>Evento</th>
+                                    <th>Data</th>
+                                    <th>Valor Total</th>
+                                    <th>Pago</th>
+                                    <th>Restante</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contractsTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RECEIPTS SECTION -->
+            <div id="receipts" class="content-section">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Recibos Emitidos</span>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nº Recibo</th>
+                                    <th>Data</th>
+                                    <th>Cliente</th>
+                                    <th>Referente</th>
+                                    <th>Valor</th>
+                                    <th>Forma</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="receiptsTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REPORTS SECTION -->
+            <div id="reports" class="content-section">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Relatórios Financeiros</span>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Data Inicial</label>
+                            <input type="date" id="reportStartDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Data Final</label>
+                            <input type="date" id="reportEndDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo</label>
+                            <select id="reportType">
+                                <option value="general">Geral</option>
+                                <option value="byClient">Por Cliente</option>
+                                <option value="byMonth">Por Mês</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: flex-end;">
+                            <button class="btn btn-primary" onclick="generateReport()">
+                                <i class="fas fa-file-alt"></i> Gerar Relatório
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="reportResult"></div>
+                </div>
+            </div>
+
+            <!-- SETTINGS SECTION -->
+            <div id="settings" class="content-section">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Configurações do Sistema</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Nome da Empresa</label>
+                        <input type="text" id="companyName" value="DJ Brow">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>CNPJ/CPF</label>
+                        <input type="text" id="companyDoc" value="200.050.638-09">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Telefone</label>
+                        <input type="text" id="companyPhone" value="(14) 99765-4321">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Endereço</label>
+                        <input type="text" id="companyAddress" value="Avenida São João, 195 - Quintana/SP">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Alterar Senha</label>
+                        <input type="password" id="newSystemPassword" placeholder="Nova senha">
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="saveSettings()">
+                        <i class="fas fa-save"></i> Salvar Configurações
+                    </button>
+                    
+                    <hr style="margin: 30px 0;">
+                    
+                    <h3 style="margin-bottom: 15px;">Backup e Restauração</h3>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn btn-success" onclick="exportData()">
+                            <i class="fas fa-file-export"></i> Exportar Dados (JSON)
+                        </button>
+                        <button class="btn btn-warning" onclick="document.getElementById('importFile').click()">
+                            <i class="fas fa-file-import"></i> Importar Dados
+                        </button>
+                        <input type="file" id="importFile" style="display: none;" accept=".json" onchange="importData(this)">
+                        <button class="btn btn-danger" onclick="resetData()">
+                            <i class="fas fa-trash"></i> Limpar Todos os Dados
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- CLIENT MODAL -->
+    <div id="clientModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="clientModalTitle">Novo Cliente</h3>
+                <button class="close-btn" onclick="closeModal('clientModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="clientId">
+                
+                <div class="form-row">
+                    <div class="form-group" style="flex: 2;">
+                        <label>Nome Completo *</label>
+                        <input type="text" id="cli_nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label>CPF *</label>
+                        <input type="text" id="cli_cpf" oninput="maskCPF(this)" maxlength="14" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>RG</label>
+                        <input type="text" id="cli_rg" oninput="maskRG(this)" maxlength="12">
+                    </div>
+                    <div class="form-group">
+                        <label>Telefone *</label>
+                        <input type="text" id="cli_tel" oninput="maskPhone(this)" maxlength="15" required>
+                    </div>
+                    <div class="form-group">
+                        <label>E-mail</label>
+                        <input type="email" id="cli_email">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group" style="width: 150px;">
+                        <label>CEP</label>
+                        <input type="text" id="cli_cep" oninput="maskCEP(this)" onblur="searchCEP()" maxlength="9">
+                    </div>
+                    <div class="form-group" style="flex: 2;">
+                        <label>Endereço</label>
+                        <input type="text" id="cli_end">
+                    </div>
+                    <div class="form-group" style="width: 100px;">
+                        <label>Número</label>
+                        <input type="text" id="cli_numero">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Bairro</label>
+                        <input type="text" id="cli_bairro">
+                    </div>
+                    <div class="form-group">
+                        <label>Cidade</label>
+                        <input type="text" id="cli_cidade">
+                    </div>
+                    <div class="form-group" style="width: 80px;">
+                        <label>UF</label>
+                        <input type="text" id="cli_uf" maxlength="2">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('clientModal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="saveClient()">
+                    <i class="fas fa-save"></i> Salvar Cliente
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTRACT MODAL -->
+    <div id="contractModal" class="modal">
+        <div class="modal-content" style="max-width: 1000px;">
+            <div class="modal-header">
+                <h3 id="contractModalTitle">Novo Contrato</h3>
+                <button class="close-btn" onclick="closeModal('contractModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="contractId">
+                
+                <!-- Client Selection -->
+                <div class="form-group">
+                    <label>Selecionar Cliente *</label>
+                    <select id="contractClient" onchange="loadClientData()">
+                        <option value="">Selecione um cliente...</option>
+                    </select>
+                </div>
+                
+                <!-- Event Data -->
+                <h4 style="margin: 20px 0 10px; color: #667eea;">Dados do Evento</h4>
+                <div class="form-row">
+                    <div class="form-group" style="flex: 2;">
+                        <label>Local do Evento *</label>
+                        <input type="text" id="evt_local" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Data *</label>
+                        <input type="date" id="evt_data" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Horário Início</label>
+                        <input type="time" id="evt_inicio">
+                    </div>
+                    <div class="form-group">
+                        <label>Horário Término</label>
+                        <input type="time" id="evt_termino" onchange="calculateHours()">
+                    </div>
+                    <div class="form-group">
+                        <label>Horas Previstas</label>
+                        <input type="text" id="evt_horas" readonly>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Serviços e Equipamentos *</label>
+                    <textarea id="evt_servicos" rows="3" placeholder="Descreva os serviços, equipamentos, iluminação, etc." required></textarea>
+                </div>
+                
+                <!-- Financial Data -->
+                <h4 style="margin: 20px 0 10px; color: #667eea;">Dados Financeiros</h4>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Valor Total (R$) *</label>
+                        <input type="text" id="evt_valor" oninput="maskMoney(this)" onblur="updateFinancialCalc()" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Desconto (R$)</label>
+                        <input type="text" id="evt_desconto" oninput="maskMoney(this)" onblur="updateFinancialCalc()" value="0,00">
+                    </div>
+                    <div class="form-group">
+                        <label>Valor Final</label>
+                        <input type="text" id="evt_valor_final" readonly style="font-weight: bold; color: #28a745;">
+                    </div>
+                </div>
+                
+                <!-- Installments -->
+                <div class="form-group">
+                    <label>Forma de Pagamento e Parcelas</label>
+                    <div id="installmentsContainer">
+                        <!-- Dynamic installments -->
+                    </div>
+                    <button type="button" class="btn btn-info" onclick="addInstallment()" style="margin-top: 10px;">
+                        <i class="fas fa-plus"></i> Adicionar Parcela
+                    </button>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Total Pago</label>
+                        <input type="text" id="totalPaid" readonly style="color: #28a745; font-weight: bold;">
+                    </div>
+                    <div class="form-group">
+                        <label>Saldo Devedor</label>
+                        <input type="text" id="remainingBalance" readonly style="color: #dc3545; font-weight: bold;">
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <input type="text" id="contractStatus" readonly>
+                    </div>
+                </div>
+                
+                <!-- Signature -->
+                <h4 style="margin: 20px 0 10px; color: #667eea;">Assinatura Digital</h4>
+                <div class="signature-container">
+                    <canvas id="signaturePad" width="600" height="200"></canvas>
+                    <div style="margin-top: 10px;">
+                        <button type="button" class="btn btn-secondary" onclick="clearSignature()">
+                            <i class="fas fa-eraser"></i> Limpar
+                        </button>
+                        <span style="color: #666; font-size: 12px; margin-left: 10px;">
+                            Assine no quadro acima usando o mouse ou toque na tela
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="form-row" style="margin-top: 15px;">
+                    <div class="form-group">
+                        <label>Local da Assinatura</label>
+                        <input type="text" id="ass_local" value="Quintana/SP">
+                    </div>
+                    <div class="form-group">
+                        <label>Data da Assinatura</label>
+                        <input type="text" id="ass_data_extenso" placeholder="26 de Outubro de 2025">
+                        <button type="button" class="btn btn-secondary" onclick="fillTodayDate()" style="margin-top: 5px; padding: 5px 10px; font-size: 12px;">
+                            Preencher Data Atual
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('contractModal')">Cancelar</button>
+                <button class="btn btn-info" onclick="previewContract()">
+                    <i class="fas fa-eye"></i> Visualizar
+                </button>
+                <button class="btn btn-success" onclick="saveContract(false)">
+                    <i class="fas fa-save"></i> Salvar Rascunho
+                </button>
+                <button class="btn btn-primary" onclick="saveContract(true)">
+                    <i class="fas fa-file-signature"></i> Finalizar Contrato
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTRACT PREVIEW MODAL -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h3>Pré-visualização do Contrato</h3>
+                <button class="close-btn" onclick="closeModal('previewModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="contractPreviewContent" class="contract-preview"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('previewModal')">Fechar</button>
+                <button class="btn btn-primary" onclick="printContract()">
+                    <i class="fas fa-print"></i> Imprimir / Salvar PDF
+                </button>
+                <button class="btn btn-success" onclick="sendContractWhatsApp()">
+                    <i class="fab fa-whatsapp"></i> Enviar WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECEIPT MODAL -->
+    <div id="receiptModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>Emitir Recibo</h3>
+                <button class="close-btn" onclick="closeModal('receiptModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="receiptContractId">
+                <input type="hidden" id="receiptInstallmentIndex">
+                
+                <div class="form-group">
+                    <label>Valor</label>
+                    <input type="text" id="receiptValue" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label>Referente a</label>
+                    <input type="text" id="receiptReference">
+                </div>
+                
+                <div class="form-group">
+                    <label>Forma de Pagamento</label>
+                    <select id="receiptMethod">
+                        <option value="Dinheiro">Dinheiro</option>
+                        <option value="Pix">Pix</option>
+                        <option value="Transferência">Transferência</option>
+                        <option value="Cartão de Crédito">Cartão de Crédito</option>
+                        <option value="Cartão de Débito">Cartão de Débito</option>
+                        <option value="Boleto">Boleto</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Data do Pagamento</label>
+                    <input type="date" id="receiptDate" value="">
+                </div>
+                
+                <div id="qrcode"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('receiptModal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="generateReceipt()">
+                    <i class="fas fa-receipt"></i> Gerar Recibo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLIENT DETAIL MODAL -->
+    <div id="clientDetailModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3>Detalhes do Cliente</h3>
+                <button class="close-btn" onclick="closeModal('clientDetailModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="clientDetailContent">
+                <!-- Dynamic content -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('clientDetailModal')">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== DATA MANAGEMENT ====================
+        const DB = {
+            clients: [],
+            contracts: [],
+            receipts: [],
+            settings: {
+                companyName: 'DJ Brow',
+                companyDoc: '200.050.638-09',
+                companyPhone: '(14) 99765-4321',
+                companyAddress: 'Avenida São João, 195 - Quintana/SP',
+                password: null
+            }
+        };
+
+        let currentUser = null;
+        let signaturePad = null;
+        let cashFlowChart = null;
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            checkFirstAccess();
+            updateCurrentDate();
+            
+            // Initialize signature pad
+            initSignaturePad();
+            
+            // Set today's date for receipts
+            document.getElementById('receiptDate').value = new Date().toISOString().split('T')[0];
+            
+            // Set report date range
+            const today = new Date();
+            const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+            document.getElementById('reportEndDate').value = today.toISOString().split('T')[0];
+            document.getElementById('reportStartDate').value = thirtyDaysAgo.toISOString().split('T')[0];
+        });
+
+        function loadData() {
+            const saved = localStorage.getItem('djBrowDB');
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.assign(DB, data);
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('djBrowDB', JSON.stringify(DB));
+        }
+
+        function checkFirstAccess() {
+            if (!DB.settings.password) {
+                document.getElementById('firstAccess').style.display = 'block';
+                document.getElementById('loginForm').style.display = 'none';
+            }
+        }
+
+        function createPassword() {
+            const pass = document.getElementById('newPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+            
+            if (pass.length < 6) {
+                showToast('A senha deve ter pelo menos 6 caracteres', 'error');
+                return;
+            }
+            
+            if (pass !== confirm) {
+                showToast('As senhas não coincidem', 'error');
+                return;
+            }
+            
+            DB.settings.password = btoa(pass); // Simple encoding
+            saveData();
+            
+            showToast('Senha criada com sucesso! Faça login para continuar.', 'success');
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
+        }
+
+        function login() {
+            const pass = document.getElementById('password').value;
+            
+            if (btoa(pass) === DB.settings.password) {
+                currentUser = 'admin';
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('appContainer').style.display = 'block';
+                initDashboard();
+                showToast('Bem-vindo ao sistema!', 'success');
+            } else {
+                showToast('Senha incorreta', 'error');
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            location.reload();
+        }
+
+        // ==================== DASHBOARD ====================
+        function initDashboard() {
+            updateStats();
+            renderCashFlowChart();
+            renderUpcomingEvents();
+        }
+
+        function updateStats() {
+            const today = new Date();
+            const currentMonth = today.getMonth();
+            const currentYear = today.getFullYear();
+            
+            // Calculate monthly revenue
+            let monthRevenue = 0;
+            let pendingAmount = 0;
+            let overdueAmount = 0;
+            let pendingCount = 0;
+            let overdueCount = 0;
+            let upcomingCount = 0;
+            
+            DB.contracts.forEach(contract => {
+                const contractDate = new Date(contract.eventDate);
+                
+                // Revenue (paid amount)
+                if (contractDate.getMonth() === currentMonth && contractDate.getFullYear() === currentYear) {
+                    monthRevenue += contract.financial.paidAmount;
+                }
+                
+                // Pending and overdue
+                const remaining = contract.financial.remaining;
+                if (remaining > 0) {
+                    const eventDate = new Date(contract.eventDate);
+                    const daysUntilEvent = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
+                    
+                    if (daysUntilEvent < 0) {
+                        overdueAmount += remaining;
+                        overdueCount++;
+                    } else {
+                        pendingAmount += remaining;
+                        pendingCount++;
+                    }
+                }
+                
+                // Upcoming events (next 30 days)
+                const daysDiff = Math.ceil((contractDate - today) / (1000 * 60 * 60 * 24));
+                if (daysDiff >= 0 && daysDiff <= 30) {
+                    upcomingCount++;
+                }
+            });
+            
+            document.getElementById('monthRevenue').textContent = formatMoney(monthRevenue);
+            document.getElementById('pendingAmount').textContent = formatMoney(pendingAmount);
+            document.getElementById('overdueAmount').textContent = formatMoney(overdueAmount);
+            document.getElementById('pendingCount').textContent = `${pendingCount} contratos`;
+            document.getElementById('overdueCount').textContent = `${overdueCount} contratos`;
+            document.getElementById('upcomingEvents').textContent = upcomingCount;
+        }
+
+        function renderCashFlowChart() {
+            const ctx = document.getElementById('cashFlowChart').getContext('2d');
+            
+            // Prepare last 6 months data
+            const months = [];
+            const revenues = [];
+            const expenses = []; // For future implementation
+            
+            for (let i = 5; i >= 0; i--) {
+                const d = new Date();
+                d.setMonth(d.getMonth() - i);
+                months.push(d.toLocaleDateString('pt-BR', { month: 'short' }));
+                
+                const monthRevenue = DB.contracts.reduce((sum, c) => {
+                    const cd = new Date(c.eventDate);
+                    return (cd.getMonth() === d.getMonth() && cd.getFullYear() === d.getFullYear()) 
+                        ? sum + c.financial.paidAmount : sum;
+                }, 0);
+                
+                revenues.push(monthRevenue);
+            }
+            
+            if (cashFlowChart) cashFlowChart.destroy();
+            
+            cashFlowChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Receitas',
+                        data: revenues,
+                        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'R$ ' + value.toLocaleString('pt-BR');
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderUpcomingEvents() {
+            const tbody = document.getElementById('upcomingEventsTable');
+            tbody.innerHTML = '';
+            
+            const today = new Date();
+            const nextWeek = new Date(today.getTime() + (7 * 24 * 60 * 60 * 1000));
+            
+            const upcoming = DB.contracts
+                .filter(c => {
+                    const d = new Date(c.eventDate);
+                    return d >= today && d <= nextWeek;
+                })
+                .sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate))
+                .slice(0, 5);
+            
+            upcoming.forEach(contract => {
+                const client = DB.clients.find(c => c.id === contract.clientId);
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${formatDate(contract.eventDate)}</td>
+                    <td>${client ? client.name : 'N/A'}</td>
+                    <td>${contract.eventLocal}</td>
+                    <td>${formatMoney(contract.financial.finalValue)}</td>
+                    <td><span class="badge ${contract.status === 'signed' ? 'badge-success' : 'badge-warning'}">${contract.status === 'signed' ? 'Confirmado' : 'Pendente'}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // ==================== CLIENTS ====================
+        function renderClients() {
+            const tbody = document.getElementById('clientsTable');
+            tbody.innerHTML = '';
+            
+            const search = document.getElementById('clientSearch').value.toLowerCase();
+            
+            DB.clients.forEach(client => {
+                if (search && !client.name.toLowerCase().includes(search) && 
+                    !client.cpf.includes(search) && 
+                    !client.phone.includes(search)) return;
+                
+                // Calculate balance
+                const balance = DB.contracts
+                    .filter(c => c.clientId === client.id)
+                    .reduce((sum, c) => sum + c.financial.remaining, 0);
+                
+                const contractCount = DB.contracts.filter(c => c.clientId === client.id).length;
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${client.name}</td>
+                    <td>${client.cpf}</td>
+                    <td>${client.phone}</td>
+                    <td>${client.city}/${client.state}</td>
+                    <td>${contractCount}</td>
+                    <td style="color: ${balance > 0 ? '#dc3545' : '#28a745'}; font-weight: 600;">
+                        ${formatMoney(balance)}
+                    </td>
+                    <td>
+                        <button class="btn btn-info btn-sm" onclick="viewClient('${client.id}')" title="Ver detalhes">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-warning btn-sm" onclick="editClient('${client.id}')" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-primary btn-sm" onclick="openContractModal('${client.id}')" title="Novo contrato">
+                            <i class="fas fa-file-contract"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function searchClients() {
+            renderClients();
+        }
+
+        function openClientModal(clientId = null) {
+            document.getElementById('clientModalTitle').textContent = clientId ? 'Editar Cliente' : 'Novo Cliente';
+            document.getElementById('clientId').value = clientId || '';
+            
+            if (clientId) {
+                const client = DB.clients.find(c => c.id === clientId);
+                if (client) {
+                    document.getElementById('cli_nome').value = client.name;
+                    document.getElementById('cli_cpf').value = client.cpf;
+                    document.getElementById('cli_rg').value = client.rg || '';
+                    document.getElementById('cli_tel').value = client.phone;
+                    document.getElementById('cli_email').value = client.email || '';
+                    document.getElementById('cli_cep').value = client.cep || '';
+                    document.getElementById('cli_end').value = client.address || '';
+                    document.getElementById('cli_numero').value = client.number || '';
+                    document.getElementById('cli_bairro').value = client.neighborhood || '';
+                    document.getElementById('cli_cidade').value = client.city || '';
+                    document.getElementById('cli_uf').value = client.state || '';
+                }
+            } else {
+                // Clear form
+                document.querySelectorAll('#clientModal input').forEach(input => input.value = '');
+            }
+            
+            document.getElementById('clientModal').classList.add('active');
+        }
+
+        function saveClient() {
+            const id = document.getElementById('clientId').value;
+            const clientData = {
+                id: id || Date.now().toString(),
+                name: document.getElementById('cli_nome').value,
+                cpf: document.getElementById('cli_cpf').value,
+                rg: document.getElementById('cli_rg').value,
+                phone: document.getElementById('cli_tel').value,
+                email: document.getElementById('cli_email').value,
+                cep: document.getElementById('cli_cep').value,
+                address: document.getElementById('cli_end').value,
+                number: document.getElementById('cli_numero').value,
+                neighborhood: document.getElementById('cli_bairro').value,
+                city: document.getElementById('cli_cidade').value,
+                state: document.getElementById('cli_uf').value,
+                createdAt: new Date().toISOString()
+            };
+            
+            if (!clientData.name || !clientData.cpf || !clientData.phone) {
+                showToast('Preencha os campos obrigatórios', 'error');
+                return;
+            }
+            
+            if (id) {
+                const index = DB.clients.findIndex(c => c.id === id);
+                DB.clients[index] = { ...DB.clients[index], ...clientData };
+            } else {
+                DB.clients.push(clientData);
+            }
+            
+            saveData();
+            closeModal('clientModal');
+            renderClients();
+            showToast('Cliente salvo com sucesso!', 'success');
+        }
+
+        function editClient(id) {
+            openClientModal(id);
+        }
+
+        function viewClient(id) {
+            const client = DB.clients.find(c => c.id === id);
+            if (!client) return;
+            
+            const contracts = DB.contracts.filter(c => c.clientId === id);
+            const totalContracted = contracts.reduce((sum, c) => sum + c.financial.finalValue, 0);
+            const totalPaid = contracts.reduce((sum, c) => sum + c.financial.paidAmount, 0);
+            const totalPending = contracts.reduce((sum, c) => sum + c.financial.remaining, 0);
+            
+            let html = `
+                <div class="financial-summary">
+                    <h3 style="margin-bottom: 15px;">Resumo Financeiro</h3>
+                    <div class="financial-grid">
+                        <div class="financial-item">
+                            <h4>Total em Contratos</h4>
+                            <p>${formatMoney(totalContracted)}</p>
+                        </div>
+                        <div class="financial-item">
+                            <h4>Total Pago</h4>
+                            <p>${formatMoney(totalPaid)}</p>
+                        </div>
+                        <div class="financial-item">
+                            <h4>Saldo Devedor</h4>
+                            <p>${formatMoney(totalPending)}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4 style="margin: 20px 0 10px;">Dados do Cliente</h4>
+                <p><strong>Nome:</strong> ${client.name}</p>
+                <p><strong>CPF:</strong> ${client.cpf}</p>
+                <p><strong>RG:</strong> ${client.rg || 'N/A'}</p>
+                <p><strong>Telefone:</strong> ${client.phone}</p>
+                <p><strong>E-mail:</strong> ${client.email || 'N/A'}</p>
+                <p><strong>Endereço:</strong> ${client.address || ''}, ${client.number || ''} - ${client.neighborhood || ''}, ${client.city || ''}/${client.state || ''}</p>
+                
+                <h4 style="margin: 20px 0 10px;">Histórico de Contratos (${contracts.length})</h4>
+            `;
+            
+            if (contracts.length === 0) {
+                html += '<p>Nenhum contrato encontrado.</p>';
+            } else {
+                html += '<table style="width: 100%;"><thead><tr><th>Data</th><th>Local</th><th>Valor</th><th>Status</th></tr></thead><tbody>';
+                contracts.forEach(c => {
+                    html += `
+                        <tr>
+                            <td>${formatDate(c.eventDate)}</td>
+                            <td>${c.eventLocal}</td>
+                            <td>${formatMoney(c.financial.finalValue)}</td>
+                            <td><span class="badge ${c.status === 'completed' ? 'badge-success' : c.status === 'signed' ? 'badge-info' : 'badge-warning'}">${c.status}</span></td>
+                        </tr>
+                    `;
+                });
+                html += '</tbody></table>';
+            }
+            
+            document.getElementById('clientDetailContent').innerHTML = html;
+            document.getElementById('clientDetailModal').classList.add('active');
+        }
+
+        // ==================== CONTRACTS ====================
+        function renderContracts(filter = 'all') {
+            const tbody = document.getElementById('contractsTable');
+            tbody.innerHTML = '';
+            
+            let contracts = DB.contracts;
+            
+            if (filter !== 'all') {
+                contracts = contracts.filter(c => c.status === filter);
+            }
+            
+            contracts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            
+            contracts.forEach((contract, index) => {
+                const client = DB.clients.find(c => c.id === contract.clientId);
+                const tr = document.createElement('tr');
+                
+                let statusBadge = '';
+                if (contract.status === 'draft') statusBadge = '<span class="badge badge-warning">Rascunho</span>';
+                else if (contract.status === 'signed') statusBadge = '<span class="badge badge-info">Assinado</span>';
+                else if (contract.status === 'completed') statusBadge = '<span class="badge badge-success">Concluído</span>';
+                else if (contract.status === 'cancelled') statusBadge = '<span class="badge badge-danger">Cancelado</span>';
+                
+                tr.innerHTML = `
+                    <td>#${String(index + 1).padStart(3, '0')}</td>
+                    <td>${client ? client.name : 'N/A'}</td>
+                    <td>${contract.eventLocal}</td>
+                    <td>${formatDate(contract.eventDate)}</td>
+                    <td>${formatMoney(contract.financial.finalValue)}</td>
+                    <td>${formatMoney(contract.financial.paidAmount)}</td>
+                    <td style="color: ${contract.financial.remaining > 0 ? '#dc3545' : '#28a745'}; font-weight: 600;">
+                        ${formatMoney(contract.financial.remaining)}
+                    </td>
+                    <td>${statusBadge}</td>
+                    <td>
+                        <button class="btn btn-info btn-sm" onclick="viewContract('${contract.id}')" title="Visualizar">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-success btn-sm" onclick="openReceiptModal('${contract.id}')" title="Receber" ${contract.financial.remaining <= 0 ? 'disabled' : ''}>
+                            <i class="fas fa-dollar-sign"></i>
+                        </button>
+                        <button class="btn btn-warning btn-sm" onclick="editContract('${contract.id}')" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterContracts(status) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            renderContracts(status);
+        }
+
+        function openContractModal(clientId = null) {
+            document.getElementById('contractModalTitle').textContent = 'Novo Contrato';
+            document.getElementById('contractId').value = '';
+            
+            // Load clients dropdown
+            const select = document.getElementById('contractClient');
+            select.innerHTML = '<option value="">Selecione um cliente...</option>';
+            DB.clients.forEach(c => {
+                select.innerHTML += `<option value="${c.id}">${c.name} - ${c.cpf}</option>`;
+            });
+            
+            if (clientId) {
+                select.value = clientId;
+                loadClientData();
+            }
+            
+            // Clear form
+            document.querySelectorAll('#contractModal input:not([id^="ass_"]), #contractModal textarea').forEach(input => {
+                if (input.type !== 'hidden') input.value = '';
+            });
+            
+            // Initialize with one installment
+            document.getElementById('installmentsContainer').innerHTML = '';
+            addInstallment();
+            
+            // Clear signature
+            clearSignature();
+            
+            document.getElementById('contractModal').classList.add('active');
+        }
+
+        function loadClientData() {
+            const clientId = document.getElementById('contractClient').value;
+            if (!clientId) return;
+            
+            const client = DB.clients.find(c => c.id === clientId);
+            if (client) {
+                // Auto-fill some fields if needed
+            }
+        }
+
+        function addInstallment() {
+            const container = document.getElementById('installmentsContainer');
+            const index = container.children.length;
+            
+            const div = document.createElement('div');
+            div.className = 'installment-item';
+            div.innerHTML = `
+                <input type="date" class="inst-date" style="width: 150px;">
+                <input type="text" class="inst-value" placeholder="Valor" oninput="maskMoney(this)" style="width: 120px;">
+                <select class="inst-method" style="width: 150px;">
+                    <option value="Pix">Pix</option>
+                    <option value="Dinheiro">Dinheiro</option>
+                    <option value="Transferência">Transferência</option>
+                    <option value="Cartão">Cartão</option>
+                    <option value="Boleto">Boleto</option>
+                </select>
+                <select class="inst-status" onchange="updateFinancialCalc()">
+                    <option value="pending">Pendente</option>
+                    <option value="paid">Pago</option>
+                </select>
+                <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.remove(); updateFinancialCalc()">
+                    <i class="fas fa-trash"></i>
+                </button>
+            `;
+            
+            container.appendChild(div);
+        }
+
+        function updateFinancialCalc() {
+            const total = parseMoney(document.getElementById('evt_valor').value) || 0;
+            const discount = parseMoney(document.getElementById('evt_desconto').value) || 0;
+            const final = total - discount;
+            
+            document.getElementById('evt_valor_final').value = formatMoney(final);
+            
+            // Calculate paid amount from installments
+            let paid = 0;
+            document.querySelectorAll('.installment-item').forEach(item => {
+                if (item.querySelector('.inst-status').value === 'paid') {
+                    paid += parseMoney(item.querySelector('.inst-value').value) || 0;
+                }
+            });
+            
+            const remaining = final - paid;
+            
+            document.getElementById('totalPaid').value = formatMoney(paid);
+            document.getElementById('remainingBalance').value = formatMoney(remaining);
+            
+            let status = 'Rascunho';
+            if (remaining <= 0) status = 'Quitado';
+            else if (paid > 0) status = 'Parcial';
+            else status = 'Pendente';
+            
+            document.getElementById('contractStatus').value = status;
+        }
+
+        function calculateHours() {
+            const inicio = document.getElementById('evt_inicio').value;
+            const termino = document.getElementById('evt_termino').value;
+            
+            if (inicio && termino) {
+                const [h1, m1] = inicio.split(':').map(Number);
+                const [h2, m2] = termino.split(':').map(Number);
+                
+                let diff = (h2 * 60 + m2) - (h1 * 60 + m1);
+                if (diff < 0) diff += 24 * 60;
+                
+                const hours = (diff / 60).toFixed(1);
+                document.getElementById('evt_horas').value = hours.replace('.', ',');
+            }
+        }
+
+        function saveContract(finalize = false) {
+            const contractId = document.getElementById('contractId').value;
+            const clientId = document.getElementById('contractClient').value;
+            
+            if (!clientId) {
+                showToast('Selecione um cliente', 'error');
+                return;
+            }
+            
+            // Get installments
+            const installments = [];
+            document.querySelectorAll('.installment-item').forEach(item => {
+                installments.push({
+                    date: item.querySelector('.inst-date').value,
+                    value: parseMoney(item.querySelector('.inst-value').value),
+                    method: item.querySelector('.inst-method').value,
+                    status: item.querySelector('.inst-status').value,
+                    receiptNumber: item.querySelector('.inst-status').value === 'paid' ? generateReceiptNumber() : null
+                });
+            });
+            
+            const totalValue = parseMoney(document.getElementById('evt_valor').value) || 0;
+            const discount = parseMoney(document.getElementById('evt_desconto').value) || 0;
+            const paidAmount = installments.filter(i => i.status === 'paid').reduce((sum, i) => sum + i.value, 0);
+            
+            const contractData = {
+                id: contractId || Date.now().toString(),
+                clientId: clientId,
+                eventLocal: document.getElementById('evt_local').value,
+                eventDate: document.getElementById('evt_data').value,
+                eventStart: document.getElementById('evt_inicio').value,
+                eventEnd: document.getElementById('evt_termino').value,
+                eventHours: document.getElementById('evt_horas').value,
+                services: document.getElementById('evt_servicos').value,
+                signatureLocation: document.getElementById('ass_local').value,
+                signatureDate: document.getElementById('ass_data_extenso').value,
+                signatureData: signaturePad && !signaturePad.isEmpty() ? signaturePad.toDataURL() : null,
+                financial: {
+                    totalValue: totalValue,
+                    discount: discount,
+                    finalValue: totalValue - discount,
+                    paidAmount: paidAmount,
+                    remaining: (totalValue - discount) - paidAmount,
+                    installments: installments
+                },
+                status: finalize ? 'signed' : 'draft',
+                createdAt: contractId ? undefined : new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            if (contractId) {
+                const index = DB.contracts.findIndex(c => c.id === contractId);
+                DB.contracts[index] = { ...DB.contracts[index], ...contractData };
+            } else {
+                DB.contracts.push(contractData);
+            }
+            
+            saveData();
+            closeModal('contractModal');
+            renderContracts();
+            updateStats();
+            showToast(finalize ? 'Contrato finalizado com sucesso!' : 'Rascunho salvo!', 'success');
+            
+            if (finalize) {
+                // Generate contract PDF
+                setTimeout(() => previewContract(contractData.id), 500);
+            }
+        }
+
+        function previewContract(contractId = null) {
+            const id = contractId || document.getElementById('contractId').value;
+            const contract = DB.contracts.find(c => c.id === id);
+            if (!contract) return;
+            
+            const client = DB.clients.find(c => c.id === contract.clientId);
+            
+            // Build contract HTML (similar to your original but enhanced)
+            let html = `
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h1 style="color: #667eea; margin-bottom: 5px;">CONTRATO DE PRESTAÇÃO DE SERVIÇOS</h1>
+                    <h2>Serviços de DJ - ${DB.settings.companyName}</h2>
+                </div>
+                
+                <h3>CONTRATADO</h3>
+                <p><strong>Nome:</strong> ${DB.settings.companyName} - Marcelo da Cruz</p>
+                <p><strong>CPF:</strong> ${DB.settings.companyDoc}</p>
+                <p><strong>Telefone:</strong> ${DB.settings.companyPhone}</p>
+                <p><strong>Endereço:</strong> ${DB.settings.companyAddress}</p>
+                
+                <h3>CONTRATANTE</h3>
+                <p><strong>Nome:</strong> ${client ? client.name : ''}</p>
+                <p><strong>CPF:</strong> ${client ? client.cpf : ''}</p>
+                <p><strong>RG:</strong> ${client ? client.rg || '' : ''}</p>
+                <p><strong>Telefone:</strong> ${client ? client.phone : ''}</p>
+                <p><strong>Endereço:</strong> ${client ? `${client.address}, ${client.number} - ${client.neighborhood}, ${client.city}/${client.state}` : ''}</p>
+                
+                <h3>DO EVENTO</h3>
+                <p><strong>Local:</strong> ${contract.eventLocal}</p>
+                <p><strong>Data:</strong> ${formatDate(contract.eventDate)}</p>
+                <p><strong>Horário:</strong> ${contract.eventStart || ''} às ${contract.eventEnd || ''}</p>
+                <p><strong>Duração:</strong> ${contract.eventHours || ''} horas</p>
+                
+                <h3>DO VALOR E FORMA DE PAGAMENTO</h3>
+                <p><strong>Valor Total:</strong> ${formatMoney(contract.financial.totalValue)}</p>
+                ${contract.financial.discount > 0 ? `<p><strong>Desconto:</strong> ${formatMoney(contract.financial.discount)}</p>` : ''}
+                <p><strong>Valor Final:</strong> ${formatMoney(contract.financial.finalValue)}</p>
+                <p><strong>Forma de Pagamento:</strong></p>
+                <ul>
+            `;
+            
+            contract.financial.installments.forEach((inst, i) => {
+                html += `<li>Parcela ${i + 1}: ${formatMoney(inst.value)} - ${inst.method} - ${inst.status === 'paid' ? 'Pago' : 'Pendente'}${inst.date ? ' (Venc: ' + formatDate(inst.date) + ')' : ''}</li>`;
+            });
+            
+            html += `</ul>
+                
+                <h3>CLÁUSULAS</h3>
+                <p><strong>1. Do Objeto:</strong> Prestação de serviços de DJ e sonorização...</p>
+                <p><strong>2. Do Pagamento:</strong> Conforme acordado acima...</p>
+                <p><strong>3. Das Obrigações:</strong> O CONTRATADO se compromete...</p>
+                
+                <div style="margin-top: 50px; display: flex; justify-content: space-between;">
+                    <div style="text-align: center; width: 45%;">
+                        <div style="border-top: 1px solid #000; padding-top: 10px;">
+                            <p><strong>${client ? client.name : ''}</strong><br>CONTRATANTE</p>
+                        </div>
+                    </div>
+                    <div style="text-align: center; width: 45%;">
+                        ${contract.signatureData ? `<img src="${contract.signatureData}" style="max-height: 60px; margin-bottom: 5px;"><br>` : '<div style="height: 60px;"></div>'}
+                        <div style="border-top: 1px solid #000; padding-top: 10px;">
+                            <p><strong>Marcelo da Cruz (DJ Brow)</strong><br>CONTRATADO</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="text-align: center; margin-top: 30px; font-style: italic;">
+                    ${contract.signatureLocation || 'Quintana/SP'}, ${contract.signatureDate || formatDate(new Date())}
+                </p>
+            `;
+            
+            document.getElementById('contractPreviewContent').innerHTML = html;
+            document.getElementById('previewModal').classList.add('active');
+        }
+
+        function printContract() {
+            window.print();
+        }
+
+        function sendContractWhatsApp() {
+            const content = document.getElementById('contractPreviewContent').innerText;
+            const phone = prompt('Digite o número do WhatsApp (com DDD):');
+            if (phone) {
+                const url = `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent('Segue o contrato: ' + content.substring(0, 500))}`;
+                window.open(url, '_blank');
+            }
+        }
+
+        // ==================== RECEIPTS ====================
+        function openReceiptModal(contractId, installmentIndex = 0) {
+            const contract = DB.contracts.find(c => c.id === contractId);
+            if (!contract) return;
+            
+            const inst = contract.financial.installments[installmentIndex];
+            if (!inst) return;
+            
+            document.getElementById('receiptContractId').value = contractId;
+            document.getElementById('receiptInstallmentIndex').value = installmentIndex;
+            document.getElementById('receiptValue').value = formatMoney(inst.value);
+            document.getElementById('receiptReference').value = `Parcela ${installmentIndex + 1} - Contrato #${contractId.substr(-4)}`;
+            
+            // Generate QR Code
+            document.getElementById('qrcode').innerHTML = '';
+            new QRCode(document.getElementById('qrcode'), {
+                text: `RECIBO-${contractId}-${installmentIndex}-${Date.now()}`,
+                width: 128,
+                height: 128
+            });
+            
+            document.getElementById('receiptModal').classList.add('active');
+        }
+
+        function generateReceipt() {
+            const contractId = document.getElementById('receiptContractId').value;
+            const installmentIndex = parseInt(document.getElementById('receiptInstallmentIndex').value);
+            const contract = DB.contracts.find(c => c.id === contractId);
+            
+            if (!contract) return;
+            
+            // Update installment status
+            contract.financial.installments[installmentIndex].status = 'paid';
+            contract.financial.installments[installmentIndex].receiptNumber = generateReceiptNumber();
+            contract.financial.installments[installmentIndex].paymentDate = document.getElementById('receiptDate').value;
+            
+            // Recalculate totals
+            contract.financial.paidAmount = contract.financial.installments
+                .filter(i => i.status === 'paid')
+                .reduce((sum, i) => sum + i.value, 0);
+            contract.financial.remaining = contract.financial.finalValue - contract.financial.paidAmount;
+            
+            // Create receipt record
+            const receipt = {
+                id: Date.now().toString(),
+                number: contract.financial.installments[installmentIndex].receiptNumber,
+                contractId: contractId,
+                clientId: contract.clientId,
+                value: contract.financial.installments[installmentIndex].value,
+                method: document.getElementById('receiptMethod').value,
+                reference: document.getElementById('receiptReference').value,
+                date: document.getElementById('receiptDate').value,
+                createdAt: new Date().toISOString()
+            };
+            
+            DB.receipts.push(receipt);
+            saveData();
+            
+            // Generate receipt PDF
+            generateReceiptPDF(receipt, contract);
+            
+            closeModal('receiptModal');
+            renderContracts();
+            renderReceipts();
+            updateStats();
+            showToast('Recibo gerado com sucesso!', 'success');
+        }
+
+        function generateReceiptPDF(receipt, contract) {
+            const client = DB.clients.find(c => c.id === contract.clientId);
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            doc.setFontSize(20);
+            doc.text('RECIBO', 105, 20, { align: 'center' });
+            
+            doc.setFontSize(12);
+            doc.text(`Nº ${receipt.number}`, 105, 30, { align: 'center' });
+            
+            doc.setFontSize(10);
+            doc.text(`Valor: ${formatMoney(receipt.value)}`, 20, 50);
+            doc.text(`Recebi de: ${client ? client.name : ''}`, 20, 60);
+            doc.text(`CPF: ${client ? client.cpf : ''}`, 20, 70);
+            doc.text(`A importância de: ${formatMoney(receipt.value)}`, 20, 80);
+            doc.text(`Referente a: ${receipt.reference}`, 20, 90);
+            doc.text(`Forma de pagamento: ${receipt.method}`, 20, 100);
+            doc.text(`Data do pagamento: ${formatDate(receipt.date)}`, 20, 110);
+            
+            doc.text('_______________________________________', 105, 140, { align: 'center' });
+            doc.text('Marcelo da Cruz (DJ Brow)', 105, 150, { align: 'center' });
+            doc.text(`CNPJ/CPF: ${DB.settings.companyDoc}`, 105, 158, { align: 'center' });
+            
+            doc.save(`Recibo_${receipt.number}.pdf`);
+        }
+
+        function renderReceipts() {
+            const tbody = document.getElementById('receiptsTable');
+            tbody.innerHTML = '';
+            
+            DB.receipts.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(receipt => {
+                const client = DB.clients.find(c => c.id === receipt.clientId);
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${receipt.number}</td>
+                    <td>${formatDate(receipt.date)}</td>
+                    <td>${client ? client.name : 'N/A'}</td>
+                    <td>${receipt.reference}</td>
+                    <td>${formatMoney(receipt.value)}</td>
+                    <td>${receipt.method}</td>
+                    <td>
+                        <button class="btn btn-info btn-sm" onclick="viewReceipt('${receipt.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-success btn-sm" onclick="sendReceiptWhatsApp('${receipt.id}')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // ==================== REPORTS ====================
+        function generateReport() {
+            const start = new Date(document.getElementById('reportStartDate').value);
+            const end = new Date(document.getElementById('reportEndDate').value);
+            const type = document.getElementById('reportType').value;
+            
+            let html = '<div class="card">';
+            
+            if (type === 'general') {
+                const contracts = DB.contracts.filter(c => {
+                    const d = new Date(c.eventDate);
+                    return d >= start && d <= end;
+                });
+                
+                const totalValue = contracts.reduce((sum, c) => sum + c.financial.finalValue, 0);
+                const totalPaid = contracts.reduce((sum, c) => sum + c.financial.paidAmount, 0);
+                const totalPending = contracts.reduce((sum, c) => sum + c.financial.remaining, 0);
+                
+                html += `
+                    <h3>Relatório Geral (${formatDate(start)} a ${formatDate(end)})</h3>
+                    <div class="financial-summary">
+                        <div class="financial-grid">
+                            <div class="financial-item"><h4>Total em Contratos</h4><p>${formatMoney(totalValue)}</p></div>
+                            <div class="financial-item"><h4>Total Recebido</h4><p>${formatMoney(totalPaid)}</p></div>
+                            <div class="financial-item"><h4>Total Pendente</h4><p>${formatMoney(totalPending)}</p></div>
+                            <div class="financial-item"><h4>Quantidade</h4><p>${contracts.length}</p></div>
+                        </div>
+                    </div>
+                    <table>
+                        <thead><tr><th>Data</th><th>Cliente</th><th>Local</th><th>Valor</th><th>Status</th></tr></thead>
+                        <tbody>
+                            ${contracts.map(c => {
+                                const client = DB.clients.find(cl => cl.id === c.clientId);
+                                return `<tr>
+                                    <td>${formatDate(c.eventDate)}</td>
+                                    <td>${client ? client.name : 'N/A'}</td>
+                                    <td>${c.eventLocal}</td>
+                                    <td>${formatMoney(c.financial.finalValue)}</td>
+                                    <td>${c.status}</td>
+                                </tr>`;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } else if (type === 'byClient') {
+                // Group by client
+                const clientStats = {};
+                DB.contracts.forEach(c => {
+                    if (!clientStats[c.clientId]) {
+                        clientStats[c.clientId] = { contracts: 0, total: 0, paid: 0, pending: 0 };
+                    }
+                    const d = new Date(c.eventDate);
+                    if (d >= start && d <= end) {
+                        clientStats[c.clientId].contracts++;
+                        clientStats[c.clientId].total += c.financial.finalValue;
+                        clientStats[c.clientId].paid += c.financial.paidAmount;
+                        clientStats[c.clientId].pending += c.financial.remaining;
+                    }
+                });
+                
+                html += `
+                    <h3>Relatório por Cliente</h3>
+                    <table>
+                        <thead><tr><th>Cliente</th><th>Contratos</th><th>Total</th><th>Pago</th><th>Pendente</th></tr></thead>
+                        <tbody>
+                            ${Object.entries(clientStats).map(([clientId, stats]) => {
+                                const client = DB.clients.find(c => c.id === clientId);
+                                return `<tr>
+                                    <td>${client ? client.name : 'N/A'}</td>
+                                    <td>${stats.contracts}</td>
+                                    <td>${formatMoney(stats.total)}</td>
+                                    <td>${formatMoney(stats.paid)}</td>
+                                    <td>${formatMoney(stats.pending)}</td>
+                                </tr>`;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                `;
+            }
+            
+            html += '</div>';
+            document.getElementById('reportResult').innerHTML = html;
+        }
+
+        // ==================== SETTINGS ====================
+        function saveSettings() {
+            DB.settings.companyName = document.getElementById('companyName').value;
+            DB.settings.companyDoc = document.getElementById('companyDoc').value;
+            DB.settings.companyPhone = document.getElementById('companyPhone').value;
+            DB.settings.companyAddress = document.getElementById('companyAddress').value;
+            
+            const newPass = document.getElementById('newSystemPassword').value;
+            if (newPass) {
+                if (newPass.length < 6) {
+                    showToast('A senha deve ter pelo menos 6 caracteres', 'error');
+                    return;
+                }
+                DB.settings.password = btoa(newPass);
+            }
+            
+            saveData();
+            showToast('Configurações salvas!', 'success');
+        }
+
+        function exportData() {
+            const dataStr = JSON.stringify(DB, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `djbrow_backup_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            showToast('Backup exportado!', 'success');
+        }
+
+        function importData(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    Object.assign(DB, data);
+                    saveData();
+                    showToast('Dados importados! Recarregando...', 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } catch (err) {
+                    showToast('Erro ao importar arquivo', 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function resetData() {
+            if (confirm('ATENÇÃO: Isso apagará TODOS os dados! Tem certeza?')) {
+                if (confirm('Confirma novamente? Esta ação não pode ser desfeita.')) {
+                    localStorage.removeItem('djBrowDB');
+                    location.reload();
+                }
+            }
+        }
+
+        // ==================== UTILITIES ====================
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+            
+            const titles = {
+                dashboard: 'Dashboard',
+                clients: 'Gerenciar Clientes',
+                contracts: 'Contratos e Eventos',
+                receipts: 'Recibos Emitidos',
+                reports: 'Relatórios',
+                settings: 'Configurações'
+            };
+            
+            document.getElementById('pageTitle').textContent = titles[sectionId];
+            
+            // Refresh data
+            if (sectionId === 'clients') renderClients();
+            if (sectionId === 'contracts') renderContracts();
+            if (sectionId === 'receipts') renderReceipts();
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.className = `toast ${type} show`;
+            document.getElementById('toastMessage').textContent = message;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function updateCurrentDate() {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('pt-BR', options);
+        }
+
+        function fillTodayDate() {
+            const today = new Date();
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            document.getElementById('ass_data_extenso').value = today.toLocaleDateString('pt-BR', options);
+        }
+
+        // Masks
+        function maskCPF(input) {
+            let v = input.value.replace(/\D/g, '');
+            v = v.replace(/(\d{3})(\d)/, '$1.$2');
+            v = v.replace(/(\d{3})(\d)/, '$1.$2');
+            v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            input.value = v;
+        }
+
+        function maskRG(input) {
+            let v = input.value.replace(/\D/g, '');
+            v = v.replace(/(\d{2})(\d)/, '$1.$2');
+            v = v.replace(/(\d{3})(\d)/, '$1.$2');
+            v = v.replace(/(\d{3})(\d{1})$/, '$1-$2');
+            input.value = v;
+        }
+
+        function maskPhone(input) {
+            let v = input.value.replace(/\D/g, '');
+            v = v.replace(/^(\d{2})(\d)/g, '($1) $2');
+            v = v.replace(/(\d)(\d{4})$/, '$1-$2');
+            input.value = v;
+        }
+
+        function maskCEP(input) {
+            let v = input.value.replace(/\D/g, '');
+            v = v.replace(/^(\d{5})(\d)/, '$1-$2');
+            input.value = v;
+        }
+
+        function maskMoney(input) {
+            let v = input.value.replace(/\D/g, '');
+            v = (v / 100).toFixed(2) + '';
+            v = v.replace('.', ',');
+            v = v.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            input.value = v;
+        }
+
+        function parseMoney(value) {
+            if (!value) return 0;
+            return parseFloat(value.replace(/\./g, '').replace(',', '.')) || 0;
+        }
+
+        function formatMoney(value) {
+            return 'R$ ' + value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('pt-BR');
+        }
+
+        function generateReceiptNumber() {
+            const year = new Date().getFullYear();
+            const seq = String(DB.receipts.length + 1).padStart(4, '0');
+            return `${year}-${seq}`;
+        }
+
+        // CEP Search
+        async function searchCEP() {
+            const cep = document.getElementById('cli_cep').value.replace(/\D/g, '');
+            if (cep.length !== 8) return;
+            
+            try {
+                const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await res.json();
+                
+                if (!data.erro) {
+                    document.getElementById('cli_end').value = data.logradouro;
+                    document.getElementById('cli_bairro').value = data.bairro;
+                    document.getElementById('cli_cidade').value = data.localidade;
+                    document.getElementById('cli_uf').value = data.uf;
+                    document.getElementById('cli_numero').focus();
+                }
+            } catch (e) {
+                console.error('CEP search failed', e);
+            }
+        }
+
+        // Signature Pad
+        function initSignaturePad() {
+            const canvas = document.getElementById('signaturePad');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            let drawing = false;
+            
+            function getPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return {
+                    x: clientX - rect.left,
+                    y: clientY - rect.top
+                };
+            }
+            
+            function start(e) {
+                drawing = true;
+                const pos = getPos(e);
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y);
+                e.preventDefault();
+            }
+            
+            function draw(e) {
+                if (!drawing) return;
+                const pos = getPos(e);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                e.preventDefault();
+            }
+            
+            function stop() {
+                drawing = false;
+            }
+            
+            canvas.addEventListener('mousedown', start);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stop);
+            canvas.addEventListener('mouseout', stop);
+            
+            canvas.addEventListener('touchstart', start);
+            canvas.addEventListener('touchmove', draw);
+            canvas.addEventListener('touchend', stop);
+            
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            
+            signaturePad = {
+                toDataURL: () => canvas.toDataURL(),
+                isEmpty: () => {
+                    const blank = document.createElement('canvas');
+                    blank.width = canvas.width;
+                    blank.height = canvas.height;
+                    return canvas.toDataURL() === blank.toDataURL();
+                },
+                clear: () => ctx.clearRect(0, 0, canvas.width, canvas.height)
+            };
+        }
+
+        function clearSignature() {
+            if (signaturePad) signaturePad.clear();
+        }
+
+        // Close modals on outside click
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+    </script>
 </body>
 </html>
